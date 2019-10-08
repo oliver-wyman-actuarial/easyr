@@ -6,3 +6,4 @@
 ^easyr_.+tar\.gz$
 ^easyr.Rcheck$
 ^LICENSE
+^cache$
