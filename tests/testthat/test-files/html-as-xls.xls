@@ -1,0 +1,402 @@
+MIME-Version: 1.0
+X-Document-Type: Workbook
+Content-Type: multipart/related; boundary="====Boundary===="
+
+--====Boundary====
+Content-Location: file:///C:/RA_IMAGE.XHT
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset="us-ascii"
+
+
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+  
+<HEAD>
+<meta name="Excel Workbook Frameset">
+  
+<xml>
+ <x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+   <x:ExcelWorksheet>
+    <x:Name>shee1</x:Name>
+    <x:WorksheetSource HRef="./IBIT0001.xht"/>
+   </x:ExcelWorksheet>
+   <x:ExcelWorksheet>
+    <x:Name>sheet2</x:Name>
+    <x:WorksheetSource HRef="./IBIT0002.xht"/>
+   </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+ </x:ExcelWorkbook>
+</xml>
+</HEAD>
+</HTML>
+
+--====Boundary====
+Content-Location: file:///C:/IBIT0001.xht
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset="us-ascii"
+
+
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+  
+<HEAD>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<style>
+<!--table
+        {mso-displayed-decimal-separator:"\.";
+        mso-displayed-thousand-separator:"\,";}
+@page
+        {margin:1.0in .75in 1.0in .75in;
+        mso-header-margin:.5in;
+        mso-footer-margin:.5in;}
+tr
+        {mso-height-source:auto;}
+col
+        {mso-width-source:auto;}
+br
+        {mso-data-placement:same-cell;}
+.style21
+        {color:blue;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        mso-style-name:Hyperlink;
+        mso-style-id:8;}
+a:link
+        {color:blue;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;}
+a:visited
+        {color:purple;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;}
+.style0
+        {mso-number-format:General;
+        text-align:general;
+        vertical-align:bottom;
+        white-space:nowrap;
+        mso-rotate:0;
+        mso-background-source:auto;
+        mso-pattern:auto;
+        color:windowtext;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:none;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        border:none;
+        mso-protection:locked visible;
+        mso-style-name:Normal;
+        mso-style-id:0;}
+td
+        {mso-style-parent:style0;
+        padding:1px;
+        mso-ignore:padding;
+        color:windowtext;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:none;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        mso-number-format:General;
+        text-align:general;
+        vertical-align:bottom;
+        border:none;
+        mso-background-source:auto;
+        mso-pattern:auto;
+        mso-protection:locked visible;
+        white-space:nowrap;
+        mso-rotate:0;}
+.xl100
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl100r
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        text-align:right;
+        white-space:normal;
+        mso-font-charset:0;}
+.xl101
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl102
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl103
+        {mso-style-parent:style0;
+        color:#993333;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl104
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl105
+        {mso-style-parent:style21;
+        color:#006699;
+        font-size:8.0pt;
+        font-weight:700;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl106
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl107
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:8.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+-->
+</style>
+<xml>
+ <x:WorksheetOptions>
+  <x:ProtectObjects>False</x:ProtectObjects>
+ </x:WorksheetOptions>
+</xml>
+</HEAD>
+  
+<BODY>
+  
+<TABLE X:STR BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+<TD COLSPAN=10 class=xl102>
+<FONT class=xl102>sheet1</FONT>
+</TD>
+</TR>
+</TABLE>
+  
+</BODY>
+  
+</HTML>
+
+--====Boundary====
+Content-Location: file:///C:/IBIT0002.xht
+Content-Transfer-Encoding: 8bit
+Content-Type: text/html; charset="us-ascii"
+
+
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+  
+<HEAD>
+<style>
+<!--table
+        {mso-displayed-decimal-separator:"\.";
+        mso-displayed-thousand-separator:"\,";}
+@page
+        {margin:1.0in .75in 1.0in .75in;
+        mso-header-margin:.5in;
+        mso-footer-margin:.5in;}
+tr
+        {mso-height-source:auto;}
+col
+        {mso-width-source:auto;}
+br
+        {mso-data-placement:same-cell;}
+.style21
+        {color:blue;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        mso-style-name:Hyperlink;
+        mso-style-id:8;}
+a:link
+        {color:blue;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;}
+a:visited
+        {color:purple;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:underline;
+        text-underline-style:single;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;}
+.style0
+        {mso-number-format:General;
+        text-align:general;
+        vertical-align:bottom;
+        white-space:nowrap;
+        mso-rotate:0;
+        mso-background-source:auto;
+        mso-pattern:auto;
+        color:windowtext;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:none;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        border:none;
+        mso-protection:locked visible;
+        mso-style-name:Normal;
+        mso-style-id:0;}
+td
+        {mso-style-parent:style0;
+        padding:1px;
+        mso-ignore:padding;
+        color:windowtext;
+        font-size:10.0pt;
+        font-weight:400;
+        font-style:normal;
+        text-decoration:none;
+        font-family:Arial;
+        mso-generic-font-family:auto;
+        mso-font-charset:0;
+        mso-number-format:General;
+        text-align:general;
+        vertical-align:bottom;
+        border:none;
+        mso-background-source:auto;
+        mso-pattern:auto;
+        mso-protection:locked visible;
+        white-space:nowrap;
+        mso-rotate:0;}
+.xl100
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl100r
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        text-align:right;
+        white-space:normal;
+        mso-font-charset:0;}
+.xl100A8MDYY
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        mso-number-format:"mm\/dd\/yyyy";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl100D12_2
+        {mso-style-parent:style0;
+        color:#000000;
+        font-size:8.0pt;
+        font-family:"ARIAL";
+        text-align:right;
+        mso-number-format:"\#\,\#\#\#.00";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl101
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:9.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        white-space:normal;
+        mso-font-charset:0;}
+.xl101r
+        {mso-style-parent:style0;
+        color:#006699;
+        font-size:9.0pt;
+        font-weight:700;
+        font-family:"ARIAL";
+        text-align:right;
+        white-space:normal;
+        mso-font-charset:0;}
+-->
+</style>
+<xml>
+ <x:WorksheetOptions>
+  <x:ProtectObjects>False</x:ProtectObjects>
+ </x:WorksheetOptions>
+</xml>
+</HEAD>
+  
+<BODY>
+  
+<TABLE X:STR BORDER=0 CELLPADDING=0 CELLSPACING=0>
+<TR>
+<TD class=xl101>sheet2</TD>
+</TR>
+
+</TABLE>
+  
+</BODY>
+  
+</HTML>
+
+--====Boundary====--

@@ -1,0 +1,4 @@
+open command prompt at owactools-check and run:
+
+R CMD build .
+R CMD check easyr_0.1-0.tar.gz --as-cran

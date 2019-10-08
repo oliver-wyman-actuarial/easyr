@@ -1,0 +1,2 @@
+cblind = c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#99001a", "#006299", "#CCCCCC", "#FF0056", "#cc79a7")
+names(cblind) = c( 'black', 'orange', 'light blue', 'green', 'yellow', 'dark red', 'dark blue', 'light gray', 'pure pink', 'pink' )

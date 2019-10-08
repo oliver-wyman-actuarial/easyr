@@ -1,0 +1,29 @@
+#' Check for Number Formatted as Character.
+#'
+#' Checks a vector or value to see if it is a number formatted as a character. Useful for checking columns formatted with $ or commas, etc.
+#' Author: Bryce Chamberlain. Tech review: Dominic Dillingham.
+#'
+#' @param x Vector to check.
+#' @param na_strings Strings to consider NA.
+#' @param run_unique Convert to unique variables before checking. In some cases, this can make it take longer than necessary. In most, it will make it faster.
+#' @param check_date Check for a date, in which case it isn't a number. If you have already checked a date and know it isn't, set this to FALSE to run faster.
+#' 
+#' @return True/false value indicating if the vector is a number formatted as a character. Helpful for checking before calling easyr:tonum().
+#' @export
+#'
+#' @examples
+#' charnum( c( 
+#'    '123', '$50.02', '30%', '(300.01)', '-10', '1 230.4', NA, '-', '', "3.7999999999999999E-2" 
+#'  ))
+#' charnum( c( '123', 'abc', '30%', NA) )
+#' # returns FALSE since this can be converted to a date:
+#' charnum( c( '20180101' ))
+charnum <- function( x, na_strings = easyr::nastrings, run_unique = TRUE, check_date = TRUE ){
+
+  if( !is.character(x) ) return(FALSE)
+  
+  test.convert = tonum( x, verbose = FALSE )
+  
+  return( is.numeric( test.convert ) )
+
+}

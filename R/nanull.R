@@ -1,0 +1,26 @@
+#' NA / NULL Check
+#' 
+#' Facilitates checking for missing values which may cause errors later in code. 
+#' NULL values can cause errors on is.na checks, and is.na can cause warnings if it is inside if() and is passed multiple values.
+#' This function makes it easier to check for missing values before trying to operate on a variable. 
+#' It will NOT check for strings like ""  or "NA". Only NULL and NA values will return TRUE.
+#' Author: Bryce Chamberlain. Tech Review: Maria Gonzalez.
+#'
+#' @param x Vector to check. In the case of a tibble or vector, it will check the first (non-NULL) value.
+#' @param na_strings (Optional) Set the strings you want to consider NA. These will be applied after stringr::str_trim on x.
+#' @param do.test.each Return a vector of results to check each element instead of checking the entire object.
+#'
+#' @return True/false indicating if the argument is NA, NULL, or an empty/NA string/vector. For speect, only the first value is checked.
+#' @export
+#'
+#' @examples
+#' nanull( NULL )
+#' nanull( NA )
+#' nanull( c( NA , NULL ) )
+#' nanull( c( 1, 2, 3 ) )
+#' nanull( c( NA, 2, 3 ) )
+#' nanull( c( 1, 2, NA ) ) # only the first values is checked, so this will come back FALSE.
+#' nanull( c( NULL, 2, 3 ) ) # NULL values get skipped in a vector.
+#' nanull( data.frame() )
+#' nanull( dplyr::group_by( dplyr::select( cars, speed, dist ), speed ) ) # test a tibble.
+nanull <- function( x, na_strings = easyr::nastrings, do.test.each = FALSE ) !isval(x, na_strings, do.test.each = do.test.each )

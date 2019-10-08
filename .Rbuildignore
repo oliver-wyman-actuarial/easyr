@@ -1,0 +1,8 @@
+^cran-comments\.md$
+^README\.Rmd$
+^\.github$
+^build-install-test\.R$
+^cmd-code-run-check\.txt$
+^easyr_.+tar\.gz$
+^easyr.Rcheck$
+^LICENSE
