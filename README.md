@@ -1,4 +1,6 @@
-# easyr: Helpful functions from Oliver Wyman Actuarial Consulting #
+# easyr 
+
+Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwyman.com/our-expertise/capabilities/actuarial.html).
 
 **easyr makes difficult operations easy.**
 
