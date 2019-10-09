@@ -18,4 +18,5 @@ Clears all caches or the cache related to the passed cache info list.
 \examples{
 # this will only have an effect if a current cache exists.
 clear.cache()
+
 }

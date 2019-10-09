@@ -26,6 +26,7 @@
 #'  )
 #'
 #' )
+#' 
 cache.init = function( caches, at.path = NULL, verbose = TRUE, save.only = FALSE, skip.missing = TRUE ){
   
   validatecaches(caches)
@@ -202,6 +203,10 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #'   # if this is the final file for this cache, end with save.cache to save passed objects as a cache.
 #'   save.cache(iris)
 #' }
+#' 
+#' # delete the cache folder to close out the example.
+#' system( "rm -r cache" )
+#' 
 save.cache = function( ... ){
 
     if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
@@ -238,6 +243,7 @@ save.cache = function( ... ){
 #' @examples
 #' # this will only have an effect if a current cache exists.
 #' clear.cache()
+#' 
 clear.cache = function( cache = NULL ){
 
     if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-3 cache.' )

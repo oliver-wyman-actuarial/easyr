@@ -43,5 +43,9 @@ test_that("works as expected", {
     clear.cache()
     
     expect_equal( cache.ok(1), FALSE )
+
+    # clear test files and folders.
+    system( "rm -r tests/testthat/test-files-temp/cache" )
+    system( "rm -r cache" )
   
 })

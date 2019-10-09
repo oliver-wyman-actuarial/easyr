@@ -29,4 +29,8 @@ if( ! cache.ok(1) ){
   # if this is the final file for this cache, end with save.cache to save passed objects as a cache.
   save.cache(iris)
 }
+
+# delete the cache folder to close out the example.
+system( "rm -r cache" )
+
 }
