@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-#' # w(some_data,'some_data')
+#' w( cars, tempdir() )
 w <- function( x, filename = 'out', row.names = FALSE, na = '' ){
   
   filename <- paste0( gsub( '[.][a-z]+$','', filename, ignore.case = T ), '.csv' ) # force csv file type.

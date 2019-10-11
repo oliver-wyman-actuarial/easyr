@@ -31,5 +31,12 @@ Get information about data files in a folder path. Use dict() on a single data f
 Author: Bryce Chamberlain.
 }
 \examples{
-# fldict( 'tests/testthat/test-files' )
+\donttest{
+fl = fldict( 'path/to/folder' )
+
+names( fl )
+
+fl$sheets
+fl$columns
+}
 }

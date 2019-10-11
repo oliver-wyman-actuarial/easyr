@@ -35,7 +35,6 @@ devtools::install()
 
 # clear test files and folders.
 
-  file.remove( 'tests/testthat/test-files-temp/cars.csv' )
   system( "rm -r tests/testthat/test-files-temp/cache" )
   system( "rm -r cache" )
   system( "rm -r tests/testthat/test-files-temp" )

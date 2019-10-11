@@ -7,7 +7,14 @@
 #' @export
 #'
 #' @examples
-#' # read.txt( 'tests/testthat/test-files/some-text.txt' )
+#' 
+#' # write a files.
+#' path = tempfile()
+#' cat( "some text", file = path )
+#' 
+#' # read the file.
+#' read.txt( path )
+#' 
 read.txt = function( filename, folder = NA ){
     
     filename = filename.helper( filename, folder )

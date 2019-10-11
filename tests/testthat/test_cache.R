@@ -2,13 +2,11 @@ context("cache")
 
 test_that("works as expected", {
     
-    if( !dir.exists( test_file_temp ) ) dir.create( test_file_temp )
-    
     # these tests will run at 
   
     cache.init(
       
-      at.path = test_file_temp,
+      at.path = tempdir(),
       verbose = FALSE,
       
       caches = list(
@@ -24,6 +22,7 @@ test_that("works as expected", {
           )
           
       )
+
     )
 
     expect_equal( cache.ok(1), FALSE )
@@ -43,9 +42,5 @@ test_that("works as expected", {
     clear.cache()
     
     expect_equal( cache.ok(1), FALSE )
-
-    # clear test files and folders.
-    system( "rm -r tests/testthat/test-files-temp/cache" )
-    system( "rm -r cache" )
   
 })

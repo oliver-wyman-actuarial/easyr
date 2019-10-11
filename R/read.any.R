@@ -47,7 +47,15 @@
 #' @export
 #'
 #' @examples
-#' # read.any( filename = 'path/to/file' )
+#' \donttest{
+#' read.any( 'path/to/file.extension' )
+#' 
+#' # if dates are being converted incorrectly, disable date conversion:
+#' read.any( 'path/to/file.extension', auto_convert_dates = FALSE )
+#' 
+#' # to handle type conversions manually:
+#' read.any( 'path/to/file.extension', all_chars = TRUE )
+#' }
 read.any <- function(
   
     filename = NA, 

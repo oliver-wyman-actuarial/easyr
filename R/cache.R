@@ -23,11 +23,13 @@
 #'     name = 'prep-files',
 #'     depends.on = c( '.' )
 #'    )
-#'  )
+#'  ),
+#' 
+#'  at.path = tempdir()
 #'
 #' )
 #' 
-cache.init = function( caches, at.path = NULL, verbose = TRUE, save.only = FALSE, skip.missing = TRUE ){
+cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.missing = TRUE ){
   
   validatecaches(caches)
 
@@ -48,12 +50,6 @@ cache.init = function( caches, at.path = NULL, verbose = TRUE, save.only = FALSE
 
   cache.info = caches
   easyr.cache.info$cache.info <<- cache.info
-
-  if( is.null(at.path) ){
-      at.path = 'cache'
-  } else { 
-      at.path = cc( at.path, '/cache' )
-  }
 
   easyr.cache.info$verbose <<- verbose
   easyr.cache.info$save.only <<- save.only

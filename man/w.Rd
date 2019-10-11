@@ -21,5 +21,5 @@ Easier to type than write.csv(row.names=F).
 Author: Bryce Chamberlain. Tech reveiw: Maria Gonzalez.
 }
 \examples{
-# w(some_data,'some_data')
+w( cars, tempdir() )
 }

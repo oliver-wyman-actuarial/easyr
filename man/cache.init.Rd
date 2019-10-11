@@ -4,7 +4,7 @@
 \alias{cache.init}
 \title{Initialize cache.}
 \usage{
-cache.init(caches, at.path = NULL, verbose = TRUE, save.only = FALSE,
+cache.init(caches, at.path, verbose = TRUE, save.only = FALSE,
   skip.missing = TRUE)
 }
 \arguments{
@@ -33,7 +33,9 @@ cache.init(
     name = 'prep-files',
     depends.on = c( '.' )
    )
- )
+ ),
+
+ at.path = tempdir()
 
 )
 
