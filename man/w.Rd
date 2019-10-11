@@ -22,9 +22,9 @@ Author: Bryce Chamberlain. Tech reveiw: Maria Gonzalez.
 }
 \examples{
 # write the cars dataset.
-path = tempdir()
+path = paste0( tempdir(), '/out.csv' )
 w( cars, path )
 
 # cleanup.
-file.remove( paste0( path, '/out.csv' ) )
+file.remove( path )
 }
