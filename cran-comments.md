@@ -22,6 +22,8 @@ This is the initial release. easyr has no downstream dependencies.
 
 2019-10-11 **Swetlana Herbrandt**:
 
+*Corrections at https://github.com/oliver-wyman-actuarial/easyr/commit/10d232a612a678fed86a36142c17541d9db3fc38*
+
 * Maybe just "Actuarial Consulting" as title? 
   * Response: This is managed by our company, not the consulting profession in general. The title would be misleading if it where just "Actuarial Consulting".
 

@@ -15,6 +15,9 @@
 #' # read the file.
 #' read.txt( path )
 #' 
+#' # cleanum.
+#' file.remove( path )
+#' 
 read.txt = function( filename, folder = NA ){
     
     filename = filename.helper( filename, folder )

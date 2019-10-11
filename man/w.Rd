@@ -21,5 +21,10 @@ Easier to type than write.csv(row.names=F).
 Author: Bryce Chamberlain. Tech reveiw: Maria Gonzalez.
 }
 \examples{
-w( cars, tempdir() )
+# write the cars dataset.
+path = tempdir()
+w( cars, path )
+
+# cleanup.
+file.remove( paste0( path, '/out.csv' ) )
 }

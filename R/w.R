@@ -12,7 +12,12 @@
 #' @export
 #'
 #' @examples
-#' w( cars, tempdir() )
+#' # write the cars dataset.
+#' path = tempdir()
+#' w( cars, path )
+#' 
+#' # cleanup.
+#' file.remove( paste0( path, '/out.csv' ) )
 w <- function( x, filename = 'out', row.names = FALSE, na = '' ){
   
   filename <- paste0( gsub( '[.][a-z]+$','', filename, ignore.case = T ), '.csv' ) # force csv file type.

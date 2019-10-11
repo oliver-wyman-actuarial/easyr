@@ -26,4 +26,7 @@ cat( "some text", file = path )
 # read the file.
 read.txt( path )
 
+# cleanum.
+file.remove( path )
+
 }
