@@ -5,7 +5,8 @@ Version: 0.1-0
 Authors@R: c(
         person( "Oliver Wyman", "Actuarial Consulting", email = "rajesh.sahasrabuddhe@oliverwyman.com", role = c("aut", "cph") ),
         person( "Bryce", "Chamberlain", email = "bryce.chamberlain@oliverwyman.com", role = c("aut", "cre") ),
-        person( "Scott", "Sobel", email = "scott.sobel@oliverwyman.com", role = c("ctb") )
+        person( "Scott", "Sobel", email = "scott.sobel@oliverwyman.com", role = c("ctb") ),
+        person( "Rajesh", "Sahasrabuddhe", email = "rajesh.sahasrabuddhe@oliverwyman.com", role = c("ctb") )
     )
 Maintainer: Bryce Chamberlain <bryce.chamberlain@oliverwyman.com>
 Description: Makes difficult operations easy. Includes these types of functions: 
