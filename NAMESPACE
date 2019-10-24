@@ -2,6 +2,7 @@
 
 export("%ni%")
 export(atype)
+export(begin)
 export(binbyvol)
 export(bindf)
 export(cache.init)

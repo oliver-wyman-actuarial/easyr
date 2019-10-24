@@ -1,0 +1,56 @@
+#' Begin
+#' 
+#' Perform common operations before running a script. Includes clearing environment variables, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
+#'
+#' @param wd Path to set as working directory. If blank, the location of the current file open in RStudio will be used if available. If FALSE, the working directory will not be changed.
+#' @param load Packages to load. If not available, they'll be installed.
+#' @param scipen Do scientific notation in output?
+#' @param verbose Print information about what the function is doing?
+#'
+#' @export
+#'
+#' @examples
+#' 
+#' begin()
+begin = function(
+  wd = NULL, 
+  load = c( 'magrittr', 'dplyr' ),
+  scipen = FALSE,
+  verbose = TRUE
+){
+  
+  # clear workspace.
+  rm( list = ls( all = TRUE, envir = parent.frame() ), envir = parent.frame() )
+  if( verbose ) cat( 'Cleared variables from environment. \n' )
+  
+  # set working directcory.
+  
+    # use tryCatch since this will error out if it isn't being run in RStudio.
+    if( is.null( wd ) ) wd = tryCatch(
+      dirname( rstudioapi::getSourceEditorContext()$path ),
+      error = function(e) FALSE
+    )
+    
+    if( !is.logical(wd) || wd == TRUE ){
+      setwd( wd )
+      if( verbose ) cat( 'Set workspace to [', wd, ']. \n' )
+    }
+  
+  # no scientific notation
+  if( ! scipen ){
+    options( scipen = 999 )
+    if( verbose ) cat( 'Disabled scientific notation. \n' )
+  }
+  
+  # load common packages.
+  if( length( load ) > 0 ){
+    easyr::usepkg( load )
+    if( verbose ) cat( 'Loaded: [', paste0( load, collapse = ', ' ), ']. \n' )
+  }
+  
+  # run functions.
+  if( dir.exists( 'functions' ) ){
+    easyr::runfolder( 'functions', verbose = verbose )
+  }
+
+}

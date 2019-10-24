@@ -23,6 +23,7 @@ Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 
 # Highlights
 
+* **begin** sets up your workspace.
 * **read.any** reads many file types, automatically selecting the best read function for you, and auto-types incoming data so you don't have to.
 * **jrepl** joins a mapping and adds a column or replaces values where matches occur. It is optimized to use a combination inner and left join and will error out if data is duplicated in the join.
 * **cc** replaces paste0 to reduce typing.
@@ -129,6 +130,7 @@ Operations to run projects and organize code.
 
 | Name     | Description                                                  |
 | -------- | ------------------------------------------------------------ |
+|begin|Perform common operations before running a script. Includes clearing environment variables, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.|
 |caching|functions including cache.init, cache.ok, save.cache, and clear.cache.|
 |check_equal|Check actual versus expected values and get helpful metrics back.|
 |hashfiles|Create a hash uniquely representing the state of files or folders. Helpful for checking for changes.|
