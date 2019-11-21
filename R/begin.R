@@ -52,5 +52,8 @@ begin = function(
   if( dir.exists( 'functions' ) ){
     easyr::runfolder( 'functions', verbose = verbose )
   }
+  if( dir.exists( 'fun' ) ){
+    easyr::runfolder( 'fun', verbose = verbose )
+  }
 
 }
