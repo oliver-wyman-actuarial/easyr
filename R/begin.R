@@ -20,7 +20,7 @@ begin = function(
 ){
   
   # clear workspace.
-  rm( list = ls( all = TRUE, envir = parent.frame() ), envir = parent.frame() )
+  rm( list = ls( all.names = TRUE, envir = parent.frame() ), envir = parent.frame() )
   if( verbose ) cat( 'Cleared variables from environment. \n' )
   
   # set working directcory.
