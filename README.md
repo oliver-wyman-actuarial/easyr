@@ -110,12 +110,11 @@ Common operations shortened for elegance, simplicity, and speed.
 | ddiff                      | Date difference function plus shorthand mdiff, qdiff, ydiff. |
 | eq                         | Vectorized flexible equality comparison which considers NAs as a value. Returns TRUE if both values are NA, and FALSE when only one is NA. |
 | gr                         | Get the golden ratio.                                        |
-| left                       | Behaves like Excel's left() and right() functions.           |
+| left/right/mid             | Behaves like Excel's LEFT, RIGHT, and MID functions.           |
 | nanull                     | Facilitates checking for missing values. NULL values can cause errors on is.na checks, and is.na can cause warnings if it is inside if() and is passed multiple values. |
 | %ni%                       | Not in. Opposite of %in% operator. Equivalent to `x %ni% y` is equivalent to `! x %in% y`. |
 | isval                      | Opposite of nanull.                                          |
 | read.txt                   | Read the text of a file into a character variable.           |
-| right                      | Behaves like Excel's left() and right() functions.           |
 | other shorthand (multiple) | functions to save you keystrokes : na (is.na), nan (is.nan), null (is.null), ischar (is.character), isdate (is.Date), isnum (is.numeric), tochar (as.character) |
 | pad0                       | Adds leading zeros to a character vector to make each value a specific length. For values shorter than length passed, leading zeros are removed. |
 | spl                        | Extract a uniform random sample from a dataset or vector.             |
