@@ -2,7 +2,31 @@
 
 Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwyman.com/our-expertise/capabilities/actuarial.html).
 
-**easyr makes difficult operations easy.**
+**easyr makes difficult operations easy.** Here is what a project looks like using easyr:
+
+```
+# start with begin() to set up your workspace.
+# begin will set the working directory to the location of this file and
+#     run anything in fun/ or functions/ so put your functions there.
+require(easyr)
+begin()
+
+# read.any reads in your data regardless of format, with powerful typing to get numbers and dates.
+# use ?read.any to see the many options.
+dt = read.any( 'path/to/file.extension' )
+
+# let's look at a data dictionary to understand our data.
+View( dict( dt ) )
+
+# begin has already loaded dplyr and magrittr so you are ready to go.
+dt %<>% 
+  filter( !is.na(id) ) %>% 
+  mutate( newcol = oldcol1 + oldcol 2 )
+
+# use w to quickly write to out.csv'.
+w( dt )
+
+```
 
 Function categories:
 
@@ -53,6 +77,18 @@ devtools::install_github( "oliver-wyman-actuarial/easyr" )
 require(easyr)
 
 ```
+
+## Make A Contribution
+
+Any and all contributions are welcome. The easiest way to contribute is to add an [Issue](https://github.com/oliver-wyman-actuarial/easyr/issues). 
+This can be a bug identified or even an idea you have on how we can improve easyr. Please be detailed and provide examples to make it easy for the community to resolve your issue/idea.
+
+If you would like to make a more material contribution via Pull Request, please consider:
+* The [Issue page](https://github.com/oliver-wyman-actuarial/easyr/issues) page lists open issues that we need your help to resolve.
+* `build-install-test.R` is included to let you run tests. Please run this to ensure your changes don't cause tests or examples to fail.
+* `tests/testthat` folder contains tests. Consider adding a test to validate your change and prevent someone else from breaking it in the future.
+* `cmd-code-run-checks.txt` contains command-line scripts you can run to check if your changes will be acceptable to CRAN. If it isn't, it'll require extra work by us before we can submit to CRAN.
+
 
 ## Support
 
@@ -148,4 +184,3 @@ These data resources are also included.
 |nastrings|List of strings considered NA by easyr. Includes blank strings, "NA", excel errors, etc.|
 |states|Helpul dataset of U.S. State abbreviations and names.|
 |cblind|Charting colors optimized for and selected by colorblind individuals.|
-
