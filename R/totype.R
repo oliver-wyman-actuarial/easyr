@@ -21,7 +21,10 @@ totype <- function(
   type.preprocess,
   na.value,
   type.conversion,
-  do.try.integer = NULL
+
+  # tonum
+  do.try.integer = NULL,
+  multipliers = NULL
   
 ) {
   
