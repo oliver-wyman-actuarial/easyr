@@ -10,7 +10,7 @@ There were no NOTEs, ERRORs or WARNINGs.
 
 ## Downstream dependencies
 
-This is the initial release. easyr has no downstream dependencies.
+easyr has no known downstream dependencies.
 
 ## Prior CRAN Feedback
 

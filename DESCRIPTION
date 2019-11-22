@@ -29,7 +29,6 @@ Imports:
     openssl,
     readxl,
     rlang,
-    rprojroot,
     XML,
     stringr,
     tibble,
