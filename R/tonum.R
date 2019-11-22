@@ -100,7 +100,7 @@ tonum <- function(
     test.conversion = x
   
     # Remove any unnecessary parts.
-    test.conversion = gsub( "[,' $]",'', test.conversion )
+    test.conversion = gsub( "[, $]",'', test.conversion )
 
     # identify and apply multipliers.
 
