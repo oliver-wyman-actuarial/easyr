@@ -2,7 +2,11 @@
 
 Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwyman.com/our-expertise/capabilities/actuarial.html).
 
-**easyr makes difficult operations easy.** Here is what a project looks like using easyr:
+**easyr makes difficult operations easy.** 
+
+Tutorial: https://www.kaggle.com/brycechamberlain/easyr-tutorial.
+
+Here is what a project looks like using easyr:
 
 ```r
 # start with begin() to set up your workspace.
@@ -45,7 +49,7 @@ Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 
 *Now accepting proposed contributions through GitHub!*
 
-# Highlights
+## Highlights
 
 * **begin** sets up your workspace.
 * **read.any** reads many file types, automatically selecting the best read function for you, and auto-types incoming data so you don't have to.
@@ -78,6 +82,17 @@ require(easyr)
 
 ```
 
+## Philosophy
+
+This packages comes from code we've written to make our daily work more efficient. We rely on it heavily in our organization.
+
+It is built on the following tenets:
+
+* **Fingers are precious**: strive to reduce the amount of typing and hand strain during coding. This means avoiding the shift key and choosing short names. Many function names won't be intuitive at first but will save you many keystrokes. *A good example: `cc` exists almost exclusively so you don't have to type `paste0`.*
+
+* **Generic scope**: avoid functions that apply to domain-specific tasks. These belong in other packages.
+
+
 ## Make A Contribution
 
 Any and all contributions are welcome. The easiest way to contribute is to add an [Issue](https://github.com/oliver-wyman-actuarial/easyr/issues). 
@@ -88,7 +103,6 @@ If you would like to make a more material contribution via Pull Request, please 
 * `build-install-test.R` is included to let you run tests. Please run this to ensure your changes don't cause tests or examples to fail.
 * `tests/testthat` folder contains tests. Consider adding a test to validate your change and prevent someone else from breaking it in the future.
 * `cmd-code-run-checks.txt` contains command-line scripts you can run to check if your changes will be acceptable to CRAN. If it isn't, it'll require extra work by us before we can submit to CRAN.
-
 
 ## Support
 
