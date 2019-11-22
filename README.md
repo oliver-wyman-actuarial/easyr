@@ -4,7 +4,7 @@ Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwym
 
 **easyr makes difficult operations easy.** Here is what a project looks like using easyr:
 
-```
+```r
 # start with begin() to set up your workspace.
 # begin will set the working directory to the location of this file and
 #     run anything in fun/ or functions/ so put your functions there.
