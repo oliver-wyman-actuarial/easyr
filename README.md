@@ -4,6 +4,28 @@ Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwym
 
 **easyr makes difficult operations easy.** 
 
+## Installation
+
+You can install the latest version available on CRAN:
+
+```r
+
+install.packages('easyr')
+require(easyr)
+
+```
+
+Or install the latest version from github:
+
+```r
+
+devtools::install_github( "oliver-wyman-actuarial/easyr" )
+require(easyr)
+
+```
+
+## Getting Started
+
 Tutorial: https://www.kaggle.com/brycechamberlain/easyr-tutorial.
 
 Here is what a project looks like using easyr:
@@ -61,26 +83,6 @@ Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 * **fmat** converts dates and numbers to pretty strings.
 * **tonum**, **todate**, **tobool** flexibly convert character vectors with minimial work.
 * *Check out the detailed list of functions below for more.*
-
-## Installation
-
-You can install the latest version available on CRAN:
-
-```r
-
-install.packages('easyr')
-require(easyr)
-
-```
-
-Or install the latest version from github:
-
-```r
-
-devtools::install_github( "oliver-wyman-actuarial/easyr" )
-require(easyr)
-
-```
 
 ## Philosophy
 
