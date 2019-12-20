@@ -2,7 +2,10 @@
 
 ## Test environments
 
+Passed CMD check on:
+
 * local Windows 10 Enterprise install, R 3.5.2
+* R-devel https://win-builder.r-project.org/upload.aspx
 
 ## R CMD check results
 
@@ -14,4 +17,5 @@ easyr has no known downstream dependencies.
 
 ## Prior CRAN Feedback
 
-*No prior feedback applies to this update.*
+Prior submission failed noLD checks. I added tolerance on the failed expect_equal checks, hopefully this will resolve those errors.
+
