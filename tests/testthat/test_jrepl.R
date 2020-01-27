@@ -115,6 +115,20 @@ test_that("works as expected", {
       )
       
       expect_error( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'Please fix the data such that classes match before calling jrepl' )
+
+      # test ordered factor.
+        
+        x = data.frame( 
+          id = as.integer( c( 1, 2, 3 ) ),
+          val = ordered( c( NA, NA, 'c' ) )
+        )
+        
+        y = data.frame(
+          id = as.integer( c( 1, 2 ) ),
+          val = ordered( c( 'a', 'b' ) )
+        )
       
+        t = jrepl( x, y, by = 'id', replace.cols = 'val' )
+        expect_equal( t$val, ordered( c( 'a', 'b', 'c' ) ) )
   
 })

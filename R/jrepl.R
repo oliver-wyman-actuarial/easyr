@@ -191,7 +191,7 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
         x.copy[[ icolname.orig ]][ do.rows$orig.x.row ] <- do.rows[[ ycolname ]]
         
         if( is.factor( x.copy[[ icolname.orig ]] ) ) x.copy[[ icolname.orig ]] <- droplevels( x.copy[[ icolname.orig ]] )
-
+        if( is.ordered( x.copy[[ icolname.orig ]] ) ) x.copy[[icolname.orig]] <- ordered(x.copy[[icolname.orig]], levels=sort(levels(x.copy[[icolname.orig]])))
 
     rm( i, icolname, icolname.orig, xcolname, ycolname, do.rows )
       
