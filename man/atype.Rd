@@ -4,10 +4,18 @@
 \alias{atype}
 \title{Auto-Type}
 \usage{
-atype(x, auto_convert_dates = TRUE, allow_times = FALSE,
-  check_numbers = TRUE, nazero = FALSE, check_logical = TRUE,
-  isexcel = TRUE, stringsAsFactors = FALSE,
-  nastrings = easyr::nastrings, exclude = NULL)
+atype(
+  x,
+  auto_convert_dates = TRUE,
+  allow_times = FALSE,
+  check_numbers = TRUE,
+  nazero = FALSE,
+  check_logical = TRUE,
+  isexcel = TRUE,
+  stringsAsFactors = FALSE,
+  nastrings = easyr::nastrings,
+  exclude = NULL
+)
 }
 \arguments{
 \item{x}{Data to auto-type.}

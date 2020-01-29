@@ -4,8 +4,14 @@
 \alias{dict}
 \title{Get Data Dictionary}
 \usage{
-dict(x, topn = 5, botn = 5, na.strings = easyr::nastrings,
-  do.atype = TRUE, ecopy = FALSE)
+dict(
+  x,
+  topn = 5,
+  botn = 5,
+  na.strings = easyr::nastrings,
+  do.atype = TRUE,
+  ecopy = FALSE
+)
 }
 \arguments{
 \item{x}{Data Frame or Data Table.}
