@@ -9,7 +9,9 @@ Passed CMD check on:
 
 ## R CMD check results
 
-There were no NOTEs, ERRORs or WARNINGs.
+One NOTE: Package was archived since we weren't able to address issues in time. Hopefully this version is acceptable.
+
+There were no ERRORs or WARNINGs.
 
 ## Downstream dependencies
 
@@ -17,5 +19,5 @@ easyr has no known downstream dependencies.
 
 ## Prior CRAN Feedback
 
-Prior submission failed noLD checks. I added tolerance on the failed expect_equal checks, hopefully this will resolve those errors.
+Previously failed noLD checks. I fixed and verified via `rhub::check(platform = "debian-gcc-devel-nold")`.
 
