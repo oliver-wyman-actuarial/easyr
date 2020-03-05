@@ -2,3 +2,7 @@ easyr_*tar.gz
 easyr.Rcheck*
 .Rproj.user
 inst/doc
+
+.Rhistory
+
+*.Rproj
