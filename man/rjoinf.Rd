@@ -4,8 +4,15 @@
 \alias{rjoinf}
 \title{Right Join with Factors}
 \usage{
-rjoinf(data.left, data.right, by, sort.levels = TRUE,
-  restrict.levels = FALSE, na_level = "(Missing)", ...)
+rjoinf(
+  data.left,
+  data.right,
+  by,
+  sort.levels = TRUE,
+  restrict.levels = FALSE,
+  na_level = "(Missing)",
+  ...
+)
 }
 \arguments{
 \item{data.left}{Left data. Only rows that matche the join will be included (may still result in duplication).}

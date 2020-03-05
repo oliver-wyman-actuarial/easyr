@@ -4,8 +4,15 @@
 \alias{jrepl}
 \title{Join and Replace Values.}
 \usage{
-jrepl(x, y, by, replace.cols, na.only = FALSE, only.rows = NULL,
-  verbose = FALSE)
+jrepl(
+  x,
+  y,
+  by,
+  replace.cols,
+  na.only = FALSE,
+  only.rows = NULL,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{x}{Main dataset which will have new values. This data set will be returned with new values.}

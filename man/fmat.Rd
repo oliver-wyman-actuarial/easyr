@@ -4,11 +4,17 @@
 \alias{fmat}
 \title{Number Formatter}
 \usage{
-fmat(x = NULL, type = c("auto", ",", "$", "\%", ".", "mdy", "ymd",
-  "date", "dollar", "dollars", "count", "percentage", "decimal"),
-  do.return = c("formatted", "highcharter"), digits = NULL,
-  with.unit = FALSE, do.date.sep = "/", do.remove.spaces = FALSE,
-  digits.cutoff = NULL)
+fmat(
+  x = NULL,
+  type = c("auto", ",", "$", "\%", ".", "mdy", "ymd", "date", "dollar", "dollars",
+    "count", "percentage", "decimal"),
+  do.return = c("formatted", "highcharter"),
+  digits = NULL,
+  with.unit = FALSE,
+  do.date.sep = "/",
+  do.remove.spaces = FALSE,
+  digits.cutoff = NULL
+)
 }
 \arguments{
 \item{x}{Vector of values to convert. If retu}

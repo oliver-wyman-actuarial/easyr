@@ -4,10 +4,15 @@
 \alias{tobool}
 \title{Convert to Logical/Boolean}
 \usage{
-tobool(x, preprocessed.values = NULL, nastrings = easyr::nastrings,
+tobool(
+  x,
+  preprocessed.values = NULL,
+  nastrings = easyr::nastrings,
   ifna = c("return-unchanged", "error", "warning", "return-na"),
-  verbose = TRUE, true.vals = c("true", "1", "t", "yes"),
-  false.vals = c("false", "0", "f", "no"))
+  verbose = TRUE,
+  true.vals = c("true", "1", "t", "yes"),
+  false.vals = c("false", "0", "f", "no")
+)
 }
 \arguments{
 \item{x}{Value or vector to be converted.}
