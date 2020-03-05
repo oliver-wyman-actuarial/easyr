@@ -7,3 +7,5 @@
 ^easyr.Rcheck$
 ^LICENSE
 ^cache$
+^.*\.Rproj$
+^\.Rproj\.user$
