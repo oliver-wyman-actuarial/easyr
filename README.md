@@ -2,37 +2,7 @@
 
 Helpful functions from [Oliver Wyman Actuarial Consulting](https://www.oliverwyman.com/our-expertise/capabilities/actuarial.html).
 
-**easyr makes difficult operations easy.**
-
-Function categories:
-
-  * **shorthand**: protect your hands and move faster by typing less when using common functions.
-  * **type conversion**: convert fields to dates, numbers, characters, and logical.
-  * **data wrangling**: join and replace, explore data, factor-friendly joins and binds, etc.
-  * **workflow**: cacheing, run folder, validate data, etc.
-
-Data:
-
-  * nastrings: common NA character values.
-  * states: U.S. State abbreviations
-  * cblind: color set built by and optimized for color-blind users.
-
-Built, shared, and managed by Oliver Wyman Actuarial Consulting.
-
-*Now accepting proposed contributions through GitHub!*
-
-# Highlights
-
-* **begin** sets up your workspace.
-* **read.any** reads many file types, automatically selecting the best read function for you, and auto-types incoming data so you don't have to.
-* **jrepl** joins a mapping and adds a column or replaces values where matches occur. It is optimized to use a combination inner and left join and will error out if data is duplicated in the join.
-* **cc** replaces paste0 to reduce typing.
-* **dict** returns information about a dataset's columns. **fldict** does the same for a folder of datasets.
-* **eq** handles NAs, where chaos ensues with `==`.
-* **crun** concatenates and runs a vector of characters as a command.
-* **fmat** converts dates and numbers to pretty strings.
-* **tonum**, **todate**, **tobool** flexibly convert character vectors with minimial work.
-* *Check out the detailed list of functions below for more.*
+**easyr makes difficult operations easy.** 
 
 ## Installation
 
@@ -54,6 +24,88 @@ require(easyr)
 
 ```
 
+## Getting Started
+
+Tutorial: https://www.kaggle.com/brycechamberlain/easyr-tutorial.
+
+Here is what a project looks like using easyr:
+
+```r
+# start with begin() to set up your workspace.
+# begin will set the working directory to the location of this file and
+#     run anything in fun/ or functions/ so put your functions there.
+require(easyr)
+begin()
+
+# read.any reads in your data regardless of format, with powerful typing to get numbers and dates.
+# use ?read.any to see the many options.
+dt = read.any( 'path/to/file.extension' )
+
+# let's look at a data dictionary to understand our data.
+View( dict( dt ) )
+
+# begin has already loaded dplyr and magrittr so you are ready to go.
+dt %<>% 
+  filter( !is.na(id) ) %>% 
+  mutate( newcol = oldcol1 + oldcol 2 )
+
+# use w to quickly write to out.csv'.
+w( dt )
+
+```
+
+Function categories:
+
+  * **shorthand**: protect your hands and move faster by typing less when using common functions.
+  * **type conversion**: convert fields to dates, numbers, characters, and logical.
+  * **data wrangling**: join and replace, explore data, factor-friendly joins and binds, etc.
+  * **workflow**: cacheing, run folder, validate data, etc.
+
+Data:
+
+  * nastrings: common NA character values.
+  * states: U.S. State abbreviations
+  * cblind: color set built by and optimized for color-blind users.
+
+Built, shared, and managed by Oliver Wyman Actuarial Consulting.
+
+*Now accepting proposed contributions through GitHub!*
+
+## Highlights
+
+* **begin** sets up your workspace.
+* **read.any** reads many file types, automatically selecting the best read function for you, and auto-types incoming data so you don't have to.
+* **jrepl** joins a mapping and adds a column or replaces values where matches occur. It is optimized to use a combination inner and left join and will error out if data is duplicated in the join.
+* **cc** replaces paste0 to reduce typing.
+* **dict** returns information about a dataset's columns. **fldict** does the same for a folder of datasets.
+* **eq** handles NAs, where chaos ensues with `==`.
+* **crun** concatenates and runs a vector of characters as a command.
+* **fmat** converts dates and numbers to pretty strings.
+* **tonum**, **todate**, **tobool** flexibly convert character vectors with minimial work.
+* *Check out the detailed list of functions below for more.*
+
+## Philosophy
+
+This packages comes from code we've written to make our daily work more efficient. We rely on it heavily in our organization.
+
+It is built on the following tenets:
+
+* **Fingers are precious**: strive to reduce the amount of typing and hand strain during coding. This means avoiding the shift key and choosing short names. Many function names won't be intuitive at first but will save you many keystrokes. *A good example: `cc` exists almost exclusively so you don't have to type `paste0`.*
+
+* **Generic scope**: avoid functions that apply to domain-specific tasks. These belong in other packages.
+
+
+## Make A Contribution
+
+Any and all contributions are welcome. The easiest way to contribute is to add an [Issue](https://github.com/oliver-wyman-actuarial/easyr/issues). 
+This can be a bug identified or even an idea you have on how we can improve easyr. Please be detailed and provide examples to make it easy for the community to resolve your issue/idea.
+
+If you would like to make a more material contribution via Pull Request, please consider:
+* The [Issue page](https://github.com/oliver-wyman-actuarial/easyr/issues) page lists open issues that we need your help to resolve.
+* `build-install-test.R` is included to let you run tests. Please run this to ensure your changes don't cause tests or examples to fail.
+* `tests/testthat` folder contains tests. Consider adding a test to validate your change and prevent someone else from breaking it in the future.
+* `cmd-code-run-checks.txt` contains command-line scripts you can run to check if your changes will be acceptable to CRAN. If it isn't, it'll require extra work by us before we can submit to CRAN.
+
 ## Support
 
 Submit an Issue or Pull Request via GitHub and the community will review it.
@@ -74,12 +126,11 @@ Common operations shortened for elegance, simplicity, and speed.
 | ddiff                      | Date difference function plus shorthand mdiff, qdiff, ydiff. |
 | eq                         | Vectorized flexible equality comparison which considers NAs as a value. Returns TRUE if both values are NA, and FALSE when only one is NA. |
 | gr                         | Get the golden ratio.                                        |
-| left                       | Behaves like Excel's left() and right() functions.           |
+| left/right/mid             | Behaves like Excel's LEFT, RIGHT, and MID functions.           |
 | nanull                     | Facilitates checking for missing values. NULL values can cause errors on is.na checks, and is.na can cause warnings if it is inside if() and is passed multiple values. |
 | %ni%                       | Not in. Opposite of %in% operator. Equivalent to `x %ni% y` is equivalent to `! x %in% y`. |
 | isval                      | Opposite of nanull.                                          |
 | read.txt                   | Read the text of a file into a character variable.           |
-| right                      | Behaves like Excel's left() and right() functions.           |
 | other shorthand (multiple) | functions to save you keystrokes : na (is.na), nan (is.nan), null (is.null), ischar (is.character), isdate (is.Date), isnum (is.numeric), tochar (as.character) |
 | pad0                       | Adds leading zeros to a character vector to make each value a specific length. For values shorter than length passed, leading zeros are removed. |
 | spl                        | Extract a uniform random sample from a dataset or vector.             |
@@ -148,4 +199,3 @@ These data resources are also included.
 |nastrings|List of strings considered NA by easyr. Includes blank strings, "NA", excel errors, etc.|
 |states|Helpul dataset of U.S. State abbreviations and names.|
 |cblind|Charting colors optimized for and selected by colorblind individuals.|
-
