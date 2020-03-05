@@ -13,6 +13,7 @@
 #' @param remove.chars Remove characters for aggressive conversion to numbers.
 #' @param do.logical Check for logical-form vectors.
 #' @param do.try.integer Return an integer if possible. Integers are a more compact data type and should be used whenever possible.
+#' @param multipliers Named vector of factor symbols and values to check. Setting to NULL may speed up operations.
 #'
 #' @return Converted vector.
 #' @export
@@ -20,6 +21,7 @@
 #' @examples
 #' tonum( c('123','$50.02','30%','(300.01)',NA,'-','') )
 #' tonum( c('123','$50.02','30%','(300.01)',NA,'-',''), nazero = FALSE )
+#' tonum( c( '$(3,891)M', '4B', '3.41K', '30', '40K' ) )
 tonum <- function(
 
   # generic arguments.
@@ -34,7 +36,8 @@ tonum <- function(
   checkdate = TRUE,
   remove.chars = FALSE,
   do.logical = TRUE,
-  do.try.integer = TRUE
+  do.try.integer = TRUE,
+  multipliers = c( '%' = 1/100, 'K' = 1000, 'M' = 1000 ^ 2, 'B' = 1000 ^ 3 )
 
 ) return( totype(
 
@@ -49,6 +52,7 @@ tonum <- function(
 
   # specific arguments
   do.try.integer = do.try.integer,
+  multipliers = multipliers,
 
   # functions for conversion.
   type.preprocess = function(x){
@@ -96,23 +100,49 @@ tonum <- function(
     test.conversion = x
   
     # Remove any unnecessary parts.
-    test.conversion = gsub( "[,' $]",'', test.conversion )
+    test.conversion = gsub( "[, $]",'', test.conversion )
 
-    # identify and adjust percentages.
-    ipcts <- grepl( '%', test.conversion )
-    test.conversion[ ipcts ] <- suppressWarnings( as.numeric( gsub( "[%,' ]", '', test.conversion[ ipcts ] ) ) / 100 )
+    # identify and apply multipliers.
+
+      toapply = list()
+      
+      if( !is.null(multipliers) ){
+        
+        names( multipliers ) = tolower( names( multipliers) )
+        
+        for( i in names(multipliers) ){
+
+          # only match multipliers at the end of the string.
+          endmatch = paste0( '[', i, ']$')
+          matches = grep( endmatch, test.conversion )
+          
+          if( length( matches ) > 0 ){
+            
+            toapply[[i]] = matches
+
+            # remove the special character so we can convert to a number later.
+            test.conversion = gsub( endmatch, '', test.conversion )
+
+          }
+        
+          rm( i, endmatch, matches )
+        }
+      }
 
     # replace ( ) with negative.
     test.conversion <- gsub( '^[(]([^)]+)[)]$', '-\\1', test.conversion )
 
-    # replace 0 strings with 0.
-    test.conversion[ !is.na(test.conversion) & grepl( '^-?$', test.conversion ) ] <- 0
+    # replace empty non-NA strings with 0.
+    test.conversion[ !is.na(test.conversion) & grepl( '^-?$', test.conversion ) ] <- '0'
 
     # If applicable, replace NAs with 0.
-    if( nazero && !all( is.na(test.conversion)) ) test.conversion[ is.na(test.conversion) ] <- 0
+    if( nazero && !all( is.na(test.conversion)) ) test.conversion[ is.na(test.conversion) ] <- '0'
 
-    # Remove remaining unnecessary parts. and convert to numeric.
+    # Attempt convert to numeric.
     test.conversion <- suppressWarnings( as.numeric(test.conversion) )
+
+    # Apply factors.
+    for( i in names(toapply) ) test.conversion[ toapply[[i]] ] = multipliers[[i]] * test.conversion[ toapply[[i]] ]
 
     # Try integer conversion.
     if( do.try.integer ){

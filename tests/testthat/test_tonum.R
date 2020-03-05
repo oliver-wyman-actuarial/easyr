@@ -34,5 +34,14 @@ test_that("tonum works as expected", {
     is.integer( tonum( as.numeric( c( 1, 2, 4 ) ) ) ),
     TRUE
   )
+
+  # multipliers  
+  expect_equal(
+    tonum( c( '$(3,891)M', '$4B', '3.41K', '30', '40%' ) ),
+    c( -3891 * 1000^2, 4 * 1000^3, 3.41* 1000, 30, 0.40 )
+  )
+
+  # height measurements.
+  expect_equal( tonum("5'10"), "5'10" )
     
 })

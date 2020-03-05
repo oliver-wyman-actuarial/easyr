@@ -7,7 +7,8 @@
 tonum(x, preprocessed.values = NULL, nastrings = easyr::nastrings,
   ifna = c("return-unchanged", "error", "warning", "return-na"),
   verbose = TRUE, nazero = FALSE, checkdate = TRUE,
-  remove.chars = FALSE, do.logical = TRUE, do.try.integer = TRUE)
+  remove.chars = FALSE, do.logical = TRUE, do.try.integer = TRUE,
+  multipliers = c(`\%` = 1/100, K = 1000, M = 1000^2, B = 1000^3))
 }
 \arguments{
 \item{x}{Vector to convert.}
@@ -29,6 +30,8 @@ tonum(x, preprocessed.values = NULL, nastrings = easyr::nastrings,
 \item{do.logical}{Check for logical-form vectors.}
 
 \item{do.try.integer}{Return an integer if possible. Integers are a more compact data type and should be used whenever possible.}
+
+\item{multipliers}{Named vector of factor symbols and values to check. Setting to NULL may speed up operations.}
 }
 \value{
 Converted vector.
@@ -40,4 +43,5 @@ Author: Bryce Chamberlain. Tech review: Dominic Dillingham.
 \examples{
 tonum( c('123','$50.02','30\%','(300.01)',NA,'-','') )
 tonum( c('123','$50.02','30\%','(300.01)',NA,'-',''), nazero = FALSE )
+tonum( c( '$(3,891)M', '4B', '3.41K', '30', '40K' ) )
 }
