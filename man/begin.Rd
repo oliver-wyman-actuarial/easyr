@@ -4,8 +4,7 @@
 \alias{begin}
 \title{Begin}
 \usage{
-begin(wd = NULL, load = c("magrittr", "dplyr"), scipen = FALSE,
-  verbose = TRUE)
+begin(wd = NULL, load = c("magrittr", "dplyr"), scipen = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{wd}{Path to set as working directory. If blank, the location of the current file open in RStudio will be used if available. If FALSE, the working directory will not be changed.}

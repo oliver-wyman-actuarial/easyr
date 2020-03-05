@@ -4,8 +4,14 @@
 \alias{ijoinf}
 \title{Inner Join with Factors}
 \usage{
-ijoinf(data.left, data.right, by, sort.levels = TRUE,
-  restrict.levels = FALSE, ...)
+ijoinf(
+  data.left,
+  data.right,
+  by,
+  sort.levels = TRUE,
+  restrict.levels = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data.left}{Left data. Only rows that matche the join will be included (may still result in duplication).}

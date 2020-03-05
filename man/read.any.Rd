@@ -4,18 +4,40 @@
 \alias{read.any}
 \title{Read Any File}
 \usage{
-read.any(filename = NA, folder = NA, sheet = 1, file_type = "",
-  first_column_name = NA, header = TRUE, headers_on_row = NA,
-  nrows = -1L, row.names.column = NA, row.names.remove = TRUE,
-  make.names = FALSE, field_name_map = NA, require_columns = NA,
-  all_chars = FALSE, auto_convert_dates = TRUE, allow_times = FALSE,
-  check_numbers = TRUE, nazero = FALSE, check_logical = TRUE,
-  stringsAsFactors = FALSE, na_strings = easyr::nastrings,
-  na_level = "(Missing)", ignore_rows_with_na_at = NA,
-  drop.na.cols = TRUE, drop.na.rows = TRUE,
-  fix.dup.column.names = TRUE, do.trim.sheetname = TRUE, x = NULL,
-  isexcel = FALSE, as.tibble = TRUE, encoding = "unknown",
-  verbose = TRUE)
+read.any(
+  filename = NA,
+  folder = NA,
+  sheet = 1,
+  file_type = "",
+  first_column_name = NA,
+  header = TRUE,
+  headers_on_row = NA,
+  nrows = -1L,
+  row.names.column = NA,
+  row.names.remove = TRUE,
+  make.names = FALSE,
+  field_name_map = NA,
+  require_columns = NA,
+  all_chars = FALSE,
+  auto_convert_dates = TRUE,
+  allow_times = FALSE,
+  check_numbers = TRUE,
+  nazero = FALSE,
+  check_logical = TRUE,
+  stringsAsFactors = FALSE,
+  na_strings = easyr::nastrings,
+  na_level = "(Missing)",
+  ignore_rows_with_na_at = NA,
+  drop.na.cols = TRUE,
+  drop.na.rows = TRUE,
+  fix.dup.column.names = TRUE,
+  do.trim.sheetname = TRUE,
+  x = NULL,
+  isexcel = FALSE,
+  as.tibble = TRUE,
+  encoding = "unknown",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{filename}{File path and name for the file to be read in.}

@@ -7,3 +7,7 @@
 ^easyr.Rcheck$
 ^LICENSE
 ^cache$
+^.*\.Rproj$
+^\.Rproj\.user$
+^doc$
+^Meta$

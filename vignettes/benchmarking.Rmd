@@ -1,0 +1,324 @@
+---
+title: "benchmarking"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{benchmarking}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE
+)
+```
+
+## Overview
+
+This Vignette compares variouse I/O and serialization approaches in R.
+
+The packages compared are:
+
++ Base read.csv/write.csv
++ Base readRDS/saveRDS
++ fread/fwrite from the [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) package
++ write_feather / read_feather from the [feather](https://cran.r-project.org/web/packages/feather/index.html) package
++ qsave / qwrite from [qs](https://github.com/traversc/qs) package
++ read.fst / write.fst from [fst](https://github.com/fstpackage/fst) package
+
+## Preliminary Notes:
+
++ **fst** only works with data.frames / tabular data but it does conserve classes (including dates)
++ Data frames stored in the **fst** format have full random access, both in column and rows
+
+## My Choice - qs
+
+Inspired by the fst package, qs uses a similar block-compression design using 
+either the lz4 or zstd compression libraries. It differs in that it applies a 
+more general approach for attributes and object references.
+
+saveRDS and readRDS are the standard for serialization of R data, but these 
+functions are not optimized for speed. On the other hand, fst is extremely fast,
+but only works on data.frame’s and certain column types.
+
+qs is both extremely fast and general: it can serialize any R object like saveRDS
+and is just as fast and sometimes faster than fst.
+
+## Benchmarking / Profiling
+
+
+```{r setup, echo=FALSE}
+# library(easyr)
+library(qs)
+library(fst)
+library(data.table)
+library(readr)
+library(feather)
+library(bench)
+library(knitr)
+library(rmarkdown)
+library(kableExtra)
+library(dplyr)
+library(purrr)
+library(forcats)
+library(ggplot2)
+library(microbenchmark) # remotes::install_github("joshuaulrich/microbenchmark")
+```
+
+```{r sample_data}
+dat <- data.frame(x = rnorm(5e6), 
+                  y = sample(5e6), 
+                  z = sample(letters,5e6, replace = TRUE),
+                  l = c(rep(TRUE, 5e6/2), rep(FALSE, 5e6/2)))
+
+dir <- tempdir()
+
+base_file <- fs::path(dir, "dat_base.csv")
+rds_file <- fs::path(dir, "dat_rds.RDS")
+fwrite_file <- fs::path(dir, "dat_fwrite.csv")
+feather_file <- fs::path(dir, "dat_feather.feather")
+qs_file <- fs::path(dir, "dat_qs.qs")
+fst_file <- fs::path(dir, "dat_fst.fst")
+
+save_bench <- bench::mark(
+  base = write.csv(dat, base_file),
+  rds = saveRDS(dat, rds_file),
+  fwrite = data.table::fwrite(dat, fwrite_file),
+  feather = write_feather(dat, feather_file),
+  qs = qs::qsave(dat, qs_file, preset = "fast", algorithm = "lz4", 
+                 compress_level = 100, shuffle_control = 0, 
+                 nthreads = 8, check_hash = FALSE),
+  fst = fst::write.fst(dat, fst_file), 
+  check = FALSE,
+  iterations = 1
+)
+
+read_bench <- bench::mark(
+  base = read.csv(base_file),
+  rds = readRDS(rds_file),
+  fread = data.table::fread(fwrite_file),
+  feather = read_feather(feather_file),
+  qs = qs::qread(qs_file, nthreads = 8),
+  fst = fst::read.fst(fst_file),
+  check = FALSE,
+  iterations = 1
+)
+```
+
+```{r}
+summary(save_bench) %>%
+  mutate(expression = forcats::fct_reorder(as.character(expression), min, .desc = TRUE)) %>%
+  as_bench_mark() %>%
+  select_if(purrr::negate(is.list)) %>%
+  select(-`gc/sec`, -n_itr, -n_gc) %>%
+  kable(booktabs = TRUE)
+```
+
+```{r}
+autoplot(save_bench, "boxplot")
+```
+
+```{r}
+summary(read_bench) %>%
+  mutate(expression = forcats::fct_reorder(as.character(expression), min, .desc = TRUE)) %>%
+  as_bench_mark() %>%
+  select_if(purrr::negate(is.list)) %>%
+  select(-`gc/sec`, -n_itr, -n_gc) %>%
+  kable(booktabs = TRUE)
+```
+
+```{r}
+autoplot(read_bench)
+```
+
+
+
+
+## Microbenchmark
+
+```{r}
+save_bench <- microbenchmark(
+  base = write.csv(dat, base_file),
+  rds = saveRDS(dat, rds_file),
+  fwrite = data.table::fwrite(dat, fwrite_file),
+  feather = write_feather(dat, feather_file),
+  qs = qs::qsave(dat, qs_file, preset = "fast", algorithm = "lz4", 
+                 compress_level = 100, shuffle_control = 0, 
+                 nthreads = 8, check_hash = FALSE),
+  fst = fst::write.fst(dat, fst_file), 
+  times = 1
+)
+
+read_bench <- microbenchmark(
+  base = read.csv(base_file),
+  rds = readRDS(rds_file),
+  fread = data.table::fread(fwrite_file),
+  feather = read_feather(feather_file),
+  qs = qs::qread(qs_file, nthreads = 8),
+  fst = fst::read.fst(fst_file),
+  times = 1
+)
+
+```
+
+
+```{r}
+save_bench
+```
+
+```{r}
+boxplot(save_bench)
+```
+
+
+```{r}
+read_bench
+```
+
+```{r}
+boxplot(read_bench)
+```
+
+
+```{r}
+# fs::dir_delete(dir)
+c(
+  base_file,
+  rds_file,
+  fwrite_file,
+  feather_file,
+  qs_file,
+  fst_file
+) %>%
+  purrr::walk(fs::file_delete)
+```
+
+
+## Example Usage
+
+Here's some example "caching" utility functions utilizing the **qs** package:
+
+```{r eval=FALSE}
+#' Write Cache
+#'
+#' Quick caching utility write function.
+#'
+#' @param x object to cache
+#' @param name name to store object with
+#' @param cache_dir path to cache directory
+#' @param overwrite logical (default = TRUE)
+#'
+#' @return x
+#' @export
+#'
+#' @importFrom fs dir_exists dir_create path
+#' @importFrom qs qsave
+#'
+#' @examples
+#' mydata <- mtcars
+#' write_cache(mydata) # will save to 'cache/mydata'.
+#' write_cache(mydata, "mydata-v2", cache_dir = "data/temp") # will save to 'data/temp/mydata-v2'
+write_cache <- function(x,
+                        name = NULL,
+                        cache_dir = "cache",
+                        overwrite = TRUE) {
+
+  if (!fs::dir_exists(cache_dir)) fs::dir_create(cache_dir)
+  
+  if (is.null(name)) name <- deparse(substitute(x))
+  
+  qs_file <- fs::path(cache_dir, name)
+  
+  qs::qsave(x, qs_file)
+  
+  message("Object ", name, "has been cached at '", qs_file, "'.")
+  
+  return(x)
+
+}
+
+#' Read Cache
+#'
+#' Quick caching utility read function.
+#'
+#' @param name name of object to read in.
+#' @param cache_dir path to cache directory.
+#'
+#' @return invisibly attaches object to parent global environment
+#' @export
+#' @importFrom fs path file_exists
+#' @importFrom fst read_fst
+read_cache <- function(name = NULL,
+                       cache_dir = "cache") {
+
+  if (is.null(name)) name <- deparse(substitute(x))
+  
+  qs_file <- fs::path(cache_dir, name)
+  
+  if (!fs::file_exists(qs_file)) {
+    stop("File not found in ", cache_dir)
+  }
+  
+  if (fs::file_exists(qs_file)) out <- qs::qread(qs_file)
+  
+  assign(name, out, envir = .GlobalEnv)
+  
+  return(invisible())
+
+}
+
+```
+
+An alternative could be to use **fst** and **RDS** depending on what you are trying to save:
+
+```{r eval=FALSE}
+write_cache <- function(x,
+                        name = NULL,
+                        cache_dir = "cache",
+                        overwrite = TRUE) {
+
+  if (!dir.exists(cache_dir)) dir.create(cache_dir)
+
+  if (is.null(name)) name <- deparse(substitute(x))
+
+  fst_file <- paste0(file.path(cache_dir, name), ".fst")
+  rds_file <- paste0(file.path(cache_dir, name), ".RDS")
+
+  if (tibble::is_tibble(x) || is.data.frame(x)) {
+
+    tryCatch(
+      fst::write_fst(x, fst_file),
+      error = function(e, ...) saveRDS(x, rds_file)
+    )
+
+  } else {
+
+    saveRDS(x, rds_file)
+
+  }
+
+  if (file.exists(fst_file) && file.exists(rds_file)) fs::file_delete(fst_file)
+
+}
+
+read_cache <- function(name,
+                       cache_dir = "cache") {
+
+  fst_file <- paste0(file.path(cache_dir, name), ".fst")
+  rds_file <- paste0(file.path(cache_dir, name), ".RDS")
+
+  if (!file.exists(fst_file) && !file.exists(rds_file)) stop("File not found in ", cache_dir)
+
+  if (file.exists(fst_file)) out <- read_fst(fst_file)
+
+  if (file.exists(rds_file)) out <- readRDS(rds_file)
+
+  assign(name, out, envir = .GlobalEnv)
+
+  return(invisible())
+
+}
+```
+
