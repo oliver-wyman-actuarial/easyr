@@ -60,8 +60,8 @@ cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.
     # Add calculated paths.
     for( i in 1:length(cache.info) ){
         cache.info[[i]]$cache.num = i
-        cache.info[[i]]$path = cc( at.path, '/', i, '-', cache.info[[i]]$name, '.RData' )
-        cache.info[[i]]$status.path = cc( at.path, '/', i, '-', cache.info[[i]]$name, '-status.RDS' )
+        cache.info[[i]]$path = cc(at.path, '/', i, '-', cache.info[[i]]$name)
+        cache.info[[i]]$status.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-status')
         rm(i)
     }
 
@@ -153,19 +153,21 @@ cache.ok = function( cache.num, do.load = TRUE ){
     } else if( easyr.cache.info$max.cache == easyr.cache.info$cache.num && do.load && ! easyr.cache.info$save.only ){
         if( !checked.already ){
             if( easyr.cache.info$verbose ) cat( '\t   >> load cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
-            load( easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, envir = .GlobalEnv )
+            load.cache(easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path)
+            easyr.cache.info$max.cache.loaded <<- max.cache.loaded
         }
         return( TRUE )
 
     } else {
         if( !checked.already ){
             if( 
-                easyr.cache.info$max.cache > 0 && 
-                ( is.null(easyr.cache.info$max.cache.loaded) || easyr.cache.info$max.cache.loaded < easyr.cache.info$max.cache ) && 
-                ! easyr.cache.info$save.only
+              !easyr.cache.info$save.only &&  
+              file.exists(easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path) &&
+              easyr.cache.info$max.cache > 0 && 
+              ( is.null(easyr.cache.info$max.cache.loaded) || easyr.cache.info$max.cache.loaded < easyr.cache.info$max.cache )              
             ){
                 if( easyr.cache.info$verbose ) cat( '\t   >> load cache [', easyr.cache.info$cache.info[[ easyr.cache.info$max.cache ]]$path, ']. \n' )
-                load( easyr.cache.info$cache.info[[ easyr.cache.info$max.cache ]]$path, envir = .GlobalEnv )
+                load.cache(easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path)
             }
             if( easyr.cache.info$verbose ) cat( '\t   >> build cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
         }
@@ -219,11 +221,13 @@ save.cache = function( ... ){
     if( easyr.cache.info$max.cache.loaded  > easyr.cache.info$max.cache ) easyr.cache.info$max.cache <<- easyr.cache.info$cache.num
     
     max.cache.loaded <<- easyr.cache.info$max.cache.loaded
-
-    save(
-        cache.at, max.cache.loaded, cache.path, ...,
-        file = cache.path
-    )
+    
+    datalist = list(...)
+    names(datalist) = trimws(strsplit(gsub('save.cache\\(([^)]+)\\)', '\\1', cc(deparse(sys.call()))), ",")[[1]])
+    datalist$cache.at = cache.at
+    datalist$max.cache.loaded = max.cache.loaded
+    datalist$cache.path = cache.path
+    qs::qsave(datalist, file = cache.path)
 
 }
 
@@ -290,6 +294,7 @@ validatecaches = function( caches ){
   }
   
 }
+load.cache = function(filename) list2env(qs::qread(filename, use_alt_rep=TRUE), globalenv())
 
 easyr.cache.info = list(
     cache.num = 0,

@@ -30,6 +30,7 @@ Imports:
     readxl,
     rlang,
     XML,
+    qs,
     stringr,
     tibble,
     dplyr
