@@ -47,7 +47,11 @@ runfolder = function(
       
     },
     error = function(e){
-      if( edit.on.err  ) utils::file.edit(i)
+      if(edit.on.err) tryCatch(
+        rstudioapi::navigateToFile(i),
+        # do nothing, this will happen if rstudio is not available.
+        error=function(e) NULL
+      )
       stop('
         At [', i, ']: \n \n \t [', e, '] \n
         Optionally: open this file and run it to determine which line the error occured at. 
