@@ -73,15 +73,14 @@ Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 
 ## Highlights
 
-* **begin** sets up your workspace.
-* **read.any** reads many file types, automatically selecting the best read function for you, and auto-types incoming data so you don't have to.
-* **jrepl** joins a mapping and adds a column or replaces values where matches occur. It is optimized to use a combination inner and left join and will error out if data is duplicated in the join.
-* **cc** replaces paste0 to reduce typing.
-* **dict** returns information about a dataset's columns. **fldict** does the same for a folder of datasets.
-* **eq** handles NAs, where chaos ensues with `==`.
-* **crun** concatenates and runs a vector of characters as a command.
-* **fmat** converts dates and numbers to pretty strings.
-* **tonum**, **todate**, **tobool** flexibly convert character vectors with minimial work.
+* **begin** is a one-line template for starting a project. It clears any pre-existing variables, loads dplyr, sets your working directory location, and more!
+* **cc** (concatenate) replaces paste0 to reduce typing.
+* **tonum**, **todate**, and **tobool** convert character vectors to numbers, dates, and logicals. R has functions that attempt this, but none that worked consistently for us. These functions handle many more incoming data formats.
+* **read.any** automatically selects the best read function for you, and sets correct variable types on incoming data so you don't have to. Without easyr, R requires a different function for each file type.
+* **jrepl** (join and replace) joins a mapping to add a column or replaces values. This usually takes multiple operations but jrepl combines it to one.
+* **dict** returns information about a dataset's columns. fldict does the same for a folder of datasets.
+* **eq** R users will understand that NAs often break equality checks. This check doesn’t mind them.
+* **fmat** converts dates and numbers to pretty strings in a simpler way than the format function.
 * *Check out the detailed list of functions below for more.*
 
 ## Philosophy
@@ -90,7 +89,9 @@ This packages comes from code we've written to make our daily work more efficien
 
 It is built on the following tenets:
 
-* **Fingers are precious**: strive to reduce the amount of typing and hand strain during coding. This means avoiding the shift key and choosing short names. Many function names won't be intuitive at first but will save you many keystrokes. *A good example: `cc` exists almost exclusively so you don't have to type `paste0`.*
+* **Writing code should be easy and fun**: minimize the amount of typing required to get to working code. Focus on common operations and make them easier and more flexible.
+
+* **Your fingers are precious**: reduce the amount of typing and hand strain during coding. This means avoiding the shift key and choosing short names. Some function names won't be intuitive at first, but they’ll save you keystrokes later. 
 
 * **Generic scope**: avoid functions that apply to domain-specific tasks. These belong in other packages.
 
