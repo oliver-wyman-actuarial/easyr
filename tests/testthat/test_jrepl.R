@@ -3,7 +3,7 @@ context("jrepl")
 test_that("works as expected", {
 
   df1 = utils::head(sleep)
-  group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ) )
+  group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
   
   expect_equal( 
     jrepl( x = df1, y = group.reassign, by = c( 'ID' = 'id.num' ), replace.cols = c( 'group' = 'group.replace' ) )[['group']],
@@ -28,7 +28,7 @@ test_that("works as expected", {
 
   # issue with new colum that doesn't exist yet.
 
-    group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ) )
+    group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
 
     expect_equal( 
         jrepl( 
@@ -42,7 +42,7 @@ test_that("works as expected", {
 
   # issue with new FACTOR colum that doesn't exist yet.
     
-    group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ) )
+    group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
 
     expect_equal( 
         jrepl( 
@@ -56,11 +56,12 @@ test_that("works as expected", {
   
   # test that a missing integer stays an integer in the final data.
   
-    x = data.frame( id = as.integer( c( 1, 2, 3) ) )
+    x = data.frame( id = as.integer( c( 1, 2, 3) ), stringsAsFactors = TRUE )
     
     y = data.frame(
       id = as.integer( c( 1, 2 ) ),
-      int = as.integer( c( 1, 2 ) )
+      int = as.integer( c( 1, 2 ) ),
+      stringsAsFactors = TRUE
     )
     
     expect_equal(
@@ -74,12 +75,14 @@ test_that("works as expected", {
     
       x = data.frame( 
         id = as.integer( c( 1, 2, 3 ) ),
-        val = as.integer( c( NA, NA, NA ) )
+        val = as.integer( c( NA, NA, NA ) ),
+        stringsAsFactors = TRUE
       )
       
       y = data.frame(
         id = as.integer( c( 1, 2 ) ),
-        val = c( 1.5, 2.6 )
+        val = c( 1.5, 2.6 ),
+        stringsAsFactors = TRUE
       )
       
       expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
@@ -96,7 +99,8 @@ test_that("works as expected", {
       
       y = data.frame(
         id = as.integer( c( 1, 2 ) ),
-        val = factor( c( 'a', 'b' ) )
+        val = factor( c( 'a', 'b' ) ),
+        stringsAsFactors = TRUE
       )
       
       expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
@@ -106,12 +110,14 @@ test_that("works as expected", {
       
       x = data.frame( 
         id = as.integer( c( 1, 2, 3 ) ),
-        val = c( 1, 2, 3 )
+        val = c( 1, 2, 3 ),
+        stringsAsFactors = TRUE
       )
       
       y = data.frame(
         id = as.integer( c( 1, 2 ) ),
-        val = factor( c( 'a', 'b' ) )
+        val = factor( c( 'a', 'b' ) ),
+        stringsAsFactors = TRUE
       )
       
       expect_error( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'Please fix the data such that classes match before calling jrepl' )
@@ -120,12 +126,14 @@ test_that("works as expected", {
         
         x = data.frame( 
           id = as.integer( c( 1, 2, 3 ) ),
-          val = ordered( c( NA, NA, 'c' ) )
+          val = ordered( c( NA, NA, 'c' ) ),
+          stringsAsFactors = TRUE
         )
         
         y = data.frame(
           id = as.integer( c( 1, 2 ) ),
-          val = ordered( c( 'a', 'b' ) )
+          val = ordered( c( 'a', 'b' ) ),
+          stringsAsFactors = TRUE
         )
       
         t = jrepl( x, y, by = 'id', replace.cols = 'val' )

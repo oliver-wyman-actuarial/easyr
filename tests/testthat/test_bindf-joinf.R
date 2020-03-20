@@ -9,7 +9,8 @@ test_that( "works as expected", {
       factor2 = c( 'high', 'medium', 'low' ),
       factor.join = c( '0349038u093843', '304359867893753', '3409783509735' ),
       numeric = c( 1, 2, 3 ),
-      logical = c( TRUE, TRUE, TRUE )
+      logical = c( TRUE, TRUE, TRUE ),
+      stringsAsFactors = TRUE
     )
     
     df2 = data.frame(
@@ -17,7 +18,8 @@ test_that( "works as expected", {
       factor2 = c( 'low', 'medium', 'high' ),
       factor.join = c( '32532532536', '304359867893753', '32534745876' ),
       numeric = c( 4, 5, 6 ),
-      logical = c( FALSE, FALSE, FALSE )
+      logical = c( FALSE, FALSE, FALSE ),
+      stringsAsFactors = TRUE
     )
   
   # Perform a bind.

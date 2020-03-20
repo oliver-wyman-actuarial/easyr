@@ -27,11 +27,13 @@ test_that("works as expected", {
   # acceptable pct diff 1 (fails)
 
     idt1 = data.frame(
-      col1 = c( NA, 10, NA )
+      col1 = c( NA, 10, NA ),
+      stringsAsFactors = TRUE
     )
 
     idt2 = data.frame(
-      col1 = c( NA, 11, 15 )
+      col1 = c( NA, 11, 15 ),
+      stringsAsFactors = TRUE
     )
     
     t = suppressWarnings( validate.equal( 
@@ -43,11 +45,13 @@ test_that("works as expected", {
   # acceptable pct diff 1 (passes)
 
     idt1 = data.frame(
-      col1 = c( NA, 10, 15 )
+      col1 = c( NA, 10, 15 ),
+      stringsAsFactors = TRUE
     )
 
     idt2 = data.frame(
-      col1 = c( NA, 11, 15 )
+      col1 = c( NA, 11, 15 ),
+      stringsAsFactors = TRUE
     )
     
     t = suppressWarnings( validate.equal( 
@@ -59,11 +63,13 @@ test_that("works as expected", {
   # factor vs. ordered.
     
     idt1 = data.frame(
-      col1 = ordered( c( NA, 'a', 'b' ) )
+      col1 = ordered( c( NA, 'a', 'b' ) ),
+      stringsAsFactors = TRUE
     )
     
     idt2 = data.frame(
-      col1 = factor( c( NA, 'a', 'b' ) )
+      col1 = factor( c( NA, 'a', 'b' ) ),
+      stringsAsFactors = TRUE
     )
     
     t = suppressWarnings( validate.equal( 
