@@ -1,5 +1,7 @@
 *Using format from http://r-pkgs.had.co.nz/release.html*
 
+This update is to address the recent stringAsFactors change.
+
 ## Test environments
 
 Passed CMD check on:
@@ -8,8 +10,6 @@ Passed CMD check on:
 * R-devel https://win-builder.r-project.org/upload.aspx
 
 ## R CMD check results
-
-One NOTE: Package was archived since we weren't able to address issues in time. Hopefully this version is acceptable.
 
 There were no ERRORs or WARNINGs.
 
