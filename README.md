@@ -78,7 +78,7 @@ Built, shared, and managed by Oliver Wyman Actuarial Consulting.
 * **tonum**, **todate**, and **tobool** convert character vectors to numbers, dates, and logicals. R has functions that attempt this, but none that worked consistently for us. These functions handle many more incoming data formats.
 * **read.any** automatically selects the best read function for you, and sets correct variable types on incoming data so you don't have to. Without easyr, R requires a different function for each file type.
 * **jrepl** (join and replace) joins a mapping to add a column or replaces values. This usually takes multiple operations but jrepl combines it to one.
-* **dict** returns information about a dataset's columns. fldict does the same for a folder of datasets.
+* **dict** returns information about a dataset's columns. It goes further than the str() function by flexibly determining variable types, counting unique and missing values, returning most and least common values, min/max, mode/median/mean, and more. fldict does the same for a folder of datasets.
 * **eq** R users will understand that NAs often break equality checks. This check doesn’t mind them.
 * **fmat** converts dates and numbers to pretty strings in a simpler way than the format function.
 * *Check out the detailed list of functions below for more.*
