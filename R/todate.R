@@ -71,7 +71,6 @@ todate <- function(
   type.conversion = function(x){
     
     # Try excel date conversion. If we get no new NAs then we are done.
-    
       if( ! do.excel ){
 
         test.conversion.xl = as.Date( rep( NA, length(test.conversion.xl) ) )
@@ -136,7 +135,7 @@ todate <- function(
           
           # Try dmy.
           timeformat_fallback = c( 'dmy', 'dmy HM' )
-          test.conversion.char = dplyr::coalesce( test.conversion.char, suppressWarnings( lubridate::parse_date_time( x, timeformat_fallback ) ) )
+          test.conversion.char = coalf( test.conversion.char, suppressWarnings( lubridate::parse_date_time( x, timeformat_fallback ) ) )
           if( !is.null(min.acceptable) ) test.conversion.char[ test.conversion.char < min.acceptable ] <- NA
           if( !is.null(max.acceptable) ) test.conversion.char[ test.conversion.char > max.acceptable ] <- NA
           
@@ -163,7 +162,7 @@ todate <- function(
         
         if( class( test.conversion.char )[1] == 'POSIXct' ) test.conversion.xl = as.POSIXct( test.conversion.xl, tz = 'UTC' )
         
-        dplyr::coalesce( test.conversion.char, test.conversion.xl )
+        coalf( test.conversion.char, test.conversion.xl )
         
       } else {
         test.conversion.char

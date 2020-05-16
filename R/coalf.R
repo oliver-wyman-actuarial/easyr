@@ -1,7 +1,7 @@
 #' Factor-friendly Coalesce
 #' 
-#' Wrapper for the dplyr function "coalesce" which can handle factors appropriately. 
-#' Checks each argument vector starting with the first until a non-null value is found.
+#' Coalesce function that matches and updates factor levels appropriately.
+#' Checks each argument vector starting with the first until a non-NA value is found.
 #' Author: Bryce Chamberlain.
 #'
 #' @param ... Source vectors.
@@ -15,6 +15,7 @@
 coalf = function( ... ){
   
   args = list(...)
+  if(length(args) == 1) return(args[[1]])
   
   # Check for factor.
   isfactor = any( sapply( args, is.factor ) )
@@ -22,15 +23,21 @@ coalf = function( ... ){
   
   # Convert factors to strings.
   for( i in 1:length(args) ) if( is.factor( args[[i]] ) ) args[[i]] <- levels(args[[i]])[args[[i]]]
-  
-  # Apply coalesce.
-  coalesce = dplyr::coalesce
-  x = do.call( 'coalesce', args )
+
+  # coalesce values.
+  x = args[[1]]
+  for(i in 1:length(args)){
+    isna = which(is.na(x))
+    if( length(isna) == 0 ){
+      break
+    } else {
+      x[isna] = args[[i]][isna]
+    }
+  }
   
   # Apply factor.
   if( isfactor ) x = factor( x, ordered = isordered )
   
-  return(x)
-  
+  return(x)  
   
 }

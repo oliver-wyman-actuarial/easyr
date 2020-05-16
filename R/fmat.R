@@ -189,9 +189,23 @@ nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, ma
   divxby = 1
   isuffix = ''
   
-  if( with.unit ){ 
-    divxby = dplyr::case_when( max >= 1000000000 ~ 1000000000, max >= 1000000 ~ 1000000, max > 500 ~ 1000, TRUE ~ 1 )
-    isuffix = dplyr::case_when( max >= 1000000000 ~ 'B', max >= 1000000 ~ 'M', max > 500 ~ 'K', TRUE ~ '' )
+  if( with.unit ){
+    if(max >= 1000000000){
+      divxby = 1000000000
+      isuffix = 'B'
+
+    } else if(max >= 1000000){
+      divxby = 1000000
+      isuffix = 'M'
+
+    } else if(max > 500){
+      divxby = 1000
+      isuffix = 'K'
+      
+    } else {
+      divxby = 1
+      isuffix = ''
+    }
   }
   
   # Apply div by.

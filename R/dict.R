@@ -55,28 +55,21 @@ dict <- function(
       
       num.0 = sum( !is.na(x[[icol]]) & x[[icol]] == 0 )
       num.neg = sum( !is.na(x[[icol]]) & x[[icol]] < 0 )
-      
-      idt = dplyr::mutate( idt,
-        
-        `# =0` = num.0,
-        `% =0` = num.0 / nrow(x),
-        
-        `# <0` = num.neg,
-        `% <0` = num.neg / nrow(x),
-        
-        `Mode` = utils::head( names(uvals), 1 ),
-        Average = mean( x[[icol]], na.rm = TRUE ),
-        Min = min( x[[icol]], na.rm = TRUE ),
-        Max = max( x[[icol]], na.rm = TRUE ),
-        Sum = sum( x[[icol]], na.rm = TRUE )
-        
-      )
+
+      idt[['% =0']] = num.0 / nrow(x)
+      idt[['# <0']] = num.neg
+      idt[['% <0']] = num.neg / nrow(x)
+      idt[['Mode']] = utils::head( names(uvals), 1 )
+      idt[['Average']] = mean( x[[icol]], na.rm = TRUE )
+      idt[['Min']] = min( x[[icol]], na.rm = TRUE )
+      idt[['Max']] = max( x[[icol]], na.rm = TRUE )
+      idt[['Sum']] = sum( x[[icol]], na.rm = TRUE )
       
       rm( num.0, num.neg )
       
     }
     
-    idts = dplyr::bind_rows( idts, idt )
+    idts = bindf( idts, idt )
     
     rm( idt, uvals, num.na, icol )
     

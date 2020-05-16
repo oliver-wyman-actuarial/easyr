@@ -7,7 +7,7 @@
 sumnum(x, do.fun = NULL, except = c(), do.ungroup = TRUE, ...)
 }
 \arguments{
-\item{x}{Data frame or tibble to summarize.}
+\item{x}{Grouped tibble to summarize.}
 
 \item{do.fun}{Function to use for the summary. Passed to dplyr::summarize(). Can be a custom function. Defaults to sum().}
 

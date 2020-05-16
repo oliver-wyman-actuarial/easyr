@@ -13,8 +13,8 @@ coalf(...)
 Vector of values.
 }
 \description{
-Wrapper for the dplyr function "coalesce" which can handle factors appropriately. 
-Checks each argument vector starting with the first until a non-null value is found.
+Coalesce function that matches and updates factor levels appropriately.
+Checks each argument vector starting with the first until a non-NA value is found.
 Author: Bryce Chamberlain.
 }
 \examples{

@@ -2,7 +2,7 @@
 #' 
 #' Easily summarize at all numeric variables. Helpful for flexibly summarizing without knowing the columns. Defaults to sum but you can send a custom function through also. Typically pass in a data frame after group_by.
 #'
-#' @param x Data frame or tibble to summarize.
+#' @param x Grouped tibble to summarize.
 #' @param do.fun Function to use for the summary. Passed to dplyr::summarize(). Can be a custom function. Defaults to sum().
 #' @param except Columns names, numbers, or a logical vector indicating columns NOT to summarize.
 #' @param do.ungroup Run dplyr::ungroup() after summarizing the prevent future issues with grouping.

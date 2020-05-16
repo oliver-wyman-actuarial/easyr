@@ -6,6 +6,7 @@
 #' @param load Packages to load. If not available, they'll be installed.
 #' @param scipen Do scientific notation in output?
 #' @param verbose Print information about what the function is doing?
+#' @param repos choose the URL to install from.
 #'
 #' @export
 #'
@@ -16,7 +17,8 @@ begin = function(
   wd = NULL, 
   load = c( 'magrittr', 'dplyr' ),
   scipen = FALSE,
-  verbose = TRUE
+  verbose = TRUE,
+  repos = 'http://cran.us.r-project.org'
 ){
   
   # clear workspace.
@@ -44,7 +46,7 @@ begin = function(
   
   # load common packages.
   if( length( load ) > 0 ){
-    easyr::usepkg( load )
+    easyr::usepkg( load, repos = repos)
     if( verbose ) cat( 'Loaded: [', paste0( load, collapse = ', ' ), ']. \n' )
   }
   

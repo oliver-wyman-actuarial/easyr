@@ -6,7 +6,7 @@
 #' It will NOT check for strings like ""  or "NA". Only NULL and NA values will return TRUE.
 #' Author: Bryce Chamberlain. Tech Review: Maria Gonzalez.
 #'
-#' @param x Vector to check. In the case of a tibble or vector, it will check the first (non-NULL) value.
+#' @param x Vector to check. In the case of a data frame or vector, it will check the first (non-NULL) value.
 #' @param na_strings (Optional) Set the strings you want to consider NA. These will be applied after stringr::str_trim on x.
 #' @param do.test.each Return a vector of results to check each element instead of checking the entire object.
 #'

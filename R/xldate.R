@@ -57,7 +57,7 @@ xldate <- function(
   na.value = as.Date( NA, origin = '1970-01-01' ),
 
   type.conversion = function(x){
-
+    
       # Override NULL max acceptable. Even if we aren't using the default, we need to have some requirements.
       if( is.null( max.acceptable ) ) max.acceptable = lubridate::ymd( '9999-12-31' )
       if( is.null( min.acceptable ) ) min.acceptable = lubridate::ymd( '0000-1-1' )

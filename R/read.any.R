@@ -37,13 +37,12 @@
 #' @param fix.dup.column.names Adds 'DUPLICATE #' to duplicated column names to avoid issues with multiple columns having the same name.
 #' @param do.trim.sheetname read.any will trim sheet names to get better matches. This will cause an error if the actual sheet name has spaces on the left or right side. Disable this functionality here.
 #'
-#' @param x If you want to use read.any functionality on an existing data frame or tibble, pass it with this argument.
-#' @param isexcel If you want to use read.any functionality on an existing data frame or tibble, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.
-#' @param as.tibble Return as a dplyr tibble instead of data frame.
+#' @param x If you want to use read.any functionality on an existing data frame, pass it with this argument.
+#' @param isexcel If you want to use read.any functionality on an existing data frame, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.
 #' @param encoding Encoding passed to fread and read.csv.
 #' @param verbose Print helpful information via cat.
 #'
-#' @return Data frame or tibble with the data that was read.
+#' @return Data frame with the data that was read.
 #' @export
 #'
 #' @examples
@@ -93,7 +92,6 @@ read.any <- function(
     
     x = NULL, 
     isexcel = FALSE,
-    as.tibble = TRUE,
     encoding = 'unknown',
     verbose = TRUE
     
@@ -194,9 +192,10 @@ read.any <- function(
     )
     
     if( ( headers_on_row + 1 ) > nrow(x) ){
-      x <- x[ rep(FALSE,nrow(x)), ]
+      x <- x[ rep(FALSE, nrow(x)), , drop = FALSE ]
     } else {
-      x = dplyr::filter( x, dplyr::row_number() > headers_on_row )
+      drop = which( 1:nrow(x) <= headers_on_row )
+      if(length(drop) > 0) x = x[ -drop, , drop = FALSE ]      
     }
       
   }
@@ -313,8 +312,8 @@ read.any <- function(
     for( i in colnames(x) ) if( ! is.character( x[[i]] ) ) x[[i]] <- as.character(x[[i]])
   }
   
-  # Drop all-NA columns. You must use select_at, colnames to prevent single-column returns losing column name information.
-  if( drop.na.cols && nrow(x) > 0 ) x = dplyr::select_at( x, colnames(x)[
+  # Drop all-NA columns.
+  if( drop.na.cols && nrow(x) > 0 ) x = x[ , colnames(x)[
     
     # Use sapply to find non-NA columns.
     sapply( x, function(column) any( !is.na( column ) ) )
@@ -322,7 +321,7 @@ read.any <- function(
     # Don't drop anything specified in the column name map.
     | colnames(x) %in% c( field_name_map, names( field_name_map ) )
     
-    ] )
+    ], drop = FALSE]
   
   # Drop all-NA rows.
   if( drop.na.rows && nrow(x) > 0 ){
@@ -331,7 +330,7 @@ read.any <- function(
     row.check[ !is.na(x) ] <- 1
     row.check[ is.na(x) ] <- 0
     
-    x = dplyr::filter( x, rowSums(row.check) != 0 )
+    x = x[ which(rowSums(row.check) > 0), , drop = FALSE ]
     
     rm(row.check)
     
@@ -347,14 +346,10 @@ read.any <- function(
     
     # Apply rownames and remove the column.
     rownames(x) <- x[[ row.names.column ]]
-    if( row.names.remove ) x = dplyr::select_at( x, setdiff( colnames( x ), row.names.column ) )
+    if( row.names.remove ) x = x[, setdiff( colnames( x ), row.names.column ), drop = FALSE ]
     did.row.names = TRUE
     
   }
-  
-  # Convert to data frame to clean the data, then back to tibble.
-  x = as.data.frame( dplyr::ungroup(x), stringsAsFactors = FALSE )
-  if( as.tibble && !did.row.names ) x = dplyr::as_tibble(x)
   
   # Check for required columns.
   if( !nanull(require_columns) ){

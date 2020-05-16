@@ -16,7 +16,7 @@ tcol(x, header, cols.colname = "col", do.atype = TRUE)
 \item{do.atype}{Transpose convertes to strings, since data types are uncertain. Run atype to automatically correct variable typing where possible. This will slow the result a bit.}
 }
 \value{
-Transposed tibble.
+Transposed data frame.
 }
 \description{
 Transpose operation that sets column names equal to a column in the original data.

@@ -12,7 +12,7 @@ jrepl(x, y, by, replace.cols, na.only = FALSE, only.rows = NULL,
 
 \item{y}{Supporting dataset which has the id and new values.}
 
-\item{by}{Vector of join column names. A character vector if the names match. A named character vector if they don't. Passed to dplyr::inner_join.}
+\item{by}{Vector of join column names. A character vector if the names match. A named character vector if they don't.}
 
 \item{replace.cols}{Vector of replacement column names, similar format as by.}
 
