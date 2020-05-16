@@ -115,3 +115,15 @@ test_that( 'times read in properly', {
   )
   
 })
+
+test_that( 'PDF read', {
+  expect_equal(
+    read.any( test_file( 'test.pdf' ) ),
+    data.frame( line=c( 
+      'headerinfo 1',
+      'headerinfo 2',
+      'row1, row1',
+      'row2, row2'
+    ), stringsAsFactors=FALSE)
+  )  
+})
