@@ -106,7 +106,7 @@ totype <- function(
   }
 
   # Join back to the original data to get values.
-  imap = dplyr::inner_join( imap, uvals, by = 'matchval' )
+  imap = ijoinf( imap, uvals, by = 'matchval' )
 
   return( imap$finalval )
 

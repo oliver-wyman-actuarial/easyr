@@ -5,14 +5,14 @@
 #'
 #' @param packages Character or character vector with names of the packages you want to use.
 #' @param noCache When checking packages, you can choose to ignore the cached list, which will increase accuracy but decrease speed.
-#' @param repos URL to use if a package needs to be downloaded.
+#' @param repos choose the URL to install from.
 #'
 #' @export
 #'
 #' @examples
 #' usepkg(c('dplyr','lubridate'))
 #' usepkg('lubridate')
-usepkg <- function( packages, noCache = FALSE, repos = utils::getCRANmirrors()$URL[1] ){
+usepkg <- function( packages, noCache = FALSE, repos = 'http://cran.us.r-project.org' ){
   
   # Get installed packages.
   installed = rownames( utils::installed.packages() )

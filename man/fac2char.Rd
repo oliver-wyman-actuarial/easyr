@@ -7,10 +7,10 @@
 fac2char(x)
 }
 \arguments{
-\item{x}{Data frame (or tibble) to modify.}
+\item{x}{Data frame to modify.}
 }
 \value{
-Data frame (or tibble) with converted characters.
+Data frame with converted characters.
 }
 \description{
 Convert all factor columns in a data frame to characters.

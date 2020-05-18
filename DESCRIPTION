@@ -1,7 +1,7 @@
 Package: easyr
 Type: Package
 Title: Helpful Functions from Oliver Wyman Actuarial Consulting
-Version: 0.3-1
+Version: 0.4-0
 Authors@R: c(
         person( "Oliver Wyman", "Actuarial Consulting", email = "rajesh.sahasrabuddhe@oliverwyman.com", role = c("aut", "cph") ),
         person( "Bryce", "Chamberlain", email = "bryce.chamberlain@oliverwyman.com", role = c("aut", "cre") ),
@@ -20,22 +20,21 @@ BugReports: https://github.com/oliver-wyman-actuarial/easyr/issues
 Depends:
     R (>= 3.4.0)
 Imports:
-    Hmisc,
-    digest,
-    glue,
-    lubridate,
     data.table,
+    digest,
+    dplyr,
     foreign,
+    glue,
+    Hmisc,
+    lubridate,
+    stringr,
     openssl,
     pdftools,
     readxl,
     rlang,
-    XML,
-    qs,
-    stringr,
-    tibble,
-    dplyr
-RoxygenNote: 7.1.0
+    rprojroot,
+    XML
+RoxygenNote: 6.1.1
 Suggests: 
     testthat,
     rstudioapi,

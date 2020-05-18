@@ -4,40 +4,17 @@
 \alias{read.any}
 \title{Read Any File}
 \usage{
-read.any(
-  filename = NA,
-  folder = NA,
-  sheet = 1,
-  file_type = "",
-  first_column_name = NA,
-  header = TRUE,
-  headers_on_row = NA,
-  nrows = -1L,
-  row.names.column = NA,
-  row.names.remove = TRUE,
-  make.names = FALSE,
-  field_name_map = NA,
-  require_columns = NA,
-  all_chars = FALSE,
-  auto_convert_dates = TRUE,
-  allow_times = FALSE,
-  check_numbers = TRUE,
-  nazero = FALSE,
-  check_logical = TRUE,
-  stringsAsFactors = FALSE,
-  na_strings = easyr::nastrings,
-  na_level = "(Missing)",
-  ignore_rows_with_na_at = NA,
-  drop.na.cols = TRUE,
-  drop.na.rows = TRUE,
-  fix.dup.column.names = TRUE,
-  do.trim.sheetname = TRUE,
-  x = NULL,
-  isexcel = FALSE,
-  as.tibble = TRUE,
-  encoding = "unknown",
-  verbose = TRUE
-)
+read.any(filename = NA, folder = NA, sheet = 1, file_type = "",
+  first_column_name = NA, header = TRUE, headers_on_row = NA,
+  nrows = -1L, row.names.column = NA, row.names.remove = TRUE,
+  make.names = FALSE, field_name_map = NA, require_columns = NA,
+  all_chars = FALSE, auto_convert_dates = TRUE, allow_times = FALSE,
+  check_numbers = TRUE, nazero = FALSE, check_logical = TRUE,
+  stringsAsFactors = FALSE, na_strings = easyr::nastrings,
+  na_level = "(Missing)", ignore_rows_with_na_at = NA,
+  drop.na.cols = TRUE, drop.na.rows = TRUE,
+  fix.dup.column.names = TRUE, do.trim.sheetname = TRUE, x = NULL,
+  isexcel = FALSE, encoding = "unknown", verbose = TRUE)
 }
 \arguments{
 \item{filename}{File path and name for the file to be read in.}
@@ -94,18 +71,16 @@ read.any(
 
 \item{do.trim.sheetname}{read.any will trim sheet names to get better matches. This will cause an error if the actual sheet name has spaces on the left or right side. Disable this functionality here.}
 
-\item{x}{If you want to use read.any functionality on an existing data frame or tibble, pass it with this argument.}
+\item{x}{If you want to use read.any functionality on an existing data frame, pass it with this argument.}
 
-\item{isexcel}{If you want to use read.any functionality on an existing data frame or tibble, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.}
-
-\item{as.tibble}{Return as a dplyr tibble instead of data frame.}
+\item{isexcel}{If you want to use read.any functionality on an existing data frame, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.}
 
 \item{encoding}{Encoding passed to fread and read.csv.}
 
 \item{verbose}{Print helpful information via cat.}
 }
 \value{
-Data frame or tibble with the data that was read.
+Data frame with the data that was read.
 }
 \description{
 Flexible read function to handle many types of files. Currently handles CSV, TSV, DBF, RDS, XLS (incl. when formatted as HTML), and XLSX.

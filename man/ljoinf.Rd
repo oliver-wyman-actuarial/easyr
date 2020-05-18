@@ -4,36 +4,27 @@
 \alias{ljoinf}
 \title{Left Join with Factors}
 \usage{
-ljoinf(
-  data.left,
-  data.right,
-  by,
-  sort.levels = TRUE,
-  restrict.levels = FALSE,
-  na_level = "(Missing)",
-  ...
-)
+ljoinf(data.left, data.right, by, sort.levels = TRUE,
+  restrict.levels = FALSE, na_level = "(Missing)")
 }
 \arguments{
 \item{data.left}{Left data. All of this data will be preservered in the join (may still result in duplication).}
 
 \item{data.right}{Right data. Only rows that matche the join will be included (may also result in duplication).}
 
-\item{by}{Columns to join on. Passed to dplyr join.}
+\item{by}{Columns to join on.}
 
 \item{sort.levels}{Sort the factor levels after combining them.}
 
 \item{restrict.levels}{Often the joined data won't use all the levels in both datasets. Set to TRUE to remove factor levels that aren't in the joined data.}
 
-\item{na_level}{dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.}
-
-\item{...}{Other arguments passed to left_join.}
+\item{na_level}{some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.}
 }
 \value{
 Joined data, with any factors modified to contain all levels in the joined data.
 }
 \description{
-dplyr's left_join doesn't work well when the data frame has factors. This function handles factors before applying left_join.
+Matches factor levels before left join via merge.
 Author: Bryce Chamberlain.
 }
 \examples{

@@ -1,13 +1,11 @@
 
 #' Bind Rows with Factors
 #' 
-#' dplyr's bind_rows doesn't work well when the data frame has factors. This function handles factors before applying bind rows.
+#' Matches factor levels before binding rows.
 #' Author: Bryce Chamberlain.
 #'
-#' @param data.top Data to be binded in the top rows.
-#' @param data.bottom Data to be binded in the bottom rows.
+#' @param ... data to be binded
 #' @param sort.levels Sort the factor levels after combining them.
-#' @param ... Other arguments passed to bind_rows.
 #'
 #' @return  Binded data, with any factors modified to contain all levels in the binded data.
 #' @export
@@ -34,32 +32,38 @@
 #' # factor-friendly functions default to ordered levels.
 #' str( df1 )
 #' str( bindf( df1, df2 ) )
-bindf <- function ( data.top, data.bottom, sort.levels = TRUE, ... ){
+bindf <- function ( ..., sort.levels = TRUE){
+
+  dt = list(...)
+  dt = dt[which(!sapply(dt, is.null))]
+  if(length(dt) == 1) return(dt[[1]])
   
-  if( is.null( data.top ) ) return( data.bottom )
-  if( is.null( data.bottom ) ) return( data.top )
-  
-  # Expand/match factors.
-  imatch.factors = match.factors( df1 = data.top, df2 = data.bottom, sort.levels = sort.levels )
+  inclass = sapply(dt, function(x) class(x)[1])
+
+  # bind each dataset after matching factors.
+  idt = dt[[1]]
+  for(i in 2:length(dt)){
+    imatch.factors = match.factors( df1 = idt, df2 = dt[[i]], sort.levels = sort.levels )
+    idt = data.table::rbindlist( list( imatch.factors[[1]], imatch.factors[[2]] ), fill = TRUE )
+  }
   
   # Now we are ready to proceed with bind_rows.
-  return( dplyr::bind_rows( imatch.factors[[1]], imatch.factors[[2]], ... ) )
+  return( settabletype(x = idt, inclass = inclass) )
   
 }
 
 
 #' Left Join with Factors
 #' 
-#' dplyr's left_join doesn't work well when the data frame has factors. This function handles factors before applying left_join.
+#' Matches factor levels before left join via merge.
 #' Author: Bryce Chamberlain.
 #'
 #' @param data.left Left data. All of this data will be preservered in the join (may still result in duplication).
 #' @param data.right Right data. Only rows that matche the join will be included (may also result in duplication).
-#' @param by Columns to join on. Passed to dplyr join.
+#' @param by Columns to join on. 
 #' @param sort.levels Sort the factor levels after combining them.
 #' @param restrict.levels Often the joined data won't use all the levels in both datasets. Set to TRUE to remove factor levels that aren't in the joined data.
-#' @param na_level dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
-#' @param ... Other arguments passed to left_join.
+#' @param na_level some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
 #'
 #' @return  Joined data, with any factors modified to contain all levels in the joined data.
 #' @export
@@ -84,70 +88,13 @@ bindf <- function ( data.top, data.bottom, sort.levels = TRUE, ... ){
 #' 
 #' ljoinf( df1, df2, by = 'factor.join' )
 #' 
-ljoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)', ... ){
+ljoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)' ){
   
   # Expand/match factors.
   imatch.factors = match.factors( df1 = data.left, df2 = data.right, by = by, sort.levels = sort.levels )
   
   # Now we are ready to proceed with left_join
-  ijoin = dplyr::left_join( imatch.factors[[1]], imatch.factors[[2]], by = by, ... )
-  
-  # If requested, limit the factors to only those in the joined data.
-  if( restrict.levels ) for( icol in c( names(by), by ) ) if( icol %in% colnames( ijoin ) ){
-    ijoin[[ icol ]] <- droplevels( ijoin[[ icol ]] )
-  }
-
-  # Replace NA factors.
-  ijoin = factorna( x = ijoin, na_level = na_level )
-  
-  return(ijoin)
-  
-}
-
-
-#' Right Join with Factors
-#' 
-#' dplyr's right_join doesn't work well when the data frame has factors. This function handles factors before applying the join.
-#' Author: Bryce Chamberlain.
-#'
-#' @param data.left Left data. Only rows that matche the join will be included (may still result in duplication).
-#' @param data.right Right data. All of this data will be preservered in the join (may also result in duplication).
-#' @param by Columns to join on. Passed to dplyr join.
-#' @param sort.levels Sort the factor levels after combining them.
-#' @param restrict.levels Often the joined data won't use all the levels in both datasets. Set to TRUE to remove factor levels that aren't in the joined data.
-#' @param na_level dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
-#' @param ... Other arguments passed to right_join.
-#'
-#' @return  Joined data, with any factors modified to contain all levels in the joined data.
-#' @export
-#'
-#' @examples
-#' 
-#' df1 = data.frame(
-#'   factor1 = c( 'a', 'b', 'c' ),
-#'   factor2 = c( 'high', 'medium', 'low' ),
-#'   factor.join = c( '0349038u093843', '304359867893753', '3409783509735' ),
-#'   numeric = c( 1, 2, 3 ),
-#'   logical = c( TRUE, TRUE, TRUE )
-#' )
-#' 
-#' df2 = data.frame(
-#'   factor1 = c( 'd', 'e', 'f' ),
-#'   factor2 = c( 'low', 'medium', 'high' ),
-#'   factor.join = c( '32532532536', '304359867893753', '32534745876' ),
-#'   numeric = c( 4, 5, 6 ),
-#'   logical = c( FALSE, FALSE, FALSE )
-#' )
-#' 
-#' rjoinf( df1, df2, by = 'factor.join' )
-#' 
-rjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)', ... ){
-  
-  # Expand/match factors.
-  imatch.factors = match.factors( df1 = data.left, df2 = data.right, by = by, sort.levels = sort.levels )
-  
-  # Now we are ready to proceed with right_join
-  ijoin = dplyr::right_join( imatch.factors[[1]], imatch.factors[[2]], by = by, ... )
+  ijoin = emerge( x = imatch.factors[[1]], y = imatch.factors[[2]], by = by, type = 'left' )
   
   # If requested, limit the factors to only those in the joined data.
   if( restrict.levels ) for( icol in c( names(by), by ) ) if( icol %in% colnames( ijoin ) ){
@@ -164,16 +111,15 @@ rjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.lev
 
 #' Full Join with Factors
 #' 
-#' dplyr's join doesn't work well when the data frame has factors. This function handles factors before applying the join.
+#' Matches factor levels before full join via merge.
 #' Author: Bryce Chamberlain.
 #'
 #' @param data.left Left data. Only rows that matche the join will be included (may still result in duplication).
 #' @param data.right Right data. All of this data will be preservered in the join (may also result in duplication).
-#' @param by Columns to join on. Passed to dplyr join.
+#' @param by Columns to join on.
 #' @param sort.levels Sort the factor levels after combining them.
 #' @param restrict.levels Often the joined data won't use all the levels in both datasets. Set to TRUE to remove factor levels that aren't in the joined data.
-#' @param na_level dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
-#' @param ... Other arguments passed to full_join.
+#' @param na_level some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
 #'
 #' @return  Joined data, with any factors modified to contain all levels in the joined data.
 #' @export
@@ -198,13 +144,13 @@ rjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.lev
 #' 
 #' fjoinf( df1, df2, by = 'factor.join' )
 #' 
-fjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)', ... ){
+fjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)' ){
   
   # Expand/match factors.
   imatch.factors = match.factors( df1 = data.left, df2 = data.right, by = by, sort.levels = sort.levels )
   
   # Now we are ready to proceed with right_join
-  ijoin = dplyr::full_join( imatch.factors[[1]], imatch.factors[[2]], by = by, ... )
+  ijoin = emerge( x = imatch.factors[[1]], y = imatch.factors[[2]], by = by, type = 'full' )
   
   # If requested, limit the factors to only those in the joined data.
   if( restrict.levels ) for( icol in c( names(by), by ) ) if( icol %in% colnames( ijoin ) ){
@@ -221,15 +167,15 @@ fjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.lev
 
 #' Inner Join with Factors
 #' 
-#' dplyr's inner_join doesn't work well when the data frame has factors. This function handles factors before applying the join.
+#' Matches factor levels before inner join via merge.
 #' Author: Bryce Chamberlain.
 #'
 #' @param data.left Left data. Only rows that matche the join will be included (may still result in duplication).
 #' @param data.right Right data. Only rows that matche the join will be included (may also result in duplication).
-#' @param by Columns to join on. Passed to dplyr join.
+#' @param by Columns to join on.
 #' @param sort.levels Sort the factor levels after combining them.
 #' @param restrict.levels Often the joined data won't use all the levels in both datasets. Set to TRUE to remove factor levels that aren't in the joined data.
-#' @param ... Other arguments passed to inner_join.
+#' @param na_level some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
 #'
 #' @return  Joined data, with any factors modified to contain all levels in the joined data.
 #' @export
@@ -254,13 +200,13 @@ fjoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.lev
 #' 
 #' ljoinf( df1, df2, by = 'factor.join' )
 #' 
-ijoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, ... ){
+ijoinf <- function ( data.left, data.right, by, sort.levels = TRUE, restrict.levels = FALSE, na_level = '(Missing)' ){
   
   # Expand/match factors.
   imatch.factors = match.factors( df1 = data.left, df2 = data.right, by = by, sort.levels = sort.levels )
   
   # Now we are ready to proceed with inner_join
-  ijoin = dplyr::inner_join( imatch.factors[[1]], imatch.factors[[2]], by = by, ... )
+  ijoin = emerge( x = imatch.factors[[1]], y = imatch.factors[[2]], by = by, type = 'inner' )
   
   # If requested, limit the factors to only those in the joined data.
   if( restrict.levels ) for( icol in c( names(by), by ) ) if( icol %in% colnames( ijoin ) ){

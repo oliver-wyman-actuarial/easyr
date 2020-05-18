@@ -7,7 +7,7 @@
 isval(x, na_strings = easyr::nastrings, do.test.each = FALSE)
 }
 \arguments{
-\item{x}{Object to check. In the case of a tibble or vector, it will check the first (non-NULL) value.}
+\item{x}{Object to check. In the case of a data frame or vector, it will check the first (non-NULL) value.}
 
 \item{na_strings}{(Optional) Set the strings you want to consider NA. These will be applied after stringr::str_trim on x.}
 

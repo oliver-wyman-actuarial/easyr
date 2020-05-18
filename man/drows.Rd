@@ -21,6 +21,6 @@ Pulls all rows with duplicates in a column, not just the duplicate row.
 Author: Bryce Chamberlain.
 }
 \examples{
-ddt = dplyr::bind_rows( cars, utils::head( cars, 10 ) )
+ddt = bindf( cars, utils::head( cars, 10 ) )
 drows( ddt, 'speed' )
 }

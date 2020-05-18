@@ -8,7 +8,7 @@
 #' @param cols.colname Name to use for the column of column names in the transposed data.
 #' @param do.atype Transpose convertes to strings, since data types are uncertain. Run atype to automatically correct variable typing where possible. This will slow the result a bit.
 #'
-#' @return Transposed tibble.
+#' @return Transposed data frame.
 #' @export
 #'
 #' @examples
@@ -51,7 +51,6 @@ tcol <- function( x, header, cols.colname = 'col', do.atype = TRUE ){
   
   if( do.atype ) x = atype(x)
   
-  return( dplyr::as_tibble( x ) )
-  
+  return( x )  
    
 }

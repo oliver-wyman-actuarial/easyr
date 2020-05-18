@@ -3,11 +3,11 @@
 #' Convert all character columns in a data frame to factors.
 #' Author: Bryce Chamberlain.
 #'
-#' @param x Data frame (or tibble) to modify.
+#' @param x Data frame to modify.
 #' @param sortlevels Choose whether to sort levels. This is the default R behavior and is therefore likely faster, but it may change the order of the data and this can be problematic so the default is FALSE.
-#' @param na_level dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
+#' @param na_level some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.
 #'
-#' @return Data frame (or tibble) with converted factors.
+#' @return Data frame with converted factors.
 #'
 #' @export
 #'
@@ -45,8 +45,8 @@ char2fac = function( x, sortlevels = FALSE, na_level = '(Missing)' ){
 #' Convert all factor columns in a data frame to characters.
 #' Author: Bryce Chamberlain.
 #'
-#' @param x Data frame (or tibble) to modify.
-#' @return Data frame (or tibble) with converted characters.
+#' @param x Data frame to modify.
+#' @return Data frame with converted characters.
 #'
 #' @export
 #'

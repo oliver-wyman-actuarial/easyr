@@ -86,7 +86,7 @@ atype = function(
         if( is.logical( test.conversion ) ){
           
           uvals$final = test.conversion
-          x[[i]] <- ( dplyr:: inner_join( valmap, uvals, by = 'mod' ) )[['final']]
+          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
 
           rm(test.conversion, valmap, uvals)
 
@@ -102,12 +102,11 @@ atype = function(
       if( auto_convert_dates ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
-
         test.conversion = todate( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
         if( class( test.conversion )[1] %in% c( 'Date', 'POSIXct', 'POSIXt' ) ){
           
           uvals$final = test.conversion
-          x[[i]] <- ( dplyr:: inner_join( valmap, uvals, by = 'mod' ) )[['final']]
+          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
 
           rm(test.conversion, valmap, uvals)
 
@@ -128,7 +127,7 @@ atype = function(
         if( is.numeric( test.conversion ) ){
           
           uvals$final = test.conversion
-          x[[i]] <- ( dplyr:: inner_join( valmap, uvals, by = 'mod' ) )[['final']]
+          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
 
           rm(test.conversion, valmap, uvals)
 

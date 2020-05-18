@@ -1,1 +1,3 @@
+0.2-0 2020-05-16 removed reliance on dplyr except for sumnum() which is an extension of dplyr.
+
 0.1-0 2019-10-07 easyr is released on GitHub!

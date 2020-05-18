@@ -4,14 +4,15 @@
 \alias{usepkg}
 \title{Use Package}
 \usage{
-usepkg(packages, noCache = FALSE, repos = utils::getCRANmirrors()$URL[1])
+usepkg(packages, noCache = FALSE,
+  repos = "http://cran.us.r-project.org")
 }
 \arguments{
 \item{packages}{Character or character vector with names of the packages you want to use.}
 
 \item{noCache}{When checking packages, you can choose to ignore the cached list, which will increase accuracy but decrease speed.}
 
-\item{repos}{URL to use if a package needs to be downloaded.}
+\item{repos}{choose the URL to install from.}
 }
 \description{
 Installs a package if it needs to be installed, and calls require to load the package.

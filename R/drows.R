@@ -12,7 +12,7 @@
 #' @export
 #' 
 #' @examples 
-#' ddt = dplyr::bind_rows( cars, utils::head( cars, 10 ) )
+#' ddt = bindf( cars, utils::head( cars, 10 ) )
 #' drows( ddt, 'speed' )
 drows <- function( x, c, na = FALSE ) {
   

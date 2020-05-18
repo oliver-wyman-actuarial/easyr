@@ -65,3 +65,34 @@ factorna = function( x, na_level ){
   return(x)
 
 }
+
+edistinct = function(x) x[!duplicated(x), ]
+emerge = function(x, y, by, type = c('inner', 'full', 'left')){
+  
+  type = match.arg(type)
+  if(is.null(names(by))) names(by) = by
+
+  # merge likes to change the order of things so let's add a sort column.
+  x$xrow = 1:nrow(x)
+  y$yrow = 1:nrow(y)
+
+  # perform the merge.
+  x = merge(x = x, y = y, by.x = names(by), by.y = by, all.x = type %in% c('left', 'full'), all.y = type %in% c('full'))
+
+  # return with correct order.
+  return(x[order(x$xrow, x$yrow), ])
+  
+}
+
+# determine and set table type.
+settabletype = function(x, inclass){
+
+  if( any( inclass == class(data.table::data.table())[1] ) ) return( data.table::as.data.table(x) )
+  if( any( inclass == class(dplyr::tibble())[1] ) ) return( dplyr::as_tibble(x) )
+
+  # preserve data format with stringsAsFactors = FALSE
+  if( any( inclass == class(data.frame())[1] ) ) return(as.data.frame(x, stringsAsFactors = FALSE)) 
+
+  return(x)
+  
+}

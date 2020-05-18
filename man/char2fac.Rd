@@ -7,14 +7,14 @@
 char2fac(x, sortlevels = FALSE, na_level = "(Missing)")
 }
 \arguments{
-\item{x}{Data frame (or tibble) to modify.}
+\item{x}{Data frame to modify.}
 
 \item{sortlevels}{Choose whether to sort levels. This is the default R behavior and is therefore likely faster, but it may change the order of the data and this can be problematic so the default is FALSE.}
 
-\item{na_level}{dplyr doesn't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.}
+\item{na_level}{some functions don't like factors to have NAs so we replace NAs with this value for factors only. Set NULL to skip.}
 }
 \value{
-Data frame (or tibble) with converted factors.
+Data frame with converted factors.
 }
 \description{
 Convert all character columns in a data frame to factors.

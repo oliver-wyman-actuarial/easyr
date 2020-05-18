@@ -4,7 +4,8 @@
 \alias{begin}
 \title{Begin}
 \usage{
-begin(wd = NULL, load = c("magrittr", "dplyr"), scipen = FALSE, verbose = TRUE)
+begin(wd = NULL, load = c("magrittr", "dplyr"), scipen = FALSE,
+  verbose = TRUE, repos = "http://cran.us.r-project.org")
 }
 \arguments{
 \item{wd}{Path to set as working directory. If blank, the location of the current file open in RStudio will be used if available. If FALSE, the working directory will not be changed.}
@@ -14,6 +15,8 @@ begin(wd = NULL, load = c("magrittr", "dplyr"), scipen = FALSE, verbose = TRUE)
 \item{scipen}{Do scientific notation in output?}
 
 \item{verbose}{Print information about what the function is doing?}
+
+\item{repos}{choose the URL to install from.}
 }
 \description{
 Perform common operations before running a script. Includes clearing environment variables, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.

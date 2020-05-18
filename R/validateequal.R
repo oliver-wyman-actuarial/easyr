@@ -2,8 +2,8 @@
 #' 
 #' Check various properties of 2 data frames to ensure they are equivalent.
 #'
-#' @param df1 First data frame or tibble to compare.
-#' @param df2 Second data frame or tibble to compare.
+#' @param df1 First data frame  to compare.
+#' @param df2 Second data frame to compare.
 #' @param id.column If available, a column to use as an ID. Helpful in various checks and output.
 #' @param regex.remove Pattern to remove from strings. Used in gsub to remove characters we don't want to consider when comparing values. Set to NULL, NA, or "" to leave strings unchanged.
 #' @param do.set.NA Remove NA strings.
@@ -100,10 +100,11 @@ validate.equal = function(
   
   # check column types
   
-    col.types = tibble::tibble(
+    col.types = data.frame(
       column = colnames(df1),
       df1.class = sapply( colnames(df1), function(i) as.character( class( df1[[i]] )[1] ) ),
-      df2.class = sapply( colnames(df1), function(i) as.character( class( df2[[i]] )[1] ) )
+      df2.class = sapply( colnames(df1), function(i) as.character( class( df2[[i]] )[1] ) ),
+      stringsAsFactors = FALSE
     )
 
     # for the sake of comparision we consider ordered factor == factor
@@ -151,8 +152,8 @@ validate.equal = function(
     
     # add row and then sort by id column for better matching.
     if( !null(id.column) && sort.by.id ){
-      df1 = dplyr::arrange( df1, df1[[id.column]] )
-      df2 = dplyr::arrange( df2, df2[[id.column]] )
+      df1 = df1[order(df1[[id.column]]), ]
+      df2 = df2[order(df2[[id.column]]), ]
     }
     
     # function to clean strings removing differenes we aren't concerned about.
@@ -216,12 +217,13 @@ validate.equal = function(
           next
         }
         
-        idt = tibble::tibble(
+        idt = data.frame(
           column = rep( i, length(mismatch) ),
           row1 = df1$row[ mismatch ],
           row2 = df2$row[ mismatch ],
-          df1 = as.character( df1vals[mismatch] ),
-          df2 = as.character(df2vals[mismatch])
+          df1 = as.character(df1vals[mismatch]),
+          df2 = as.character(df2vals[mismatch]),
+          stringsAsFactors = FALSE
         )
         
         if( is.numeric(df1[[i]]) ){
@@ -256,7 +258,7 @@ validate.equal = function(
         }
         
         if( do.all.columns.before.err ){
-          idts = dplyr::bind_rows( idts, idt )
+          idts = bindf( idts, idt )
         } else {
           warning( glue::glue( '[{mismatch.pct}%, {length(mismatch)} of {nrow(df1)}] values not equal at [{i}]. Returning first 10 (or less).' ) )
           return( utils::head( idt, 10 ) )
@@ -278,20 +280,16 @@ validate.equal = function(
       return(idts)
     } else {
 
-        # R CMD check --as-cran requires these to be in separate steps.
-        summ = dplyr::group_by_at( idts, 'column' )
-        summ = dplyr::summarize( 
-              summ,
-              max.abs.pct.diff = max( summ$abs.pct.diff ), 
-              mean.abs.pct.diff = mean( summ$abs.pct.diff ), 
-              num.rows = dplyr::n()
-            )
-        summ = dplyr::mutate( 
-            summ,
-            pct.rows = summ$num.rows / nrow(df1)
-        )
+        summ = data.table::as.data.table(idts)
+        summ = summ[, .(
+          max.abs.pct.diff = max( abs.pct.diff ),
+          mean.abs.pct.diff = mean( abs.pct.diff ),
+          num.rows = data.table::.N
+        ), by = column]
+
+        summ$pct.rows = summ$num.rows / nrow(df1)
       
-      return( list( rows = idts, summ = summ ) )
+      return( list( rows = idts, summ = as.data.frame(summ) ) )
     }
     
   }

@@ -63,8 +63,15 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
             for( isheet in sheets ){
             
             idt = tryCatch({
+
                 x = read.any( ifile, folder = folder, sheet = isheet, ... )
-                dplyr::mutate( dict(x), rows = nrow(x), cols = ncol(x) )
+
+                d = dict(x)
+                d$rows = nrow(x)
+                d$cols = ncol(x)
+
+                return(d)
+                
             }, error = function(e) data.frame( err = as.character(e) )
             )
             
@@ -81,8 +88,15 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
         } else {
             
             idt = tryCatch({
+
                 x = read.any( ifile, folder = folder, ... )
-                dplyr::mutate( dict(x), rows = nrow(x), cols = ncol(x) )
+
+                d = dict(x)
+                d$rows = nrow(x)
+                d$cols = ncol(x)
+
+                return(d)
+
             }, error = function(e) data.frame( err = as.character(e) )
             )
             
@@ -107,7 +121,7 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
     )) ]
 
     return(list(
-        sheets = dplyr::distinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
+        sheets = edistinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
         columns = dl
     ))
 

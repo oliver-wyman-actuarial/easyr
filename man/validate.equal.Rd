@@ -22,9 +22,9 @@ validate.equal(
 )
 }
 \arguments{
-\item{df1}{First data frame or tibble to compare.}
+\item{df1}{First data frame  to compare.}
 
-\item{df2}{Second data frame or tibble to compare.}
+\item{df2}{Second data frame to compare.}
 
 \item{id.column}{If available, a column to use as an ID. Helpful in various checks and output.}
 

@@ -5,7 +5,7 @@
 #'
 #' @param x Main dataset which will have new values. This data set will be returned with new values.
 #' @param y Supporting dataset which has the id and new values.
-#' @param by Vector of join column names. A character vector if the names match. A named character vector if they don't. Passed to dplyr::inner_join.
+#' @param by Vector of join column names. A character vector if the names match. A named character vector if they don't.
 #' @param replace.cols Vector of replacement column names, similar format as by.
 #' @param na.only Only replace values that are NA.
 #' @param only.rows Select rows to be affected. Default checks all rows.

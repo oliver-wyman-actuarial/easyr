@@ -4,22 +4,18 @@
 \alias{bindf}
 \title{Bind Rows with Factors}
 \usage{
-bindf(data.top, data.bottom, sort.levels = TRUE, ...)
+bindf(..., sort.levels = TRUE)
 }
 \arguments{
-\item{data.top}{Data to be binded in the top rows.}
-
-\item{data.bottom}{Data to be binded in the bottom rows.}
+\item{...}{data to be binded}
 
 \item{sort.levels}{Sort the factor levels after combining them.}
-
-\item{...}{Other arguments passed to bind_rows.}
 }
 \value{
 Binded data, with any factors modified to contain all levels in the binded data.
 }
 \description{
-dplyr's bind_rows doesn't work well when the data frame has factors. This function handles factors before applying bind rows.
+Matches factor levels before binding rows.
 Author: Bryce Chamberlain.
 }
 \examples{
