@@ -27,6 +27,7 @@ Imports:
     data.table,
     foreign,
     openssl,
+    pdftools,
     readxl,
     rlang,
     XML,

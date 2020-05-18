@@ -171,6 +171,13 @@ read.any <- function(
     if( file_type == 'tsv' || grepl( '[.]tsv$', filename, ignore.case = TRUE) ) x <- data.table::fread( 
       file = filename, sep = '\t', stringsAsFactors = FALSE, nrows = nrows, header = FALSE, encoding = encoding
     )
+
+    if( file_type == 'pdf' || grepl( '[.]pdf$', filename, ignore.case = TRUE ) ){
+      x <- data.frame(line=gsub('\r', '', unlist(strsplit(pdftools::pdf_text(filename), split = "\n"))), stringsAsFactors=FALSE)
+      # for now, we'll assume this data is unstructured and not try to find column headers.
+      header = FALSE
+      headers_on_row = NA
+    }
     
     # For excel, use our custom rx function (in this file, see below). rx is not exported to prevent it's being used instead of read.any.
     isexcel = grepl( '[.]xls[xm]?$', filename, ignore.case = TRUE )
