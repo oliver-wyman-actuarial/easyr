@@ -169,7 +169,7 @@ Help with reading and manipulating data.
 | namesx | Get column names that match a pattern.|
 | ijoinf | dplyr's joins doesn't work well when the data frame has factors. This function handles factors before applying inner join via match. Also availalbe are ljoinf, rjoinf for left and right join.|
 | jrepl | Join and replace. Joins to another dataset and replaces matched values on a given column. Good for quickly grabbing values from another dataset to fill in or replace.|
-|read.any|Flexible read function to handle many types of files, data types, etc. Reduces downstream errors from read issues. Currently handles CSV, TSV, DBF, RDS, XLS (incl. when formatted as HTML), and XLSX. |
+|read.any|Flexible read function to handle many types of files, data types, etc. Reduces downstream errors from read issues. Currently handles CSV, TSV, DBF, RDS, XLS (incl. when formatted as HTML), XLSX, and PDF. |
 | sch | Search a data frame or vector. Attempts to replicate Excel search but with regex. |
 | short_dollars|	Converts numeric plot axis dollars and attaches K and divides by 1000.|
 | short_nums| Shortens axis numbering to thousands or millions and adds.|
