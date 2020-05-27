@@ -74,12 +74,12 @@ emerge = function(x, y, by, type = c('inner', 'full', 'left')){
 
   # merge likes to change the order of things so let's add a sort column.
   if('xrow' %ni% names(x)){
-  x$xrow = 1:nrow(x)
+    x$xrow = 1:nrow(x)
   } else {
     warning('easyr: xrow found in data. output will be sorted by this column.')
   }
   if('yrow' %ni% names(y)){
-  y$yrow = 1:nrow(y)
+    y$yrow = 1:nrow(y)
   } else {
     warning('easyr: yrow found in data. output will be sorted by this column.')
   }
@@ -107,4 +107,16 @@ settabletype = function(x, inclass){
 
   return(x)
   
+}
+
+validatecolnames = function(x, checknames){
+  
+  validnames = if(is.numeric(checknames)){ 1:ncol(x) } else { names(x) }
+  badnames = setdiff(checknames, validnames)
+
+  if(length(badnames)>0) stop(glue::glue('
+    easyr: Column names are invalid: [{cc(badnames, sep=", ")}].
+    These names are available: [{cc(setdiff(names(x), checknames), sep=", ")}].
+  '))
+
 }
