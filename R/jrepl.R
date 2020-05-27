@@ -61,18 +61,20 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
   for( i in 1:length(replace.cols) ) if( replace.cols[[i]] %ni% colnames(x) ){
     
       x[[ replace.cols[[i]] ]] <- NA
-    
-      if( class( y[[ y.replace[[i]] ]] ) == 'factor' ){
+      yclass = class( y[[ y.replace[[i]] ]] )
       
+      # some class conversions require the "as" function:
+      if( yclass == 'factor' ){
         x[[ replace.cols[[i]] ]] = factor(x[[ replace.cols[[i]] ]])
       
+      } else if( yclass == 'Date' ){
+        x[[ replace.cols[[i]] ]] = as.Date(x[[ replace.cols[[i]] ]])
+        
+      # others should allow this more-flexibile approach:
       } else {
+        class( x[[ replace.cols[[i]] ]] ) = yclass
       
-        class( x[[ replace.cols[[i]] ]] ) <- class( y[[ y.replace[[i]] ]] )
-      
-      }
-    
-    }
+  }}
 
   # Save info about the original columns.
   
