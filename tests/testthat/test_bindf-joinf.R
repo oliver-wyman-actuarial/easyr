@@ -30,6 +30,19 @@ test_that( "works as expected", {
     expect_equal( levels( bind1$factor2 )[ bind1$factor2], c( 'high', 'medium', 'low', 'low', 'medium', 'high' ) )
     expect_equal( levels( bind1$factor1 )[ bind1$factor1], c( 'a', 'b', 'c', 'd', 'e', 'f' ) )
     
+  # bind list 
+
+    bind1 = bindf( list(df1, df2) )
+    expect_equal( levels( bind1$factor1 ), c( 'a', 'b', 'c', 'd', 'e', 'f' ) )
+    expect_equal( levels( bind1$factor2 ), c( 'high', 'low', 'medium' ) )
+    expect_equal( levels( bind1$factor2 )[ bind1$factor2], c( 'high', 'medium', 'low', 'low', 'medium', 'high' ) )
+    expect_equal( levels( bind1$factor1 )[ bind1$factor1], c( 'a', 'b', 'c', 'd', 'e', 'f' ) )
+    
+  # bind with NULL
+
+    bind1 = bindf( df1, NULL )
+    expect_equal( bind1, df1 )
+    
   # Left join
     
     ljoin1 = ljoinf( df1, df2, by = 'factor.join', sort.levels = FALSE )

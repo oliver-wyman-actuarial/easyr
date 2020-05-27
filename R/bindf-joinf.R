@@ -35,7 +35,14 @@
 bindf <- function ( ..., sort.levels = TRUE){
 
   dt = list(...)
+
+  # drop null arguments passed.
   dt = dt[which(!sapply(dt, is.null))]
+
+  # if a single list was passed, extract it so the contents will be bound.
+  if( class(dt[[1]])[1] == 'list' && length(dt) == 1 ) dt = dt[[1]]
+
+  # no need to bind if we only have one entry.
   if(length(dt) == 1) return(dt[[1]])
   
   inclass = sapply(dt, function(x) class(x)[1])
