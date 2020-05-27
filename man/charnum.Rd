@@ -4,7 +4,8 @@
 \alias{charnum}
 \title{Check for Number Formatted as Character.}
 \usage{
-charnum(x, na_strings = easyr::nastrings, run_unique = TRUE, check_date = TRUE)
+charnum(x, na_strings = easyr::nastrings, run_unique = TRUE,
+  check_date = TRUE)
 }
 \arguments{
 \item{x}{Vector to check.}

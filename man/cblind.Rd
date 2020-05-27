@@ -4,9 +4,7 @@
 \name{cblind}
 \alias{cblind}
 \title{cblind}
-\format{
-Named vector of hex colors.
-}
+\format{Named vector of hex colors.}
 \usage{
 cblind
 }

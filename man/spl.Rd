@@ -4,7 +4,7 @@
 \alias{spl}
 \title{Sample}
 \usage{
-spl(x, n = 10, warn = TRUE, replace = FALSE, ...)
+spl(x, n = 10, warn = TRUE, replace = FALSE, prob = NULL, ...)
 }
 \arguments{
 \item{x}{Data to sample from.}

@@ -4,9 +4,7 @@
 \name{nastrings}
 \alias{nastrings}
 \title{NA Strings}
-\format{
-A vector of values.
-}
+\format{A vector of values.}
 \usage{
 nastrings
 }

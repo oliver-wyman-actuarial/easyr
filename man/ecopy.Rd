@@ -4,7 +4,8 @@
 \alias{ecopy}
 \title{Copy to Clipboard}
 \usage{
-ecopy(x, showrowcolnames = c("cols", "rows", "both", "none"), show = FALSE)
+ecopy(x, showrowcolnames = c("cols", "rows", "both", "none"),
+  show = FALSE)
 }
 \arguments{
 \item{x}{Object you'd like to copy to the clipboard.}

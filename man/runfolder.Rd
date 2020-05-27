@@ -4,16 +4,9 @@
 \alias{runfolder}
 \title{Run Folder}
 \usage{
-runfolder(
-  path,
-  recursive = FALSE,
-  is.local = TRUE,
-  check.fn = NULL,
-  run.files = NULL,
-  verbose = TRUE,
-  edit.on.err = TRUE,
-  pattern = "[.][Rr]$"
-)
+runfolder(path, recursive = FALSE, is.local = TRUE, check.fn = NULL,
+  run.files = NULL, verbose = TRUE, edit.on.err = TRUE,
+  pattern = "[.][Rr]$")
 }
 \arguments{
 \item{path}{Folder to run.}

@@ -4,12 +4,8 @@
 \alias{headers_row}
 \title{Identify headers row.}
 \usage{
-headers_row(
-  x,
-  headers_on_row = NA,
-  first_column_name = NA,
-  field_name_map = NA
-)
+headers_row(x, headers_on_row = NA, first_column_name = NA,
+  field_name_map = NA)
 }
 \arguments{
 \item{x}{Data frame to work with.}

@@ -4,18 +4,11 @@
 \alias{xldate}
 \title{Convert Excel Number to Date}
 \usage{
-xldate(
-  x,
-  origin = "1899-12-30",
-  nastrings = easyr::nastrings,
-  preprocessed.values = NULL,
-  ifna = c("return-unchanged", "error", "warning", "return-na"),
-  verbose = TRUE,
-  allow_times = FALSE,
-  do.month.char = TRUE,
-  min.acceptable = lubridate::ymd("1920-01-01"),
-  max.acceptable = lubridate::ymd("2050-01-01")
-)
+xldate(x, origin = "1899-12-30", nastrings = easyr::nastrings,
+  preprocessed.values = NULL, ifna = c("return-unchanged", "error",
+  "warning", "return-na"), verbose = TRUE, allow_times = FALSE,
+  do.month.char = TRUE, min.acceptable = lubridate::ymd("1920-01-01"),
+  max.acceptable = lubridate::ymd("2050-01-01"))
 }
 \arguments{
 \item{x}{Vector of values.}

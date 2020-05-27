@@ -4,7 +4,8 @@
 \alias{sch}
 \title{Search a Data Frame.}
 \usage{
-sch(x, pattern, ignore.case = FALSE, fixed = FALSE)
+sch(x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL,
+  exact = FALSE, trim = TRUE, spln = NULL)
 }
 \arguments{
 \item{x}{Data to search.}
@@ -14,6 +15,14 @@ sch(x, pattern, ignore.case = FALSE, fixed = FALSE)
 \item{ignore.case}{Ignore case in search (uses grepl).}
 
 \item{fixed}{Passed to grepl to match string as-is instead of using regex. See ?grepl.}
+
+\item{pluscols}{choose columns to return in addition to those where matches are found. Can be a name, number or 'all' to bring back all columns.}
+
+\item{exact}{Find exact matches intead of pattern matching.}
+
+\item{trim}{Use trimws to trim columns before exact matching.}
+
+\item{spln}{Sample data use easyr::spl() before searching. This will speed up searching in large datasets when you only need to identify columns, not all data that matches. See ?spl n argument for more info.}
 }
 \value{
 Matching rows.
@@ -23,5 +32,8 @@ Searches all columns for a term and returns all rows with at least one match.
 Author: Bryce Chamberlain.
 }
 \examples{
-sch( iris, 'setosa' )
+sch( iris, 'seto' )
+sch( iris, 'seto', pluscols='all' )
+sch( iris, 'seto', pluscols='Sepal.Width' )
+sch( iris, 'seto', exact = TRUE ) # message no matches and return NULL
 }

@@ -4,7 +4,8 @@
 \alias{hashfiles}
 \title{Hash Files}
 \usage{
-hashfiles(x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE)
+hashfiles(x, skip.missing = FALSE, full.hash = FALSE,
+  verbose = FALSE)
 }
 \arguments{
 \item{x}{Input which specifies which files to hash. This can be a vector mix of paths and files.}
