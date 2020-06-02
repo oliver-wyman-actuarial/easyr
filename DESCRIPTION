@@ -30,6 +30,7 @@ Imports:
     stringr,
     openssl,
     pdftools,
+    qs,
     readxl,
     rlang,
     rprojroot,
@@ -37,5 +38,4 @@ Imports:
 RoxygenNote: 6.1.1
 Suggests: 
     testthat,
-    rstudioapi,
-    rprojroot
+    rstudioapi

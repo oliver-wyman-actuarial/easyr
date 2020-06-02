@@ -20,7 +20,11 @@ devtools::install()
   rtests_expected = paste0('test_',rfiles)
   need_tests = rtests_expected[ ! rtests_expected %in% rtests ]
   
-  if( length(need_tests) > 0 ) warning( 'Not all R files have test files. Please create test files for [', paste(need_tests,collapse='], [' ), ']' )
+  if( length(need_tests) > 0 ) warning(
+    'Not all R files have test files. Please create test files for [', 
+    paste(need_tests,collapse = '], ['), 
+    ']'
+  )
 
 # Run examples and tests.
 
