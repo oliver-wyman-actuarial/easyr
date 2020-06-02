@@ -281,11 +281,11 @@ validate.equal = function(
     } else {
 
         summ = data.table::as.data.table(idts)
-        summ = summ[, .(
-          max.abs.pct.diff = max( abs.pct.diff ),
-          mean.abs.pct.diff = mean( abs.pct.diff ),
+        summ = summ[,
+          max.abs.pct.diff = max( summ$abs.pct.diff ),
+          mean.abs.pct.diff = mean( summ$abs.pct.diff ),
           num.rows = data.table::.N
-        ), by = column]
+        , by = summ$column]
 
         summ$pct.rows = summ$num.rows / nrow(df1)
       

@@ -47,3 +47,8 @@ devtools::install()
 
 # Optionally, build to compressed tar.gz.
 # devtools::build( vignettes = FALSE )
+
+# Optionally, run noLD check:
+# https://www.r-bloggers.com/a-nold-platform-on-r-hub-package-builder/
+# in R from the home directory, run:
+# rhub::check(platform = "debian-gcc-devel-nold") 

@@ -10,10 +10,7 @@ Passed CMD check on:
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs.
-
-There is 1 NOTE: "no visible global" on some elements used in data.tables. 
-The code runs fine, it seems the check doesn't understand data.tables syntax.
+There were no ERRORs or WARNINGs or NOTEs.
 
 ## Downstream dependencies
 
