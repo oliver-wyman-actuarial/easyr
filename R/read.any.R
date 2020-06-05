@@ -171,7 +171,12 @@ read.any <- function(
     )
 
     if( file_type == 'pdf' || grepl( '[.]pdf$', filename, ignore.case = TRUE ) ){
-      x <- data.frame(line=gsub('\r', '', unlist(strsplit(pdftools::pdf_text(filename), split = "\n"))), stringsAsFactors=FALSE)
+      if('pdftools' %in% installed.packages()){
+        x <- data.frame(line=gsub('\r', '', unlist(strsplit(pdftools::pdf_text(filename), split = "\n"))), stringsAsFactors=FALSE)
+      } else {
+        warning('pdftools has not been installed. Cannot read PDF files.')
+        return(NULL)
+      }
       # for now, we'll assume this data is unstructured and not try to find column headers.
       header = FALSE
       headers_on_row = NA

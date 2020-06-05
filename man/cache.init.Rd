@@ -5,7 +5,7 @@
 \title{Initialize cache.}
 \usage{
 cache.init(caches, at.path, verbose = TRUE, save.only = FALSE,
-  skip.missing = TRUE)
+  skip.missing = TRUE, n_processes = 2)
 }
 \arguments{
 \item{caches}{List of lists with properties name, depends.on. See example.}
@@ -17,6 +17,8 @@ cache.init(caches, at.path, verbose = TRUE, save.only = FALSE,
 \item{save.only}{Choose not to load the cache. Use this if you need to check cache validity in multiple spots but only want to load at the last check.}
 
 \item{skip.missing}{Passed to hashfiles, choose if an error occurs if a depends.on file isn't found.}
+
+\item{n_processes}{Passed to qs to determine how many cores/workers to use when reading/saving data.}
 }
 \description{
 Set cache info so easyr can manage the cache.

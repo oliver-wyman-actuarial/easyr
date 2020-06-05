@@ -8,6 +8,7 @@
 #' @param verbose Print via cat() information about cache operations.
 #' @param save.only Choose not to load the cache. Use this if you need to check cache validity in multiple spots but only want to load at the last check.
 #' @param skip.missing Passed to hashfiles, choose if an error occurs if a depends.on file isn't found.
+#' @param n_processes Passed to qs to determine how many cores/workers to use when reading/saving data.
 #'
 #' @export
 #'
@@ -29,7 +30,7 @@
 #'
 #' )
 #' 
-cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.missing = TRUE ){
+cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.missing = TRUE, n_processes = 2){
   
   validatecaches(caches)
 
@@ -53,6 +54,7 @@ cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.
 
   easyr.cache.info$verbose <<- verbose
   easyr.cache.info$save.only <<- save.only
+  easyr.cache.info$n_processes <<- n_processes
     
     # We need a directory if it doesn't already exist.
     if( !dir.exists(at.path) ) dir.create(at.path)
@@ -60,8 +62,8 @@ cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.
     # Add calculated paths.
     for( i in 1:length(cache.info) ){
         cache.info[[i]]$cache.num = i
-        cache.info[[i]]$path = cc(at.path, '/', i, '-', cache.info[[i]]$name)
-        cache.info[[i]]$status.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-status')
+        cache.info[[i]]$path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '.qs')
+        cache.info[[i]]$status.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-status.RDS')
         rm(i)
     }
 
@@ -69,8 +71,8 @@ cache.init = function( caches, at.path, verbose = TRUE, save.only = FALSE, skip.
     if( re.cache <- FALSE ){
         
         for( i in cache.info ) saveRDS( 
-        hashfiles( i$depends.on, skip.missing = TRUE ), 
-        file = i$status.path
+          hashfiles( i$depends.on, skip.missing = TRUE ), 
+          file = i$status.path
         )
         
     }
@@ -144,7 +146,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
     checked.already = easyr.cache.info$cache.num == cache.num
     easyr.cache.info$cache.num <<- cache.num
 
-    # check against the maximum valid cache. if it is less, don't load anything just return true.
+    # check against the maximum valid cache. if it is less, don't load anything just return true.    if(cache.num==2) browser()
     if( easyr.cache.info$max.cache > easyr.cache.info$cache.num && do.load && ! easyr.cache.info$save.only ){
         if( !checked.already && easyr.cache.info$verbose ) cat( '\t   >> skip cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
         return( TRUE )
@@ -207,27 +209,33 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #' 
 save.cache = function( ... ){
 
-    if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
-        
-    saveRDS(
-        hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE ),
-        file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path
-    )
-    
-    cache.at <<- lubridate::now()
-    cache.path <<- easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$path
-    
-    easyr.cache.info$max.cache.loaded <<- easyr.cache.info$cache.num
-    if( easyr.cache.info$max.cache.loaded  > easyr.cache.info$max.cache ) easyr.cache.info$max.cache <<- easyr.cache.info$cache.num
-    
-    max.cache.loaded <<- easyr.cache.info$max.cache.loaded
-    
-    datalist = list(...)
-    names(datalist) = trimws(strsplit(gsub('save.cache\\(([^)]+)\\)', '\\1', cc(deparse(sys.call()))), ",")[[1]])
-    datalist$cache.at = cache.at
-    datalist$max.cache.loaded = max.cache.loaded
-    datalist$cache.path = cache.path
-    qs::qsave(datalist, file = cache.path)
+    if('qs' %in% installed.packages()){
+
+      if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
+          
+      saveRDS(
+          hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE ),
+          file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path
+      )
+      
+      cache.at <<- lubridate::now()
+      cache.path <<- easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$path
+      
+      easyr.cache.info$max.cache.loaded <<- easyr.cache.info$cache.num
+      if( easyr.cache.info$max.cache.loaded  > easyr.cache.info$max.cache ) easyr.cache.info$max.cache <<- easyr.cache.info$cache.num
+      
+      max.cache.loaded <<- easyr.cache.info$max.cache.loaded
+      
+      datalist = list(...)
+      names(datalist) = trimws(strsplit(gsub('save.cache\\(([^)]+)\\)', '\\1', cc(deparse(sys.call()))), ",")[[1]])
+      datalist$cache.at = cache.at
+      datalist$max.cache.loaded = max.cache.loaded
+      datalist$cache.path = cache.path
+      qs::qsave(datalist, file = cache.path, nthreads = easyr.cache.info$n_processes)
+
+    } else {
+      warning('Package [qs] not installed. Cache not saved.')
+    }
 
 }
 
@@ -294,7 +302,12 @@ validatecaches = function( caches ){
   }
   
 }
-load.cache = function(filename) list2env(qs::qread(filename, use_alt_rep=TRUE), globalenv())
+
+load.cache = function(filename) if('qs' %in% installed.packages()){
+  list2env(qs::qread(filename, nthreads = easyr.cache.info$n_processes), globalenv())
+} else {
+    warning('Package [qs] not installed. Cache not loaded.')
+}
 
 easyr.cache.info = list(
     cache.num = 0,
