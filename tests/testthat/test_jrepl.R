@@ -3,6 +3,7 @@ context("jrepl")
 test_that("works as expected", {
 
   df1 = utils::head(sleep)
+  df1$group %<>% droplevels()
   group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
   
   expect_equal( 
@@ -138,5 +139,22 @@ test_that("works as expected", {
       
         t = jrepl( x, y, by = 'id', replace.cols = 'val' )
         expect_equal( t$val, ordered( c( 'a', 'b', 'c' ) ) )
+
+    # all-NA column.
+      
+      x = data.frame( 
+        id = as.integer( c( 1, 2, 3 ) ),
+        val = c(1, 2, 3)
+      )
+      
+      y = data.frame(
+        id = as.integer( c( 1, 2 ) ),
+        val = as.numeric(c(NA, NA))
+      )
+      
+      t = jrepl( x, y, by = 'id', replace.cols = 'val' )
+      expect_equal( t$val, c(1, 2, 3) )
+
+
   
 })

@@ -150,7 +150,7 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
   # Join to combine the data fast.
   
     # Perform the join. Inner join is faster, we'll use row numbers to set values back into the original x.
-    x = ijoinf( x, y, by = join.cols.clean )
+    x = merge( x, y, by = join.cols.clean, all = FALSE )
     
     # Check for duplication.
     urows = unique( x$orig.x.row )
@@ -170,12 +170,16 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
       xcolname = cc( icolname, '.x' )
       ycolname = cc( icolname, '.y' )
     
-      # Replace values using ifelse.
+      # Replace values.
       do.rows = if( na.only ){
         
         x[ which( is.na( x[[xcolname]] ) ), c( 'orig.x.row', xcolname, ycolname ) ]
 
       } else { x[ , c( 'orig.x.row', xcolname, ycolname ) ] }
+      
+      # don't send any NAs for replacement.
+      do.rows = do.rows[!is.na(do.rows[[ ycolname ]]), ]
+      if(nrow(do.rows) == 0) next
 
       if( verbose ) num.replaced = c( num.replaced, sum( !is.na( do.rows[[ ycolname ]] ) ) )
       #num.changed = c( num.replaced, sum( !is.na( do.rows[[ xcolname ]] ) & !is.na( do.rows[[ ycolname ]] ) * do.rows[[ xcolname ]] != do.rows[[ ycolname ]] ) )
