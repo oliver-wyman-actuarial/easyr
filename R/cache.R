@@ -209,7 +209,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #' 
 save.cache = function( ... ){
 
-    if('qs' %in% installed.packages()){
+    if('qs' %in% utils::installed.packages()){
 
       if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
           
@@ -303,7 +303,7 @@ validatecaches = function( caches ){
   
 }
 
-load.cache = function(filename) if('qs' %in% installed.packages()){
+load.cache = function(filename) if('qs' %in% utils::installed.packages()){
   list2env(qs::qread(filename, nthreads = easyr.cache.info$n_processes), globalenv())
 } else {
     warning('Package [qs] not installed. Cache not loaded.')

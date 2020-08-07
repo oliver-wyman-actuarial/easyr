@@ -9,9 +9,7 @@ test_that("works as expected", {
     idt, idt, id.column = 'id', do.set.NA = FALSE, match.round.to.digits = NULL, do.all.columns.before.err = TRUE,
     check.column.order = TRUE, acceptable.pct.rows.diff = .001, verbose = TRUE
   ) )
-  expect_equal( any( grepl( 'All checks passed!', t ) ), TRUE )
-  
-  
+  expect_equal( any( grepl( 'All checks passed!', t ) ), TRUE )  
   
   idt1 = idt
   idt2 = idt

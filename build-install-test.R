@@ -6,7 +6,7 @@ if(packageVersion("roxygen2") != '6.1.1') devtools::install_version('roxygen2', 
 setwd( dirname( rstudioapi::getSourceEditorContext()$path ) )
 devtools::document()
 devtools::document()
-devtools::install()
+devtools::install(upgrade = 'never')
 
 # Check to make sure each R file has a related test file.
 

@@ -280,16 +280,27 @@ validate.equal = function(
       return(idts)
     } else {
 
-        summ = data.table::as.data.table(idts)
-        summ = summ[,
-          max.abs.pct.diff = max( summ$abs.pct.diff ),
-          mean.abs.pct.diff = mean( summ$abs.pct.diff ),
-          num.rows = data.table::.N
-        , by = summ$column]
+        summ = split(idts, factor(idts$column))
+        summ = data.table::rbindlist(lapply(summ, function(x){
+          if(all(is.na(x$abs.pct.diff))){
+            data.frame(
+              column = x$column[1], num.rows = nrow(x),
+              max.abs.pct.diff = as.numeric(NA), 
+              mean.abs.pct.diff = as.numeric(NA)
+            )
+          } else {
+            data.frame(
+              column = x$column[1], num.rows = nrow(x),
+              max.abs.pct.diff = max(x$abs.pct.diff, na.rm = TRUE), 
+              mean.abs.pct.diff = mean(x$abs.pct.diff, na.rm = TRUE)
+            )
+          }
+        }))
 
-        summ$pct.rows = summ$num.rows / nrow(df1)
+        summ$pct.rows = round(summ$num.rows / nrow(df1) * 100, 1)
+        idts$column = factor(idts$column)
       
-      return( list( rows = idts, summ = as.data.frame(summ) ) )
+      return( list( rows = idts, summ = summ ) )
     }
     
   }

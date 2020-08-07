@@ -171,7 +171,7 @@ read.any <- function(
     )
 
     if( file_type == 'pdf' || grepl( '[.]pdf$', filename, ignore.case = TRUE ) ){
-      if('pdftools' %in% installed.packages()){
+      if('pdftools' %in% utils::installed.packages()){
         x <- data.frame(line=gsub('\r', '', unlist(strsplit(pdftools::pdf_text(filename), split = "\n"))), stringsAsFactors=FALSE)
       } else {
         warning('pdftools has not been installed. Cannot read PDF files.')
