@@ -2,7 +2,7 @@
 ^README\.Rmd$
 ^\.github$
 ^build-install-test\.R$
-^cmd-code-run-check\.txt$
+^publish-instructions\.txt$
 ^easyr_.+tar\.gz$
 ^easyr.Rcheck$
 ^LICENSE

@@ -1,0 +1,17 @@
+# run build-install-test.R to set up roxygen documentation and run examples, tests
+
+# open command prompt at owactools-check and run (set version number):
+R CMD build .
+R CMD check easyr_0.1-0.tar.gz --as-cran
+
+# Load to https://win-builder.r-project.org/upload.aspx under R-devel to check similarly against the latest R version.
+
+# run noLD check using the code at the bottom of build-install-test.R.
+# noLD is an option to make things run faster but at lower accuracy, so it makes sense it requires higher tolerance.
+# It will run and wait, you can stop it after a few minutes and you’ll get an email in about 12 hours. 
+# Typically these are resolved by setting a tolerance in your expect_equal calls. I use tolerance = .01 to be safe. 
+# See this https://www.r-bloggers.com/a-nold-platform-on-r-hub-package-builder/ for more info. 
+
+# Updated cran-comments.md
+
+# When all checks pass, submit via https://cran.r-project.org/submit.html with updated cran-comments. The maintainer will get an email to confirm the above steps have been completed. They must click the link and confirm. 
