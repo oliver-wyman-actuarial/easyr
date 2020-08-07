@@ -59,7 +59,7 @@ Function categories:
   * **shorthand**: protect your hands and move faster by typing less when using common functions.
   * **type conversion**: convert fields to dates, numbers, characters, and logical.
   * **data wrangling**: join and replace, explore data, factor-friendly joins and binds, etc.
-  * **workflow**: cacheing, run folder, validate data, etc.
+  * **work flow**: cacheing, run folder, validate data, etc.
 
 Data:
 

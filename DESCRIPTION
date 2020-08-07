@@ -10,7 +10,7 @@ Authors@R: c(
     )
 Maintainer: Bryce Chamberlain <bryce.chamberlain@oliverwyman.com>
 Description: Makes difficult operations easy. Includes these types of functions: 
-    shorthand, type conversion, data wrangling, and workflow. 
+    shorthand, type conversion, data wrangling, and work flow. 
     Also includes some helpful data objects: NA strings, U.S. state list, color blind charting colors. 
     Built and shared by Oliver Wyman Actuarial Consulting. Accepting proposed contributions through GitHub.
 License: GPL (>= 2)
