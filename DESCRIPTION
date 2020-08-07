@@ -1,7 +1,7 @@
 Package: easyr
 Type: Package
 Title: Helpful Functions from Oliver Wyman Actuarial Consulting
-Version: 0.4-1
+Version: 0.5-0
 Authors@R: c(
         person( "Oliver Wyman", "Actuarial Consulting", email = "rajesh.sahasrabuddhe@oliverwyman.com", role = c("aut", "cph") ),
         person( "Bryce", "Chamberlain", email = "bryce.chamberlain@oliverwyman.com", role = c("aut", "cre") ),
