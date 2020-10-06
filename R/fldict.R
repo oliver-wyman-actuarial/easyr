@@ -17,14 +17,14 @@
 #' \item{l}{Line data with a row for each column in each dataset.}
 #'
 #' @examples
-#' \donttest{
-#' fl = fldict( 'path/to/folder' )
 #' 
-#' names( fl )
+#' folder = system.file('extdata', package = 'easyr')
+#' fl = fldict(folder)
+#' names(fl)
 #' 
 #' fl$sheets
 #' fl$columns
-#' }
+#'
 fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb]?|csv|rds|xml)', ignore.case = TRUE, recursive = TRUE, ...  ){
 
     if( is.null(file.list) ) if( is.null(folder) ){

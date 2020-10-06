@@ -31,12 +31,12 @@ Get information about data files in a folder path. Use dict() on a single data f
 Author: Bryce Chamberlain.
 }
 \examples{
-\donttest{
-fl = fldict( 'path/to/folder' )
 
-names( fl )
+folder = system.file('extdata', package = 'easyr')
+fl = fldict(folder)
+names(fl)
 
 fl$sheets
 fl$columns
-}
+
 }

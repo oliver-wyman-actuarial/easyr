@@ -88,13 +88,14 @@ Also handles common issues like strings being read in as factors (strings are NO
 Author: Bryce Chamberlain. Tech Review: Dominic Dillingham.
 }
 \examples{
-\donttest{
-read.any( 'path/to/file.extension' )
+
+folder = system.file('extdata', package = 'easyr')
+read.any('date-time.csv', folder = folder)
 
 # if dates are being converted incorrectly, disable date conversion:
-read.any( 'path/to/file.extension', auto_convert_dates = FALSE )
+read.any('date-time.csv', folder = folder, auto_convert_dates = FALSE)
 
 # to handle type conversions manually:
-read.any( 'path/to/file.extension', all_chars = TRUE )
-}
+read.any('date-time.csv', folder = folder, all_chars = TRUE)
+
 }
