@@ -115,22 +115,22 @@ test_that( 'times read in properly', {
   
 })
 
-test_that( 'PDF read', {
-    
-    if('pdftools' %in% utils::installed.packages()){
-      
-      t = read.any( test_file( 'test.pdf' ) )
-
-      expect_equal(
-        t,
-        data.frame( line=c( 
-          'headerinfo 1',
-          'headerinfo 2',
-          'row1, row1',
-          'row2, row2'
-        ), stringsAsFactors=FALSE)
-      )
-
-  }
-  
-})
+#test_that( 'PDF read', {
+#    
+#    if('pdftools' %in% utils::installed.packages()){
+#      
+#      t = read.any( test_file( 'test.pdf' ) )
+#
+#      expect_equal(
+#        t,
+#        data.frame( line=c( 
+#          'headerinfo 1',
+#          'headerinfo 2',
+#          'row1, row1',
+#          'row2, row2'
+#        ), stringsAsFactors=FALSE)
+#      )
+#
+#  }
+#  
+#})
