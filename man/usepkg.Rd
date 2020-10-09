@@ -19,6 +19,6 @@ Installs a package if it needs to be installed, and calls require to load the pa
 Author: Scott Sobel. Tech Review: Bryce Chamberlain.
 }
 \examples{
-usepkg(c('dplyr','lubridate'))
-usepkg('lubridate')
+# packages shouldn't be installed during tests or examples according to CRAN. 
+# therefore, examples cannot be provided because CRAN now runs donttest examples.
 }

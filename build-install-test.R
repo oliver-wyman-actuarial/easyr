@@ -10,11 +10,8 @@ devtools::install(upgrade = 'never')
 
 # Check to make sure each R file has a related test file.
 
-  rfiles = list.files( 'R' )
-
-  # files that do not need tests.
-  rfiles = rfiles[ !grepl( 'totype|utils', rfiles ) ]
-  
+  rfiles = list.files( 'R' )  
+  rfiles = rfiles[ !grepl( 'totype|utils|usepkg', rfiles ) ] # files that do not need tests.  
   rtests = list.files( 'tests/testthat' )
   
   rtests_expected = paste0('test_',rfiles)

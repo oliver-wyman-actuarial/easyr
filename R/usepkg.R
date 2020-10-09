@@ -10,15 +10,12 @@
 #' @export
 #'
 #' @examples
-#' usepkg(c('dplyr','lubridate'))
-#' usepkg('lubridate')
+#' # packages shouldn't be installed during tests or examples according to CRAN. 
+#' # therefore, examples cannot be provided because CRAN now runs donttest examples.
 usepkg <- function( packages, noCache = FALSE, repos = 'http://cran.us.r-project.org' ){
   
-  # Get installed packages.
-  installed = rownames( utils::installed.packages() )
-  
   # Install missing packages.
-  notinstalled = setdiff( packages, installed )
+  notinstalled = packages[ sapply(packages, function(pkgname) length(base::find.package(pkgname, quiet = TRUE)) == 0) ]
   if( length( notinstalled ) > 0 ) utils::install.packages( notinstalled, dependencies = TRUE, repos = repos )
   
   # Require the packages.
