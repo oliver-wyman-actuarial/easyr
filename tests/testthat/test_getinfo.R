@@ -1,5 +1,3 @@
-context("getinfo")
-
 test_that("works as expected", {
   
   op = capture.output( getinfo( iris, 'Sepal.Length' )  )

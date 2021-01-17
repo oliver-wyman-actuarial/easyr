@@ -1,5 +1,3 @@
-context( "bindf-joinf.R" )
-
 test_that( "works as expected", {
   
   # Set up data.

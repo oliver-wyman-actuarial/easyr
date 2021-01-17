@@ -1,5 +1,3 @@
-context("checkeq")
-
 test_that("checkeq works as expected", {
   
   expect_output( checkeq( expected = 100, actual = 100, desc = 'A Match' ) , 'success' )

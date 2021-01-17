@@ -1,5 +1,3 @@
-context("ecopy")
-
 test_that("works as expected", {
 
   # data frame.

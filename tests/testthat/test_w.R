@@ -1,5 +1,3 @@
-context("w")
-
 test_that("w works as expected", {
     
     # Write a file.

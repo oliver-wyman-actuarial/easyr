@@ -1,5 +1,3 @@
-context("runfolder")
-
 test_that("works as expected", {
 
   t = capture.output( runfolder( test_file('') ) )

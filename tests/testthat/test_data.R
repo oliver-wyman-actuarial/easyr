@@ -1,5 +1,3 @@
-context("data")
-
 test_that("states", {
   expect_equal( nrow(states) > 1, TRUE )
 })

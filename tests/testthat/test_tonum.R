@@ -1,5 +1,3 @@
-context("tonum")
-
 test_that("tonum works as expected", {
   
   expect_equal( tonum( c('123', '$50.02', '30%', '(300.01)', NA, "3.7999999999999999E-2"), nazero = TRUE ), c(123.00, 50.02, 0.30, -300.01, 0.00, 0.038) )

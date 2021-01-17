@@ -1,5 +1,3 @@
-context( "fldict" )
-
 test_that("works as expected", {
   
   files = list.files( test_file( '' ), full.names = TRUE )[1:4]

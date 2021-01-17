@@ -1,5 +1,3 @@
-context( "char2fac" )
-
 test_that( "works as expected", {
 
   x = data.frame(

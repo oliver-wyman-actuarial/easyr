@@ -1,5 +1,3 @@
-context("spl")
-
 test_that("works as expected", {
   
   expect_equal( nrow(spl(cars,10)), 10 )

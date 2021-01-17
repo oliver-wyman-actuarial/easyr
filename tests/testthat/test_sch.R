@@ -1,5 +1,3 @@
-context("sch")
-
 test_that("works as expected", {
 
   # pluscols = all

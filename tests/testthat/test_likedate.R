@@ -1,5 +1,3 @@
-context("likedate")
-
 test_that("works as expected", {
   
     expect_equal( likedate( c( '20171124', '2017/12/24', NA, '12/24/2017', '5/11/2017 1:51PM' ) ), TRUE )

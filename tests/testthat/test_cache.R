@@ -1,5 +1,3 @@
-context("cache")
-
 test_that("works as expected", {
   
     if('qs' %in% utils::installed.packages()){
