@@ -4,8 +4,14 @@
 \alias{ljoinf}
 \title{Left Join with Factors}
 \usage{
-ljoinf(data.left, data.right, by, sort.levels = TRUE,
-  restrict.levels = FALSE, na_level = "(Missing)")
+ljoinf(
+  data.left,
+  data.right,
+  by,
+  sort.levels = TRUE,
+  restrict.levels = FALSE,
+  na_level = "(Missing)"
+)
 }
 \arguments{
 \item{data.left}{Left data. All of this data will be preservered in the join (may still result in duplication).}

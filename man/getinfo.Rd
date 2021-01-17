@@ -4,9 +4,21 @@
 \alias{getinfo}
 \title{Get Info}
 \usage{
-getinfo(df, colname, topn = 5, botn = 5, graph = TRUE,
-  ordered = TRUE, display = TRUE, cutoff = 20, main = NULL,
-  cex = 0.9, xcex = 0.9, bins = 50, col = "light blue")
+getinfo(
+  df,
+  colname,
+  topn = 5,
+  botn = 5,
+  graph = TRUE,
+  ordered = TRUE,
+  display = TRUE,
+  cutoff = 20,
+  main = NULL,
+  cex = 0.9,
+  xcex = 0.9,
+  bins = 50,
+  col = "light blue"
+)
 }
 \arguments{
 \item{df}{Data Frame or Data Table.}

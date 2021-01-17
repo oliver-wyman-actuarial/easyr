@@ -4,8 +4,14 @@
 \alias{cache.init}
 \title{Initialize cache.}
 \usage{
-cache.init(caches, at.path, verbose = TRUE, save.only = FALSE,
-  skip.missing = TRUE, n_processes = 2)
+cache.init(
+  caches,
+  at.path,
+  verbose = TRUE,
+  save.only = FALSE,
+  skip.missing = TRUE,
+  n_processes = 2
+)
 }
 \arguments{
 \item{caches}{List of lists with properties name, depends.on. See example.}
