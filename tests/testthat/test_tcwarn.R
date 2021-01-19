@@ -1,5 +1,3 @@
-context("tcwarn")
-
 test_that("tcwarn works as expected", {
   
   expect_warning( tcwarn({ NULL = 1 },'Cannot assign to NULL','variable') , 'Cannot assign to NULL variable' )

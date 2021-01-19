@@ -1,5 +1,3 @@
-context( "tobool" )
-
 test_that( "works as expected", {
   
   x = c( 'TRUE', 'FALSE', '0', NA, 'not a boolean', 'NA' )

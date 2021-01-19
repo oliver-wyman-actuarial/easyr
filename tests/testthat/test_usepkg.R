@@ -1,5 +1,3 @@
-context("usepkg")
-
 test_that("works as expected", {
   
   usepkg( c( 'plyr','lubridate' ) )

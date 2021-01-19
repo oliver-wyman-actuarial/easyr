@@ -4,12 +4,19 @@
 \alias{todate}
 \title{Convert to Date}
 \usage{
-todate(x, nastrings = easyr::nastrings, aggressive.extraction = TRUE,
-  preprocessed.values = NULL, ifna = c("return-unchanged", "error",
-  "warning", "return-na"), verbose = TRUE, allow_times = FALSE,
-  do.month.char = TRUE, do.excel = TRUE,
+todate(
+  x,
+  nastrings = easyr::nastrings,
+  aggressive.extraction = TRUE,
+  preprocessed.values = NULL,
+  ifna = c("return-unchanged", "error", "warning", "return-na"),
+  verbose = TRUE,
+  allow_times = FALSE,
+  do.month.char = TRUE,
+  do.excel = TRUE,
   min.acceptable = lubridate::ymd("1920-01-01"),
-  max.acceptable = lubridate::ymd("2050-01-01"))
+  max.acceptable = lubridate::ymd("2050-01-01")
+)
 }
 \arguments{
 \item{x}{Value or vector to be converted.}

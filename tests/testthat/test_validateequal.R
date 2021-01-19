@@ -1,6 +1,4 @@
-context( "validate.equal" )
- 
-test_that("works as expected", {
+ test_that("works as expected", {
   
   idt = iris
   idt$id = 1:nrow(idt)

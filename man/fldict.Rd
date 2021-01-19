@@ -4,9 +4,14 @@
 \alias{fldict}
 \title{Get Data Dictionary for Files in Folder}
 \usage{
-fldict(folder = NULL, file.list = NULL,
-  pattern = "^[^~]+[.](xls[xmb]?|csv|rds|xml)", ignore.case = TRUE,
-  recursive = TRUE, ...)
+fldict(
+  folder = NULL,
+  file.list = NULL,
+  pattern = "^[^~]+[.](xls[xmb]?|csv|rds|xml)",
+  ignore.case = TRUE,
+  recursive = TRUE,
+  ...
+)
 }
 \arguments{
 \item{folder}{File path of the folder to create a dictionary for. Pass either this or file.list. file.list will override this argument.}

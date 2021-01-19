@@ -1,5 +1,3 @@
-context("hashfiles")
-
 test_that( 'basic has works properly', {
   
   expect_equal(

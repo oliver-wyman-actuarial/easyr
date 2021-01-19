@@ -1,5 +1,3 @@
-context( "sumnum" )
-
 test_that( "works as expected", {
   
   eps <- if (capabilities("long.double"))

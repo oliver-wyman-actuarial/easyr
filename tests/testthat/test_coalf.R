@@ -1,5 +1,3 @@
-context("coalf")
-
 test_that("works as expected", {
 
   x = data.frame( c3 = factor( c( 'A', NA, 'C' ) ), c4 = factor( c( 'B', 'B', 'B' ) ), stringsAsFactors = TRUE )

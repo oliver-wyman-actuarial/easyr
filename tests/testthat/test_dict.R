@@ -1,5 +1,3 @@
-context("dict")
-
 test_that("works as expected", {
   
   t = capture.output( dict( iris,  ecopy = TRUE ) )

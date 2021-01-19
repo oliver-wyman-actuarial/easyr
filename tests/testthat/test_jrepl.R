@@ -1,5 +1,3 @@
-context("jrepl")
-
 test_that("works as expected", {
 
   df1 = utils::head(sleep)
