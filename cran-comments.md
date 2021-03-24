@@ -4,13 +4,15 @@
 
 Passed CMD check on:
 
-* local Windows 10 Enterprise install, R 3.5.2
+* local Windows 10 Enterprise install, R 4.0.2
 * R-devel https://win-builder.r-project.org/upload.aspx
 * noLD via rhub::check(platform = "debian-gcc-devel-nold")
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs or NOTEs.
+noLD returned NOTE about rprojroot import not being used, but this is not accurate. It is used at tests\testthat\helper.R.
+
+There were no other NOTEs, ERRORs, or WARNINGs.
 
 ## Downstream dependencies
 

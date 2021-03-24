@@ -2,7 +2,7 @@
 
 # open command prompt at owactools-check and run (set version number):
 R CMD build .
-R CMD check easyr_0.1-0.tar.gz --as-cran
+R CMD check easyr_0.5-3.tar.gz --as-cran
 
 # Load to https://win-builder.r-project.org/upload.aspx under R-devel to check similarly against the latest R version.
 
