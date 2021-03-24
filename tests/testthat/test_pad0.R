@@ -1,5 +1,3 @@
-context("pad0")
-
 test_that("works as expected", {
   expect_equal(  pad0( c(123,00123,5), len = 5 ), c("00123","00123", "00005") )
   expect_equal(  pad0( c(123,00123,5), len = 2 ), c("123","123", "05") )

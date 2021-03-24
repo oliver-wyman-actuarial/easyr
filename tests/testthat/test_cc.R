@@ -1,5 +1,3 @@
-context("cc")
-
 test_that("works as expected", {
 
   x = data.frame( c1 = c( 1, 2, 4 ), c2 = c( 3, 5, 7 ), c3 = c( 'a', 'b', 'c' ), stringsAsFactors = TRUE )

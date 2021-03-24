@@ -1,5 +1,3 @@
-context("function getbetterint")
-
 test_that("works as expected", {
   
   # Errors.

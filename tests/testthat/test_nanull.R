@@ -1,5 +1,3 @@
-context("nanull")
-
 test_that("works as expected", {
 
   # TRUE tests.

@@ -4,8 +4,16 @@
 \alias{sch}
 \title{Search a Data Frame.}
 \usage{
-sch(x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL,
-  exact = FALSE, trim = TRUE, spln = NULL)
+sch(
+  x,
+  pattern,
+  ignore.case = FALSE,
+  fixed = FALSE,
+  pluscols = NULL,
+  exact = FALSE,
+  trim = TRUE,
+  spln = NULL
+)
 }
 \arguments{
 \item{x}{Data to search.}

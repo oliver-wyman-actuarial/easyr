@@ -1,5 +1,3 @@
-context( "shorthand" )
-
 test_that("works as expected", {
 
   expect_equal( TRUE, na(NA) )

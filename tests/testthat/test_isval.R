@@ -1,5 +1,3 @@
-context("isval")
-
 test_that("works as expected", {
 
   # True tests.

@@ -4,11 +4,19 @@
 \alias{tonum}
 \title{Convert to Number}
 \usage{
-tonum(x, preprocessed.values = NULL, nastrings = easyr::nastrings,
+tonum(
+  x,
+  preprocessed.values = NULL,
+  nastrings = easyr::nastrings,
   ifna = c("return-unchanged", "error", "warning", "return-na"),
-  verbose = TRUE, nazero = FALSE, checkdate = TRUE,
-  remove.chars = FALSE, do.logical = TRUE, do.try.integer = TRUE,
-  multipliers = c(`\%` = 1/100, K = 1000, M = 1000^2, B = 1000^3))
+  verbose = TRUE,
+  nazero = FALSE,
+  checkdate = TRUE,
+  remove.chars = FALSE,
+  do.logical = TRUE,
+  do.try.integer = TRUE,
+  multipliers = c(`\%` = 1/100, K = 1000, M = 1000^2, B = 1000^3)
+)
 }
 \arguments{
 \item{x}{Vector to convert.}

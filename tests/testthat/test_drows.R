@@ -1,5 +1,3 @@
-context("drows")
-
 test_that("works as expected", {
 
   # Duplicate the cars data.

@@ -1,5 +1,3 @@
-context( "left-right-mid")
-
 test_that( "works as expected", {
 
   expect_equal( left('leftmidright',4) , 'left' )

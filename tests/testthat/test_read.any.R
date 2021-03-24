@@ -1,5 +1,3 @@
-context( "read.any" )
-
 test_that( "NAs are replaced properly", {
   
   # do NAs read as expected?

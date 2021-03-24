@@ -4,8 +4,12 @@
 \alias{likedate}
 \title{Like Date}
 \usage{
-likedate(x, na_strings = easyr::nastrings, run_unique = TRUE,
-  aggressive.extraction = TRUE)
+likedate(
+  x,
+  na_strings = easyr::nastrings,
+  run_unique = TRUE,
+  aggressive.extraction = TRUE
+)
 }
 \arguments{
 \item{x}{Value or vector to check.}

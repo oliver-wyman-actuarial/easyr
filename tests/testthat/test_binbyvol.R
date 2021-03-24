@@ -1,5 +1,3 @@
-context("binbyvol")
-
 test_that("works as expected", {
   
   # Errors.

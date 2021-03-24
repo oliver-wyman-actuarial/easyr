@@ -1,5 +1,3 @@
-context("todate")
-
 test_that("todate works as expected", {
   
     expect_equal( 

@@ -4,8 +4,7 @@
 \alias{usepkg}
 \title{Use Package}
 \usage{
-usepkg(packages, noCache = FALSE,
-  repos = "http://cran.us.r-project.org")
+usepkg(packages, noCache = FALSE, repos = "http://cran.us.r-project.org")
 }
 \arguments{
 \item{packages}{Character or character vector with names of the packages you want to use.}

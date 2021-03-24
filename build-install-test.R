@@ -1,7 +1,7 @@
 rm( list = ls( all = TRUE ) )
 
 # ensure consistent Roxygen version
-if(packageVersion("roxygen2") != '6.1.1') devtools::install_version('roxygen2', version = "6.1.1")
+if(packageVersion("roxygen2") != '7.1.1') devtools::install_version('roxygen2', version = "7.1.1")
 
 setwd( dirname( rstudioapi::getSourceEditorContext()$path ) )
 devtools::document()

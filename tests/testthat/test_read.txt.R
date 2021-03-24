@@ -1,5 +1,3 @@
-context("read.txt ")
-
 test_that( "read text file", {
 
   expect_equal(

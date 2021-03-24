@@ -23,11 +23,42 @@
 sch = function( x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL, exact = FALSE, trim = TRUE, spln = NULL ){
 
   if(!is.null(pluscols) && length(pluscols)==0) stop('easyr::sch pluscols is zero-length. Please pass a vector or NULL.')
-  
-  # Vector?
-  if( is.null( nrow(x) ) ) stop('easyr: sch() should not be used for vectors. use grep( ..., value = TRUE) instead.')
-  
-  # Data frame?
+
+  pattern = as.character(pattern)
+  if(trim) pattern = trimws(pattern)
+  if(ignore.case) pattern = tolower(pattern)
+
+  # list
+  if(is.null(ncol(x)) && is.list(x)){
+
+    # apply sampling.
+    if(!is.null(spln)){
+      splids = spl(1:length(x), n = spln)
+      tnames = names(x)
+      x = lapply(splids, function(i) x[[i]])
+      if(!is.null(tnames)) names(x) = tnames[splids]
+    }
+
+    # get matches
+    tnames = names(x)
+    matches = which(sapply(1:length(x), function(i){
+      any(grepl(pattern, unlist(x[[i]], recursive = TRUE), fixed = fixed, ignore.case = ignore.case))
+    }))
+
+    if(length(matches)==0) cat('No matches found.\n')
+
+    toreturn = lapply(matches, function(i) x[[i]])
+    if(!is.null(tnames)) names(toreturn) = tnames[matches]    
+
+    return(toreturn)
+
+  # vector
+  } else if( is.null( nrow(x) ) ){
+
+    stop('easyr: sch() should not be used for vectors. use grep( ..., value = TRUE) instead.')
+
+  # otherwise we assume data.frame.
+  } else {
 
     if(!is.null(spln)) x = spl(x, n=spln)
 
@@ -50,17 +81,8 @@ sch = function( x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL,
       if(exact){
 
         icol = as.character(x[[i]])
-        pattern = as.character(pattern)
-
-        if(trim){
-          icol = trimws(icol)
-          pattern = trimws(pattern)
-        }
-
-        if(ignore.case){
-          icol = tolower(icol)
-          pattern = tolower(pattern)
-        }
+        if(trim) icol = trimws(icol)
+        if(ignore.case) icol = tolower(icol)
 
         matchrows = which(icol == pattern)
         
@@ -89,5 +111,7 @@ sch = function( x, pattern, ignore.case = FALSE, fixed = FALSE, pluscols = NULL,
       return( x[rows, cols, drop=FALSE] )
 
     }
+
+  }
     
 }

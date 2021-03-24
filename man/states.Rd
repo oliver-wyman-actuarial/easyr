@@ -4,7 +4,9 @@
 \name{states}
 \alias{states}
 \title{states}
-\format{Data frame.}
+\format{
+Data frame.
+}
 \usage{
 states
 }

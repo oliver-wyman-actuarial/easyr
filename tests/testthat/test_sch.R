@@ -1,5 +1,3 @@
-context("sch")
-
 test_that("works as expected", {
 
   # pluscols = all
@@ -29,7 +27,40 @@ test_that("works as expected", {
     expect_equal( sch(iris,'seto', pluscols='all', exact=TRUE), NULL)
   )
 
+  # list.
+    
+    t = list(
+      a = list('a', 'a', 'a'),
+      b = list('b', 'b', 'b'),
+      c = list('c', 'c', 'c')
+    )
+    expect_equal(sch(t, 'a'), list(a = list('a', 'a', 'a')))
+    expect_equal(sch(t, 'a', spln = 3), list(a = list('a', 'a', 'a')))
+    
+    t = list(
+      list('a', 'a', 'a'),
+      list('b', 'b', 'b'),
+      list('c', 'c', 'c')
+    )
+    expect_equal(sch(t, 'a'), list(list('a', 'a', 'a')))
+    
+    t = list(
+      list('a', 'a', 'a'),
+      list('ab', 'b', 'b'),
+      list('c', 'c', 'c')
+    )
+    expect_equal(sch(t, 'a'), list(list('a', 'a', 'a'), list('ab', 'b', 'b')))
+    
+    t = list(
+      a = list('a', 'a', 'a'),
+      b = list('ab', 'b', 'b'),
+      c = list('c', 'c', 'c')
+    )
+    expect_equal(sch(t, 'a'), list(a = list('a', 'a', 'a'), b = list('ab', 'b', 'b')))
+
   # TODO: trim, different data types.
+
+  rm(t)
   
 })
   

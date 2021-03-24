@@ -1,5 +1,3 @@
-context( "atype" )
-
 test_that( "works as expected", {
 
   t = data.frame(
