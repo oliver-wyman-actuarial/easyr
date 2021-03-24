@@ -12,6 +12,8 @@ R CMD check easyr_0.5-3.tar.gz --as-cran
 # Typically these are resolved by setting a tolerance in your expect_equal calls. I use tolerance = .01 to be safe. 
 # See this https://www.r-bloggers.com/a-nold-platform-on-r-hub-package-builder/ for more info. 
 
-# Updated cran-comments.md
+# Update cran-comments.md
+
+# Before submitting to CRAN, run `git push` to ensure you aren't missing any commits by other contributors.
 
 # When all checks pass, submit via https://cran.r-project.org/submit.html with updated cran-comments. The maintainer will get an email to confirm the above steps have been completed. They must click the link and confirm. 
