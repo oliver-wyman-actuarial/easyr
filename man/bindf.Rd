@@ -15,7 +15,7 @@ bindf(..., sort.levels = TRUE)
 Binded data, with any factors modified to contain all levels in the binded data.
 }
 \description{
-Matches factor levels before binding rows.
+Matches factor levels before binding rows. If factors have 0 levels it will change the column to character to avoid errors.
 Author: Bryce Chamberlain.
 }
 \examples{

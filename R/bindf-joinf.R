@@ -1,7 +1,7 @@
 
 #' Bind Rows with Factors
 #' 
-#' Matches factor levels before binding rows.
+#' Matches factor levels before binding rows. If factors have 0 levels it will change the column to character to avoid errors.
 #' Author: Bryce Chamberlain.
 #'
 #' @param ... data to be binded
