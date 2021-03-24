@@ -50,7 +50,10 @@ bindf <- function ( ..., sort.levels = TRUE){
   # bind each dataset after matching factors.
   idt = dt[[1]]
   for(i in 2:length(dt)){
-    imatch.factors = match.factors( df1 = idt, df2 = dt[[i]], sort.levels = sort.levels )
+    imatch.factors = lapply(
+      match.factors( df1 = idt, df2 = dt[[i]], sort.levels = sort.levels ), 
+      fix0levels
+    )
     idt = data.table::rbindlist( list( imatch.factors[[1]], imatch.factors[[2]] ), fill = TRUE )
   }
   
@@ -351,5 +354,16 @@ match.levels = function( factor1, factor2, sort.levels ){
   
   # Return the new factors.
   return( list( factor1, factor2 ) )
+  
+}
+
+fix0levels = function(x){
+  
+  for(col in 1:ncol(x)){
+    if(is.factor(x[[col]]) && length(levels(x[[col]])) == 0){
+    x[[col]] = as.character(x[[col]])
+  }}
+  
+  return(x)
   
 }
