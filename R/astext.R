@@ -12,7 +12,7 @@
 #' astext( c( 1, 2, 4 ) )
 #' astext( c( 'a', 'b', 'c' ) )
 astext = function( x ) if( is.numeric(x) ){
-  glue::glue( 'c( { paste0( x, collapse = ", " ) } )' )
+  as.character(glue::glue( 'c( { paste0( x, collapse = ", " ) } )' ))
 } else {
-  glue::glue( "c( '{ paste0( x, collapse = \"', '\" ) }' )" )
+  as.character(glue::glue( "c( '{ paste0( x, collapse = \"', '\" ) }' )" ))
 }
