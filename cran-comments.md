@@ -4,7 +4,7 @@
 
 Passed CMD check on:
 
-* local Windows 10 Enterprise install, R 4.0.2
+* local Windows 10 Enterprise install, R 4.0.4
 * R-devel https://win-builder.r-project.org/upload.aspx
 * noLD via rhub::check(platform = "debian-gcc-devel-nold")
 
@@ -20,5 +20,5 @@ easyr has no known downstream dependencies.
 
 ## Prior CRAN Feedback
 
-Not applicable to this update.
+Updating to fix failed tests using `format(digits = 0, ...)`.
 

@@ -210,9 +210,16 @@ nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, ma
   
   # Apply div by.
   x = x / divxby
+
+  # special adjustment for digits 0 which format will no accept.
+  digits_small = digits
+  if(digits == 0){
+    x = round(x, 0)
+    digits = 1
+  }
   
   # Divide and add the indicator (billion, million, thousand) and apply rounding.
-  x = format( x , nsmall = digits, digits = digits, big.mark = ',', scientific = FALSE )
+  x = format( x , nsmall = digits_small, digits = digits, big.mark = ',', scientific = FALSE )
   if( with.unit ) x = paste0( x , ifelse( isuffix != '', paste0( ' ', isuffix ), '' ) )
   
   return(x)
