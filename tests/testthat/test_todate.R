@@ -46,6 +46,13 @@ test_that("todate works as expected", {
     expect_equal( 
       todate( c( "19940121", "20020222", "20000127", "20010912" ), min.acceptable = NULL, max.acceptable = NULL ),
       lubridate::ymd( c( "19940121", "20020222", "20000127", "20010912" ) )
-    )    
+    )
+
+    # https://github.com/oliver-wyman-actuarial/easyr/issues/24
+    dates = c('26/03/2016', '28/10/2016', '29/12/2016', '23/10/2016', '22/09/2016', '27/12/2016')
+    expect_equal(
+      todate(dates),
+      lubridate::dmy(dates)
+    )
 
 })
