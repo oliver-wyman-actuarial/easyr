@@ -55,4 +55,10 @@ test_that("todate works as expected", {
       lubridate::dmy(dates)
     )
 
+    dates = c('03/26/2016', '10/28/2016', '12/29/2016', '10/23/2016', '09/22/2016', '12/27/2016')
+    expect_equal(
+      todate(dates),
+      lubridate::mdy(dates)
+    )
+
 })

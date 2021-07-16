@@ -117,7 +117,7 @@ todate <- function(
       # Try without dmy first (since this is rare in U.S.). 
       # For some reason parse_date_time wants to pick it though, even when we give it mdy as an option.
         
-        timeformats_primary = c( 'mdy HM', 'mdy IMp', 'ymd HM', 'ymd IMp' , 'mdy', 'ymd', 'dmy' )
+        timeformats_primary = c( 'mdy HM', 'mdy IMp', 'ymd HM', 'ymd IMp', 'dmy HM', 'dmy IMp' , 'mdy', 'ymd', 'dmy' )
         
         # If there are lots of excel dates this will cause conversion to fail. 
         # If we were fairly successful with excel conversion, remove any succesful excel conversions.
