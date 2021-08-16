@@ -15,8 +15,12 @@
 #' c(NA,'NA',1,2,'c') == c(NA,NA,1,2,'a') # regular equality check.
 #' eq(c(NA,'NA',1,2,'c'),c(NA,NA,1,2,'a')) # check with eq.
 eq <- function( x, y, do.nanull.equal = TRUE ) {
+
+  # if vectors are length > 1 and different length, return FALSE.  
+  if(length(x) != 1 && length(y) != 1 && length(y) != length(x)) return(FALSE)
   
-  # if vectors differ in length, modify them.
+  # if vectors differ in length, modify them. 
+  # this allows comparison of a single value to a vector. 
   if( length(x) == 1 && length(y) > 1 ) x = rep( x = x, times = length(y) )
   if( length(y) ==1 && length(x) > 1 ) y = rep( x = y, times = length(x) )
   
