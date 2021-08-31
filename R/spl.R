@@ -53,7 +53,7 @@ spl <- function( x, n = 10, warn = TRUE, replace = FALSE, ... ){
     }
 
     return( 
-      x[ sample( x = 1:nrow(x), size = n, replace = replace, ... ) , ]
+      x[ sample( x = 1:nrow(x), size = n, replace = replace, ... ) , 1:ncol(x), drop = FALSE ]
     )
   }
   
