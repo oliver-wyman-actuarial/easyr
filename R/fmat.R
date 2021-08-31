@@ -65,11 +65,9 @@ fmat = function(
   
   if( type %in% c( '$', 'dollar', 'dollars' ) ){
     
-    if( exists('mn') ) if( null( digits ) ) digits = ifelse( mn > if( !is.null(digits.cutoff) ){ digits.cutoff } else { 25 }, 0, 2 )
-    
     if( do.return == 'formatted' ){
       
-      x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx )
+      x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx, digits.cutoff = digits.cutoff )
       x = stringr::str_pad( x, max( nchar(x) ), pad = ' ' )
       x = paste0( '$ ', x )
       
@@ -111,9 +109,7 @@ fmat = function(
     
     if( do.return == 'formatted' ){
       
-      if( null( digits ) ) digits = 0
-      
-      x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx )
+      x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx, digits.cutoff = digits.cutoff )
       
     } else if( do.return == 'highcharter' ){
       
@@ -181,7 +177,7 @@ fmat = function(
   
 }
 
-nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, max ){
+nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, max, digits.cutoff ){
   
   if( !is.numeric(x) && !charnum(x) ) return(x) # in case a character is passed.
   
@@ -210,6 +206,11 @@ nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, ma
   
   # Apply div by.
   x = x / divxby
+  mn = min(x, na.rm = TRUE)
+  
+  # determine rounding.
+  if(nanull(digits)) digits = ifelse(mn > if( !is.null(digits.cutoff) ){ digits.cutoff } else { 25 }, 0, 2)
+  if(nanull(digits)) digits = 0 # this is the result if mn is NA
 
   # special adjustment for digits 0 which format will no accept.
   digits_small = digits

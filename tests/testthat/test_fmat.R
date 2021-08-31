@@ -2,7 +2,7 @@ test_that("works as expected", {
   
   expect_equal(
     fmat( 1000, '$', with.unit = TRUE ),
-    '$ 1 K'
+    '$ 1.00 K'
   )
   
   expect_equal(
@@ -25,7 +25,7 @@ test_that("works as expected", {
   
   expect_equal(
     fmat( 1000, '$', with.unit = TRUE, do.remove.spaces = TRUE ),
-    '$1K'
+    '$1.00K'
   )
 
   expect_equal(
@@ -108,6 +108,12 @@ test_that("works as expected", {
   expect_equal(
     fmat( .1501 ),
     '15%'
+  )
+
+  # test new digits determination after applying unit.
+  expect_equal(
+    fmat(c(250000, 500000, 600000, 1000000), with.unit = TRUE),
+    c("0.25 M", "0.50 M", "0.60 M", "1.00 M")
   )
 
 })
