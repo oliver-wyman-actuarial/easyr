@@ -37,21 +37,20 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
       if( file.exists(j) ){
 
         if( full.hash ){
-            
-          # Try a standard digest.
-          jdigest = tryCatch({ digest::digest( file = j ) }, error = function(e) return(NULL) )
-          
-          # If that doesn't work, try reading and digesting.
-          if( is.null(jdigest) ) jdigest = tryCatch({ digest::digest( readChar(j, file.info(j)$size) ) }, error = function(e) return(NULL) )
-          if( is.null(jdigest) ) jdigest = tryCatch({ digest::digest( read.any( filename = j ) ) }, error = function(e) return(NULL) )
-          
-          if( is.null(jdigest) ) stop( glue::glue( "Error at digest::digest for [{j}] Error E1140 hashfiles" ) )
+
+          jdigest = fulldigest(j)
           
         } else {
           
           # get file info and hash it. atime is the current time so remove that, it'll always change.
           jinfo = base::file.info(j)
-          jdigest = digest::digest( c( rownames(jinfo), jinfo$size ) )
+
+          # if the file is less than 100 KB then get the full hash.
+          if(jinfo$size < 1024 * 100){
+            jdigest = fulldigest(j)
+          } else {
+            jdigest = digest::digest( c( rownames(jinfo), jinfo$size ) )
+          }         
           
           rm(jinfo)
           
@@ -73,3 +72,19 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
   return( hash.out )
   
 }
+
+fulldigest = function(path){
+            
+  # Try a standard digest.
+  result = tryCatch({ digest::digest( file = path ) }, error = function(e) return(NULL) )
+  
+  # If that doesn't work, try reading and digesting.
+  if( is.null(result) ) result = tryCatch({ digest::digest( readChar(path, file.info(path)$size) ) }, error = function(e) return(NULL) )
+  if( is.null(result) ) result = tryCatch({ digest::digest( read.any(filename = path) ) }, error = function(e) return(NULL) )
+  
+  if( is.null(result) ) stop( glue::glue( "Error at digest::digest for [{path}] Error E1140 hashfiles" ) )
+
+  return(result)
+
+}
+
