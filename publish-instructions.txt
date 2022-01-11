@@ -1,8 +1,13 @@
+﻿# run `git push` to ensure you aren't missing any commits by other contributors (should get "Already up to date" or similar).
+
 # run build-install-test.R to set up roxygen documentation and run examples, tests
 
-# open command prompt at owactools-check and run (set version number):
+# open command prompt at the easyr folder and run (set version number):
 R CMD build .
-R CMD check easyr_0.5-3.tar.gz --as-cran
+R CMD check easyr_0.5-8.tar.gz --as-cran 
+
+# add --no-manual if you get PDF creation errors.
+R CMD check easyr_0.5-8.tar.gz --as-cran --no-manual
 
 # Load to https://win-builder.r-project.org/upload.aspx under R-devel to check similarly against the latest R version.
 
@@ -13,7 +18,5 @@ R CMD check easyr_0.5-3.tar.gz --as-cran
 # See this https://www.r-bloggers.com/a-nold-platform-on-r-hub-package-builder/ for more info. 
 
 # Update cran-comments.md
-
-# Before submitting to CRAN, run `git push` to ensure you aren't missing any commits by other contributors.
 
 # When all checks pass, submit via https://cran.r-project.org/submit.html with updated cran-comments. The maintainer will get an email to confirm the above steps have been completed. They must click the link and confirm. 
