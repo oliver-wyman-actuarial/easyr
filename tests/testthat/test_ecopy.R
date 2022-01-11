@@ -7,17 +7,15 @@ test_that("works as expected", {
   # string.
   ecopy( 'hello' )
    
-  # writing to clipboard is not handled in Unix.
-  if( .Platform$OS.type != "unix" ){
-
-    expect_equal(
-      readClipboard( format = 1, raw = FALSE ),
-      'hello'
-    )
+  # reading from the clipboard is not always possible.
+  result = tryCatch({
+      readClipboard(format = 1, raw = FALSE)
+    },
+    error = function(e) {}
+  )
+  if(!is.null(result)) expect_equal(result, 'hello')
     
-    # errors.
-    expect_error( { ecopy( iris, showrowcolnames = "wrong", show = 'show' ) }, 'should be one of' )
-
-  }
+  # errors.
+  expect_error( { ecopy( iris, showrowcolnames = "wrong", show = 'show' ) }, 'should be one of' )
 
 })

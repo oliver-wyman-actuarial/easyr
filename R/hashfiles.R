@@ -11,7 +11,8 @@
 #' @export
 #'
 #' @examples
-#' hashfiles( '.' )
+#' folder = system.file('extdata', package = 'easyr')
+#' hashfiles(folder)
 hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE ){
   
   hash.out = ''

@@ -22,5 +22,6 @@ String representing hash of files.
 Get a hash value representing a list of files. Useful for determining if files have changed in order to reset dependent caches.
 }
 \examples{
-hashfiles( '.' )
+folder = system.file('extdata', package = 'easyr')
+hashfiles(folder)
 }
