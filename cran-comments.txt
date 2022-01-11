@@ -20,4 +20,4 @@ easyr has no known downstream dependencies.
 
 ## Prior CRAN Feedback
 
-This request does not address any prior CRAN feedback.
+Fixed a failed test from prior submit attempt.

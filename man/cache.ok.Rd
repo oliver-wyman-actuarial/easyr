@@ -23,11 +23,14 @@ Check a cache and if necessary clear it to trigger a re-cache.
 # set do.load = FALSE if you have multiple files that build a cache, 
 #    to prevent multiple cache loads.
 # output will be printed to the console to tell you if the cache was loaded or re-built.
-if( ! cache.ok(1) ){
+\dontrun{
+  if( ! cache.ok(1) ){
 
-  # do stuff
+    # do stuff
   
-  # if this is the final file for this cache, end with save.cache to save passed objects as a cache.
-  save.cache(iris)
+    # if this is the final file for this cache, 
+    #   end with save.cache to save passed objects as a cache.
+    save.cache(iris)
+  }
 }
 }

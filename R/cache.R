@@ -16,21 +16,24 @@
 #' # initialize a cache with 1 cache which depends on files in the current working directory.
 #' # this will create a cache folder in your current working directory.
 #' # then, you call functions to check and build the cache.
-#' folder = system.file('extdata', package = 'easyr')
-#' cache.init(
+#' \dontrun{
 #'
-#'  # Initial file read (raw except for renaming).
-#'  caches = list(
-#'    list( 
-#'     name = 'prep-files',
-#'     depends.on = folder
-#'    )
-#'  ),
-#' 
-#'  at.path = tempdir()
+#'   folder = system.file('extdata', package = 'easyr')
+#'   cache.init(
 #'
-#' )
+#'    # Initial file read (raw except for renaming).
+#'    caches = list(
+#'      list( 
+#'       name = 'prep-files',
+#'       depends.on = paste0(folder, '/script.R')
+#'      )
+#'    ),
 #' 
+#'    at.path = paste0(tempdir(), '/cache')
+#'
+#'   )
+#'
+#' }
 cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.missing = TRUE, n_processes = 2){
   
   validatecaches(caches)
@@ -132,12 +135,15 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
 #' # set do.load = FALSE if you have multiple files that build a cache, 
 #' #    to prevent multiple cache loads.
 #' # output will be printed to the console to tell you if the cache was loaded or re-built.
-#' if( ! cache.ok(1) ){
+#' \dontrun{
+#'   if( ! cache.ok(1) ){
 #' 
-#'   # do stuff
+#'     # do stuff
 #'   
-#'   # if this is the final file for this cache, end with save.cache to save passed objects as a cache.
-#'   save.cache(iris)
+#'     # if this is the final file for this cache, 
+#'     #   end with save.cache to save passed objects as a cache.
+#'     save.cache(iris)
+#'   }
 #' }
 cache.ok = function( cache.num, do.load = TRUE ){
 
@@ -197,17 +203,21 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #' # set do.load = FALSE if you have multiple files that build a cache, 
 #' #    to prevent multiple cache loads.
 #' # output will be printed to the console to tell you if the cache was loaded or re-built.
-#' if( ! cache.ok(1) ){
+#' \dontrun{
+#'   if( ! cache.ok(1) ){
 #' 
-#'   # do stuff
+#'     # do stuff
 #'   
-#'   # if this is the final file for this cache, end with save.cache to save passed objects as a cache.
-#'   save.cache(iris)
+#'     # if this is the final file for this cache, 
+#'     #   end with save.cache to save passed objects as a cache.
+#'     save.cache(iris)
+#' 
+#'   }
+#' 
+#'   # delete the cache folder to close out the example.
+#'   system( "rm -r cache" )
+#' 
 #' }
-#' 
-#' # delete the cache folder to close out the example.
-#' system( "rm -r cache" )
-#' 
 save.cache = function( ... ){
 
     if('qs' %in% utils::installed.packages()){
@@ -251,7 +261,9 @@ save.cache = function( ... ){
 #'
 #' @examples
 #' # this will only have an effect if a current cache exists.
-#' clear.cache()
+#' \dontrun{
+#'   clear.cache()
+#' }
 #' 
 clear.cache = function( cache = NULL ){
 

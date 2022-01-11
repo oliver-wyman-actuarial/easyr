@@ -13,9 +13,13 @@ test_that("works as expected", {
     },
     error = function(e) {}
   )
-  if(!is.null(result)) expect_equal(result, 'hello')
+  if(!is.null(result)){
+
+    expect_equal(result, 'hello')    
+
+    # errors.
+    expect_error( { ecopy( iris, showrowcolnames = "wrong", show = 'show' ) }, 'should be one of' )
     
-  # errors.
-  expect_error( { ecopy( iris, showrowcolnames = "wrong", show = 'show' ) }, 'should be one of' )
+  }
 
 })

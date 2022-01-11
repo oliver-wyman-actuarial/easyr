@@ -33,19 +33,22 @@ Set cache info so easyr can manage the cache.
 # initialize a cache with 1 cache which depends on files in the current working directory.
 # this will create a cache folder in your current working directory.
 # then, you call functions to check and build the cache.
-folder = system.file('extdata', package = 'easyr')
-cache.init(
+\dontrun{
 
- # Initial file read (raw except for renaming).
- caches = list(
-   list( 
-    name = 'prep-files',
-    depends.on = folder
-   )
- ),
+  folder = system.file('extdata', package = 'easyr')
+  cache.init(
 
- at.path = tempdir()
+   # Initial file read (raw except for renaming).
+   caches = list(
+     list( 
+      name = 'prep-files',
+      depends.on = paste0(folder, '/script.R')
+     )
+   ),
 
-)
+   at.path = paste0(tempdir(), '/cache')
 
+  )
+
+}
 }
