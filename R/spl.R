@@ -16,7 +16,10 @@
 #' spl( c(1:100) )
 #' spl( c(1:100), n = 50 )
 #' spl( iris )
-spl <- function( x, n = 10, warn = TRUE, replace = FALSE, ... ){
+spl <- function( x, n = 10, warn = TRUE, replace = FALSE, seed = NULL, ... ){
+
+  # Seed
+  if(!is.null(seed)) set.seed(seed)
 
   # Vectors.
   if( is.null( nrow(x) ) ){

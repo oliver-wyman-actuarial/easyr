@@ -12,4 +12,8 @@ test_that("works as expected", {
   expect_warning( spl( cars, 60 ), '[60]' )
   expect_warning( spl( cars$speed, 60 ), '[60]' )
   
+  set.seed(123)
+  t = spl(mtcars)
+  expect_equal(t, spl(mtcars, seed = 123))
+  
 })
