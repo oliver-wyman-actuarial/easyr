@@ -401,13 +401,16 @@ rx <- function( filename, sheet, first_column_name, nrows, verbose ){
   
   # Setup.
   x = NULL # this is here for the function to latch onto during <<-. Without it, you sometimes get a leftover "x" after running the read.
-if(grepl('[.]xlsb$', filename, ignore.case = T)){
-  if(!isval(sheet)) sheet = 1
-  x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
-  if(isval(nrows)) x = head(x, nrows)
-}
+
+  # Handle xlsb
+  if(grepl('[.]xlsb$', filename, ignore.case = T)){
+
+    if(!isval(sheet)) sheet = 1 # read_xlsb errors out if sheet is NULL.
+    x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
+    if(isval(nrows)) x = head(x, nrows) # read_xlsb does not have an nrows argument. 
+  
   # Handle xlsx
-  else if( grepl( '[.]xlsx$', filename, ignore.case = T ) ) {
+  } else if( grepl( '[.]xlsx$', filename, ignore.case = T ) ) {
       
     # Read in as text, we'll convert datatypes later. Data type conversion in a read-excel function often runs into errors.
     # We'd like more control over data conversion to enhance it.
