@@ -5,7 +5,7 @@ test_that( 'basic has works properly', {
       test_file( 'null-columns.xlsx' ),
       full.hash = TRUE
     ),
-    'c770eb0f9c224b9c342ee460154a2b09'
+    '559904736dd3b0cb436d1ebbb7eb2657'
   )
   
 })
@@ -14,7 +14,10 @@ test_that( 'missing files are handled properly', {
   
   expect_equal(
     hashfiles( c( test_file( 'null-columns.xlsx' ), 'this-file-doesnt-exist.R' ), skip.missing = TRUE, full.hash = TRUE ),
-    'c770eb0f9c224b9c342ee460154a2b09'
+    hashfiles( 
+      test_file( 'null-columns.xlsx' ),
+      full.hash = TRUE
+    )
   )
   
   expect_error(
@@ -31,7 +34,7 @@ test_that( "handle entire folder", {
       
     expect_equal(
       hashfiles( test_file(''), full.hash = TRUE ),
-      'cd203cd34681657c280708c0bbf5b1c0'
+      '8fe55b06a5a9b71a0afbbaa9b4132d78'
     )
   
 })

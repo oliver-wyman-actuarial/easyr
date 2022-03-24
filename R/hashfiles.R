@@ -50,7 +50,7 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
           if(jinfo$size < 1024 * 100){
             jdigest = fulldigest(j)
           } else {
-            jdigest = digest::digest( c( rownames(jinfo), jinfo$size ) )
+            jdigest = digest::digest( c( rownames(jinfo), jinfo$size ), algo = "xxhash64" )
           }         
           
           rm(jinfo)
@@ -77,11 +77,11 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
 fulldigest = function(path){
             
   # Try a standard digest.
-  result = tryCatch({ digest::digest( file = path ) }, error = function(e) return(NULL) )
+  result = tryCatch({ digest::digest( file = path, algo = "xxhash64" ) }, error = function(e) return(NULL) )
   
   # If that doesn't work, try reading and digesting.
-  if( is.null(result) ) result = tryCatch({ digest::digest( readChar(path, file.info(path)$size) ) }, error = function(e) return(NULL) )
-  if( is.null(result) ) result = tryCatch({ digest::digest( read.any(filename = path) ) }, error = function(e) return(NULL) )
+  if( is.null(result) ) result = tryCatch({ digest::digest( readChar(path, file.info(path)$size), algo = "xxhash64" ) }, error = function(e) return(NULL) )
+  if( is.null(result) ) result = tryCatch({ digest::digest( read.any(filename = path), algo = "xxhash64" ) }, error = function(e) return(NULL) )
   
   if( is.null(result) ) stop( glue::glue( "Error at digest::digest for [{path}] Error E1140 hashfiles" ) )
 
