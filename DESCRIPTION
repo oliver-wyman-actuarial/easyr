@@ -29,6 +29,7 @@ Imports:
     stringr,
     openssl,
     readxl,
+    readxlsb,
     rlang,
     rprojroot,
     XML
