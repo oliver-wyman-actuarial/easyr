@@ -58,13 +58,12 @@ tobool <- function(
     rm(notna)
 
     test.conversion = x
-    
+  
     # Set identified true and false.
-    test.conversion[ test.conversion %in% true.vals ] <- TRUE
-    test.conversion[ test.conversion %in% false.vals ] <- FALSE
+    test.conversion[ test.conversion %in% tolower(true.vals) ] <- TRUE
+    test.conversion[ test.conversion %in% tolower(false.vals) ] <- FALSE
 
     test.conversion = suppressWarnings( as.logical( test.conversion ) )
-
     return( test.conversion )
 
   }
