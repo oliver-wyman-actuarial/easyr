@@ -41,7 +41,7 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
     dl = NULL
 
     for( ifile in file.list ){
-    
+        
         # handle excel
         if( grepl( '[.](xls[xmb]?|xml)', ifile, ignore.case = TRUE ) ){
             
@@ -54,23 +54,23 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
                     readxl::excel_sheets( filename ),
                     error = function(e) NULL
                 )
-                
+                    
                 # attempt HTML/XML saved as XLS read.
-                if( is.null(sheets) && grepl( '[.]xls$', ifile, ignore.case = TRUE ) ) sheets = names( XML::readHTMLTable( filename ) )
+                if( is.null(sheets) && grepl( '[.]xls$', ifile, ignore.case = TRUE ) ) sheets = 1:length( XML::readHTMLTable( filename ) )
                 
                 if( is.null(sheets) ) stop( glue::glue( 'Could not find sheets for Excel file at [ {ifile} ].' ) )
-            
+                    
             for( isheet in sheets ){
-            
+                
             idt = tryCatch({
-
+                
                 x = read.any( ifile, folder = folder, sheet = isheet, ... )
 
                 d = dict(x)
                 d$rows = nrow(x)
                 d$cols = ncol(x)
 
-                return(d)
+                d
                 
             }, error = function(e) data.frame( err = as.character(e) )
             )
@@ -88,15 +88,15 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
         } else {
             
             idt = tryCatch({
-
+                
                 x = read.any( ifile, folder = folder, ... )
-
+                
                 d = dict(x)
                 d$rows = nrow(x)
                 d$cols = ncol(x)
-
-                return(d)
-
+                
+                d
+            
             }, error = function(e) data.frame( err = as.character(e) )
             )
             
@@ -108,21 +108,22 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
             if( exists('x') ) rm(x)
             
         }
-    
+        
         rm(ifile)
     
     }
-
+    
     for( icol in intersect( c( 'rows', 'cols' ), colnames(dl) ) ) dl[[icol]] = fmat( dl[[icol]] )
 
     dl = dl[ , unique( c(
         intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ),
         colnames(dl)
     )) ]
-
+    
     return(list(
-        sheets = edistinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
+        sheets = distinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
         columns = dl
     ))
-
+    
 }
+

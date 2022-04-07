@@ -81,7 +81,7 @@ test_that( 'read HTML saved as XLS', {
   
   expect_equal( 
     read.any( test_file( 'html-as-xls.xls' ), header = FALSE, verbose = FALSE )$V1[1],
-    'sheet1'
+    'value1'
   )
   
 })
