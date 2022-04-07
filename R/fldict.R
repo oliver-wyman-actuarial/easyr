@@ -54,15 +54,9 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
                     readxl::excel_sheets( filename ),
                     error = function(e) NULL
                 )
-                
-                # convert character "NULL" to NULL 
-                if(is.null(sheets) || sheets[1] == "NULL") sheets = NULL
                     
                 # attempt HTML/XML saved as XLS read.
                 if( is.null(sheets) && grepl( '[.]xls$', ifile, ignore.case = TRUE ) ) sheets = 1:length( XML::readHTMLTable( filename ) )
-                
-                # convert character "NULL" to NULL 
-                if(is.null(sheets) || sheets[1] == "NULL") sheets = NULL
                 
                 if( is.null(sheets) ) stop( glue::glue( 'Could not find sheets for Excel file at [ {ifile} ].' ) )
                     

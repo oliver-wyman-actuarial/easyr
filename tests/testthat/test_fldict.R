@@ -11,8 +11,7 @@ test_that("works as expected", {
     full.names = TRUE,
     pattern = '^[^~].+(csv|xlsx|xlsb)'
   )[1:2]
-  
-  
+   
   count1a = sum(sapply(
     file_paths1, 
     function(file_path) read.any(file_path, all_chars = TRUE) %>% 
