@@ -34,7 +34,7 @@ test_that( "handle entire folder", {
       
     expect_equal(
       hashfiles( test_file(''), full.hash = TRUE ),
-      '7a4f7594664d8962ad25cc4794ab38d4'
+      '613ff3bab4e18fe7c2ef792af000d33d'
     )
   
 })

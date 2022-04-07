@@ -1,13 +1,10 @@
 MIME-Version: 1.0
 X-Document-Type: Workbook
 Content-Type: multipart/related; boundary="====Boundary===="
-
 --====Boundary====
 Content-Location: file:///C:/RA_IMAGE.XHT
 Content-Transfer-Encoding: 8bit
 Content-Type: text/html; charset="us-ascii"
-
-
 <html xmlns:v="urn:schemas-microsoft-com:vml"
 xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -20,7 +17,7 @@ xmlns="http://www.w3.org/TR/REC-html40">
  <x:ExcelWorkbook>
   <x:ExcelWorksheets>
    <x:ExcelWorksheet>
-    <x:Name>shee1</x:Name>
+    <x:Name>sheet1</x:Name>
     <x:WorksheetSource HRef="./IBIT0001.xht"/>
    </x:ExcelWorksheet>
    <x:ExcelWorksheet>
@@ -32,13 +29,10 @@ xmlns="http://www.w3.org/TR/REC-html40">
 </xml>
 </HEAD>
 </HTML>
-
 --====Boundary====
 Content-Location: file:///C:/IBIT0001.xht
 Content-Transfer-Encoding: 8bit
 Content-Type: text/html; charset="us-ascii"
-
-
 <html xmlns:v="urn:schemas-microsoft-com:vml"
 xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -220,7 +214,7 @@ td
 <TABLE X:STR BORDER=0 CELLPADDING=0 CELLSPACING=0>
 <TR>
 <TD COLSPAN=10 class=xl102>
-<FONT class=xl102>sheet1</FONT>
+<FONT class=xl102>value1</FONT>
 </TD>
 </TR>
 </TABLE>
@@ -228,13 +222,10 @@ td
 </BODY>
   
 </HTML>
-
 --====Boundary====
 Content-Location: file:///C:/IBIT0002.xht
 Content-Transfer-Encoding: 8bit
 Content-Type: text/html; charset="us-ascii"
-
-
 <html xmlns:v="urn:schemas-microsoft-com:vml"
 xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:x="urn:schemas-microsoft-com:office:excel"
@@ -390,13 +381,11 @@ td
   
 <TABLE X:STR BORDER=0 CELLPADDING=0 CELLSPACING=0>
 <TR>
-<TD class=xl101>sheet2</TD>
+<TD class=xl101>value2</TD>
 </TR>
-
 </TABLE>
   
 </BODY>
   
 </HTML>
-
 --====Boundary====--

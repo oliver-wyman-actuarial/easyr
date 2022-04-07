@@ -429,7 +429,7 @@ rx <- function( filename, sheet, first_column_name, nrows, verbose ){
     if( grepl( '[.]xls$', filename, ignore.case = TRUE ) ){
       
       # This method requires sheet index number, not a sheet name, so return an error if applicable.
-      if( !is.numeric(sheet) ) stop('ERROR: Not able to file [',filename,'] sheet [',sheet,']. Try using a sheet index/number instead of the name for argument [sheet], which will allow an XML-based read attempt.')
+      if( !is.numeric(sheet) ) stop('ERROR: Not able to find file [',filename,'] sheet [',sheet,']. Try using a sheet index/number instead of the name for argument [sheet], which will allow an XML-based read attempt.')
       
       # Attemp the html-format read via XML.
       if( verbose ) cat( 'Reading as XML/HTML \n' )
