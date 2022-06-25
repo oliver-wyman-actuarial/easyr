@@ -354,7 +354,7 @@ read.any <- function(
   if( !is.na( row.names.column ) ){
     
     # Validated.
-    if( class(row.names.column) != 'character' || length( row.names.column ) != 1 ) stop( '[row.names] argument must be a single character.')
+    if( !methods::is(row.names.column, 'character') || length( row.names.column ) != 1 ) stop( '[row.names] argument must be a single character.')
     if( any( duplicated( x[[ row.names.column ]] ) ) ) stop( '[row.names] column must have unique values.' )
     
     # Apply rownames and remove the column.
@@ -407,7 +407,7 @@ rx <- function( filename, sheet, first_column_name, nrows, verbose ){
 
     if(!isval(sheet)) sheet = 1 # read_xlsb errors out if sheet is NULL.
     x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
-    if(isval(nrows)) x = head(x, nrows) # read_xlsb does not have an nrows argument. 
+    if(isval(nrows)) x = utils::head(x, nrows) # read_xlsb does not have an nrows argument. 
   
   # Handle xlsx
   } else if( grepl( '[.]xlsx$', filename, ignore.case = T ) ) {

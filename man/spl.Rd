@@ -4,7 +4,7 @@
 \alias{spl}
 \title{Sample}
 \usage{
-spl(x, n = 10, warn = TRUE, replace = FALSE, ...)
+spl(x, n = 10, warn = TRUE, replace = FALSE, seed = NULL, ...)
 }
 \arguments{
 \item{x}{Data to sample from.}
@@ -14,6 +14,8 @@ spl(x, n = 10, warn = TRUE, replace = FALSE, ...)
 \item{warn}{Warn if sampling more than the size of the data.}
 
 \item{replace}{Whether or not to sample with replacement.}
+
+\item{seed}{Set a seed to allow consistent/replicable sampling.}
 
 \item{...}{Other parameters passed to sample()}
 }

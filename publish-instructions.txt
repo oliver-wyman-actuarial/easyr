@@ -4,10 +4,10 @@
 
 # open command prompt at the easyr folder and run (set version number):
 R CMD build .
-R CMD check easyr_0.5-8.tar.gz --as-cran 
+R CMD check easyr_0.5-9.tar.gz --as-cran 
 
 # add --no-manual if you get PDF creation errors.
-R CMD check easyr_0.5-8.tar.gz --as-cran --no-manual
+R CMD check easyr_0.5-9.tar.gz --as-cran --no-manual
 
 # Load to https://win-builder.r-project.org/upload.aspx under R-devel to check similarly against the latest R version.
 

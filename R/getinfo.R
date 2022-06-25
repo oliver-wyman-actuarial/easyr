@@ -39,7 +39,7 @@ getinfo <- function(
 ) {
   
   # Get the column as a data.table for faster processing.
-  if ( "data.table" %in% class(df) ) {
+  if ( methods::is(df, "data.table") ) {
     datacol <- subset( df, select = colname )
   } else {
     datacol <- data.table::data.table(df[, colname])

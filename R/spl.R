@@ -7,6 +7,7 @@
 #' @param n Number or percentage of rows/values to return. If less than 1 it will be interpreted as a percentage.
 #' @param warn Warn if sampling more than the size of the data.
 #' @param replace Whether or not to sample with replacement.
+#' @param seed Set a seed to allow consistent/replicable sampling.
 #' @param ... Other parameters passed to sample()
 #'
 #' @return Sample dataframe/vector.

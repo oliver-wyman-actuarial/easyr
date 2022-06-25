@@ -121,7 +121,7 @@ fldict = function( folder = NULL, file.list = NULL, pattern = '^[^~]+[.](xls[xmb
     )) ]
     
     return(list(
-        sheets = distinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
+        sheets = dplyr::distinct( dl[ , intersect( c( 'file', 'sheet', 'err', 'rows', 'cols' ), colnames(dl) ) ] ),
         columns = dl
     ))
     
