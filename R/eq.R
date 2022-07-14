@@ -16,8 +16,10 @@
 #' eq(c(NA,'NA',1,2,'c'),c(NA,NA,1,2,'a')) # check with eq.
 eq <- function( x, y, do.nanull.equal = TRUE ) {
 
+  if( is.null(x) && is.null(y) ) return( TRUE )
   # if vectors are length > 1 and different length, return FALSE.  
-  if(length(x) != 1 && length(y) != 1 && length(y) != length(x)) return(FALSE)
+  
+  if(length(x) != 1 && length(y) != 1 && length(y) != length(x)) stop('Not a valid comparison.')
   
   # if vectors differ in length, modify them. 
   # this allows comparison of a single value to a vector. 
@@ -25,8 +27,6 @@ eq <- function( x, y, do.nanull.equal = TRUE ) {
   if( length(y) ==1 && length(x) > 1 ) y = rep( x = y, times = length(x) )
   
   if( do.nanull.equal ) if( all( easyr::nanull( x, do.test.each = TRUE ) & easyr::nanull( y, do.test.each = TRUE ) ) ) return( TRUE )
-  
-  if( is.null(x) && is.null(y) ) return( TRUE )
   
   nanull.x = nanull( x, do.test.each = TRUE )
   nanull.y = nanull( y, do.test.each = TRUE )
