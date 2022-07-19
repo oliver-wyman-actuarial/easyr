@@ -10,6 +10,7 @@ fldict(
   pattern = "^[^~]+[.](xls[xmb]?|csv|rds|xml)",
   ignore.case = TRUE,
   recursive = TRUE,
+  verbose = FALSE,
   ...
 )
 }
