@@ -4,7 +4,13 @@
 \alias{hashfiles}
 \title{Hash Files}
 \usage{
-hashfiles(x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE)
+hashfiles(
+  x,
+  skip.missing = FALSE,
+  full.hash = FALSE,
+  verbose = FALSE,
+  skiptemp = TRUE
+)
 }
 \arguments{
 \item{x}{Input which specifies which files to hash. This can be a vector mix of paths and files.}
@@ -14,6 +20,8 @@ hashfiles(x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE)
 \item{full.hash}{By default we just hash the file info (name, size, created/modified time). Set this to TRUE to read the file and hash the contents.}
 
 \item{verbose}{Print helpful messages from code.}
+
+\item{skiptemp}{Skip temporary MS Office files like "~$Simd Loss Eval 2018-06-30.xlsx"}
 }
 \value{
 String representing hash of files.

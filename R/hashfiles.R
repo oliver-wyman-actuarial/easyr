@@ -6,6 +6,7 @@
 #' @param skip.missing Skip missing files. Default is to throw an error if a file isn't found.
 #' @param full.hash By default we just hash the file info (name, size, created/modified time). Set this to TRUE to read the file and hash the contents.
 #' @param verbose Print helpful messages from code.
+#' @param skiptemp Skip temporary MS Office files like "~$Simd Loss Eval 2018-06-30.xlsx"
 #'
 #' @return String representing hash of files.
 #' @export
@@ -13,7 +14,7 @@
 #' @examples
 #' folder = system.file('extdata', package = 'easyr')
 #' hashfiles(folder)
-hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE ){
+hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALSE, skiptemp = TRUE ){
   
   hash.out = ''
   
@@ -24,6 +25,8 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
     } else{
       ifiles = c( i ) 
     }
+    
+    if(skiptemp) ifiles = ifiles[!grepl('~[$]', ifiles)]
     
     for( j in ifiles ){
       
