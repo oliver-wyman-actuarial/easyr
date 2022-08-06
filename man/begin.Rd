@@ -7,6 +7,7 @@
 begin(
   wd = NULL,
   load = c("magrittr", "dplyr"),
+  keep = NULL,
   scipen = FALSE,
   verbose = TRUE,
   repos = "http://cran.us.r-project.org"
@@ -16,6 +17,8 @@ begin(
 \item{wd}{Path to set as working directory. If blank, the location of the current file open in RStudio will be used if available. If FALSE, the working directory will not be changed.}
 
 \item{load}{Packages to load. If not available, they'll be installed.}
+
+\item{keep}{Environment objects to keep. If blank, all user-defined objects will be removed from the environment.}
 
 \item{scipen}{Do scientific notation in output?}
 
