@@ -7,6 +7,7 @@
 begin(
   wd = NULL,
   load = c("magrittr", "dplyr"),
+  keep = NULL,
   scipen = FALSE,
   verbose = TRUE,
   repos = "http://cran.us.r-project.org"
@@ -17,6 +18,8 @@ begin(
 
 \item{load}{Packages to load. If not available, they'll be installed.}
 
+\item{keep}{Environment objects to keep. If blank, all objects will be removed from the environment.}
+
 \item{scipen}{Do scientific notation in output?}
 
 \item{verbose}{Print information about what the function is doing?}
@@ -24,7 +27,7 @@ begin(
 \item{repos}{choose the URL to install from.}
 }
 \description{
-Perform common operations before running a script. Includes clearing environment variables, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
+Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
 }
 \examples{
 
