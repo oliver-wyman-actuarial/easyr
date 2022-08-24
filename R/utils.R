@@ -35,7 +35,8 @@ preprocess.for.type = function( x, nastrings ){
   
   x = as.character(x)
   x[ x %in% nastrings ] <- NA
-  x = tolower( stringr::str_trim(x) )
+  # ignore bad characters
+  x = tolower( stringr::str_trim(iconv(x, 'UTF-8', 'UTF-8//IGNORE')) )
 
   return(x)
 
