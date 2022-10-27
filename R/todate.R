@@ -121,11 +121,14 @@ todate <- function(
         
         # If there are lots of excel dates this will cause conversion to fail. 
         # If we were fairly successful with excel conversion, remove any succesful excel conversions.
+        # parse_date_time will fail for very long strings.
         char.convert = x
+        toolong = which(nchar(char.convert) > 500)
+        if(length(toolong) > 0) char.convert[toolong] = left(char.convert[toolong], 500)
         if( sum( !is.na(test.conversion.xl) ) / sum( !is.na(x) ) > 0.25 ) char.convert[ ! is.na( test.conversion.xl ) ] <- NA
         
         test.conversion.char = suppressWarnings( lubridate::parse_date_time( char.convert, timeformats_primary ) ) # we'll check for NAs manually.
-        rm(char.convert) 
+        rm(char.convert, toolong) 
         
         if( !is.null(min.acceptable) ) test.conversion.char[ test.conversion.char < min.acceptable ] <- NA
         if( !is.null(max.acceptable) ) test.conversion.char[ test.conversion.char > max.acceptable ] <- NA
@@ -133,9 +136,16 @@ todate <- function(
         # Did we create NAs?
         if( any( !is.na(x) & is.na( test.conversion.char ) & is.na( test.conversion.xl ) ) ){
           
+          # parse_date_time will fail for very long strings.
+          char.convert = x
+          toolong = which(nchar(char.convert) > 500)
+          if(length(toolong) > 0) char.convert[toolong] = left(char.convert[toolong], 500)
+          
           # Try dmy.
           timeformat_fallback = c( 'dmy', 'dmy HM' )
-          test.conversion.char = coalf( test.conversion.char, suppressWarnings( lubridate::parse_date_time( x, timeformat_fallback ) ) )
+          test.conversion.char = coalf( test.conversion.char, suppressWarnings( lubridate::parse_date_time( char.convert, timeformat_fallback ) ) )
+          rm(char.convert, toolong) 
+          
           if( !is.null(min.acceptable) ) test.conversion.char[ test.conversion.char < min.acceptable ] <- NA
           if( !is.null(max.acceptable) ) test.conversion.char[ test.conversion.char > max.acceptable ] <- NA
           
