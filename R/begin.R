@@ -23,23 +23,22 @@ begin = function(
   repos = 'http://cran.us.r-project.org'
 ){
   
-  # clear workspace.
-  envobjs = ls( all.names = TRUE, envir = parent.frame() )
-  drop = setdiff( envobjs, keep )
   # check if attempting to keep any objects not in environment
-  if( length( keep ) > 0 ){
+  envobjs = ls( all.names = TRUE, envir = parent.frame() )
+  if( length(keep) > 0 ){
     missing = setdiff( keep, envobjs )
-    if( length( missing ) > 0 ){ 
-      stop( 
-        glue::glue('
-          Attempted to keep objects not in the environment: [{cc(missing, sep = ", ")}]. Error easyr::begin E911.
-      ')) 
-    }
+    if( length( missing ) > 0 ) stop(glue::glue('
+        Attempted to keep objects not in the environment: [{cc(missing, sep = ", ")}]. Error easyr::begin E911.
+    ')) 
   }
 
   # clear objects not set to keep
-  rm( list = drop, envir = parent.frame() )
-  if( verbose ){ cat( 'Cleared objects not in \"keep\" argument from environment. \n' ) }
+  rm( list = setdiff( envobjs, keep ), envir = parent.frame() )
+  if( verbose ) if( length(keep) > 0 ){ 
+    cat(glue::glue( 'Cleared all objects from the environment except: [{cc(keep, sep = ", ")}]. \n' ))
+  } else {
+    cat(glue::glue( 'Cleared all objects from the environment. \n' ))
+  }
   
   # set working directcory.
   
