@@ -13,7 +13,7 @@ test_that("works as expected", {
     },
     error = function(e) {}
   )
-  if(!is.null(result)){
+  if(!is.null(result) && result != '??'){ # r-devel system seems to return '??' from readClipboard.
 
     expect_equal(result, 'hello')    
 
