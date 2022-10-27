@@ -25,6 +25,8 @@ fldict(
 
 \item{recursive}{Check files recursively. Passed to list.files.}
 
+\item{verbose}{Print helpful information.}
+
 \item{...}{Other arguments to read.any for reading in files. Consider using a first_column_name vector, etc.}
 }
 \value{

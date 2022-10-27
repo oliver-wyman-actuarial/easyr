@@ -8,6 +8,7 @@
 #' @param pattern Pattern to match files in the folder. By default we use a pattern that matches read.any-compatible data files and skips temporary Office files. Passed to list.files.
 #' @param ignore.case Ignore case when checking pattern. Passed to list.files.
 #' @param recursive Check files recursively. Passed to list.files.
+#' @param verbose Print helpful information.
 #' @param ... Other arguments to read.any for reading in files. Consider using a first_column_name vector, etc.
 #'
 #' @export
@@ -72,7 +73,7 @@ fldict = function(
       
       if( is.null(sheets) ){
         
-        dl %<>% dplyr::bind_rows(data.frame(
+        dl = dplyr::bind_rows(dl, data.frame(
           file = ifile,
           err = 'Could not find sheets for Excel file. This could be due to password protection. Consider un-protecting the file.',
           stringsAsFactors = FALSE
