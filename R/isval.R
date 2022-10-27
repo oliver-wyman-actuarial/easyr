@@ -43,7 +43,7 @@ isval <- function( x, na_strings = easyr::nastrings, do.test.each = FALSE ){
   
     if( all( is.na( icheck ) ) ) return(FALSE) # it is NA; "any()" is necessary when checking tibbles (dplyr).
   
-    if( is.character(icheck) ) if( stringr::str_trim(icheck) %in% na_strings ) return( FALSE ) # check for na strings, including the blank.
+    if( is.character(icheck) ) if( str_trim_fixed(icheck) %in% na_strings ) return( FALSE ) # check for na strings, including the blank.
   
     return(TRUE) # If we made it this far, it passed all checks and will not be considered nanull.
    

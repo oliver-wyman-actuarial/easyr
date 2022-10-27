@@ -87,7 +87,7 @@ dict <- function(
       
     }
     
-    idts[[i]] = stringr::str_trunc( stringr::str_trim( as.character( idts[[i]] ) ), 50 )
+    idts[[i]] = stringr::str_trunc( str_trim_fixed( as.character( idts[[i]] ) ), 50 )
     
     idts[[i]][ is.na(idts[[i]]) | idts[[i]] %in% c( 'NA', 'NA%' ) ] <- ''
     

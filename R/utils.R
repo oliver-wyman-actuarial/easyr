@@ -36,7 +36,7 @@ preprocess.for.type = function( x, nastrings ){
   x = as.character(x)
   x[ x %in% nastrings ] <- NA
   # ignore bad characters
-  x = tolower( stringr::str_trim(iconv(x, 'UTF-8', 'UTF-8//IGNORE')) )
+  x = tolower( str_trim_fixed(x) )
 
   return(x)
 
@@ -121,3 +121,6 @@ validatecolnames = function(x, checknames){
   '))
 
 }
+
+str_trim_fixed = function(x) stringr::str_trim(iconv(x, 'UTF-8', 'UTF-8//IGNORE'))
+

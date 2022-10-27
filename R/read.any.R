@@ -123,10 +123,10 @@ read.any <- function(
     ) headers_on_row = 1
     
     # Trim/lower operations.
-    file_type = stringr::str_trim( tolower(file_type) )
-    if( do.trim.sheetname ) sheet = stringr::str_trim(sheet) # Need to keep case here so it matches the workbook.
+    file_type = str_trim_fixed( tolower(file_type) )
+    if( do.trim.sheetname ) sheet = str_trim_fixed(sheet) # Need to keep case here so it matches the workbook.
     if( !easyr::isval(sheet) ) sheet = 1 # Default to first sheet in case a null sheet is passed into the function. This should happen very rarely.
-    sheet = easyr::tonum( sheet, verbose = FALSE, ifna = 'return-unchanged' ) # if the sheet is a number formatted as a character, convert it to numeric. Thus must come AFTER stringr::str_trim since that converts to string.
+    sheet = easyr::tonum( sheet, verbose = FALSE, ifna = 'return-unchanged' ) # if the sheet is a number formatted as a character, convert it to numeric. Thus must come AFTER str_trim_fixed since that converts to string.
     if( is.numeric(sheet) && sheet < 1 ) stop( glue::glue( 'Sheet [{sheet}] cannot be less than one.' ) )
 
   # If we don't already have data, read in the file with the appropriate function, and headers_on_row if applicable.
@@ -272,7 +272,7 @@ read.any <- function(
     
       # str_trim drops names so we need to save them and add them back.
       field_name_map.names = names(field_name_map)
-      field_name_map <- stringr::str_trim( field_name_map )
+      field_name_map <- str_trim_fixed( field_name_map )
       names(field_name_map) = field_name_map.names
       rm(field_name_map.names)
       field_name_map <- field_name_map[ !is.na( field_name_map ) & !easyr::eq( field_name_map,'') ] # remove any NAs and empty strings from the field map.
@@ -290,7 +290,7 @@ read.any <- function(
   if( nrow(x) > 0 ) for(i in colnames(x) ) if( is.character(x[[i]]) ){
     
     # Trim white space.
-    x[[i]] <- stringr::str_trim( x[[i]] )
+    x[[i]] <- str_trim_fixed( x[[i]] )
     
     #  Implement na strings. This is done here and nowhere else.
     x[ x[[i]] %in% na_strings, i ] <- NA
@@ -494,7 +494,7 @@ headers_row <- function( x, headers_on_row = NA, first_column_name = NA, field_n
   # If the headers aren't already in the column names. Search for the row with the headers.
   if( !headers_already_column_names ) for(i in 1:min(1000,nrow(x))){ # Check at most the first 1k rows.
 
-    if( any( !is.na(x[i,] ) & ( stringr::str_trim( gsub( '\\n|\\r', '', x[i,] ) ) %in% first_column_names ) ) ){ # Check the row to see if any of its' values match the header given.
+    if( any( !is.na(x[i,] ) & ( str_trim_fixed( gsub( '\\n|\\r', '', x[i,] ) ) %in% first_column_names ) ) ){ # Check the row to see if any of its' values match the header given.
 
       headers_on_row = i
       break # done.
@@ -525,7 +525,7 @@ rany_fixColNames <- function( col_names, fix.dup.column.names, nastrings ){
     if( any(is.na(col_names)) ) col_names[is.na(col_names)] <- 'NA'
 
     # Remove white space.
-    col_names <- stringr::str_trim(col_names)
+    col_names <- str_trim_fixed(col_names)
     
     # Remove new line characters and any other strange characters that have come throgh files in the past.
     # Replace them with a space and then resolve any double spaces.
