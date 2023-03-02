@@ -61,7 +61,7 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
   for( i in 1:length(replace.cols) ) if( replace.cols[[i]] %ni% colnames(x) ){
     
       x[[ replace.cols[[i]] ]] <- NA
-      yclass = class( y[[ y.replace[[i]] ]] )
+      yclass = firstClass( y[[ y.replace[[i]] ]] )
       
       # some class conversions require the "as" function:
       if( yclass == 'factor' ){
