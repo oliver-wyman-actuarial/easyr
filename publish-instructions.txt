@@ -1,17 +1,18 @@
-﻿# run `git push` to ensure you aren't missing any commits by other contributors (should get "Already up to date" or similar).
+﻿
+# if you haven't already, increment the verison. 
+
+# run `git push` to ensure you aren't missing any commits by other contributors (should get "Already up to date" or similar).
 
 # run build-install-test.R to set up roxygen documentation and run examples, tests
 
-# open command prompt at the easyr folder and run (set version number):
+# open command prompt at the easyr folder and run the below (after updating the version number)
+# add --no-manual if you get PDF creation errors.
 R CMD build .
 R CMD check easyr_0.5-10.tar.gz --as-cran 
 
-# add --no-manual if you get PDF creation errors.
-R CMD check easyr_0.5-10.tar.gz --as-cran --no-manual
-
 # Load to https://win-builder.r-project.org/upload.aspx under R-devel to check similarly against the latest R version.
 
-# run noLD check using the code at the bottom of build-install-test.R.
+# run noLD check using the commented line of code at the bottom of build-install-test.R.
 # noLD is an option to make things run faster but at lower accuracy, so it makes sense it requires higher tolerance.
 # It will run and wait, you can stop it after a few minutes and you’ll get an email in about 12 hours. 
 # Typically these are resolved by setting a tolerance in your expect_equal calls. I use tolerance = .01 to be safe. 
