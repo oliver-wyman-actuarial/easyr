@@ -405,9 +405,14 @@ rx <- function( filename, sheet, first_column_name, nrows, verbose ){
   # Handle xlsb
   if(grepl('[.]xlsb$', filename, ignore.case = T)){
 
-    if(!isval(sheet)) sheet = 1 # read_xlsb errors out if sheet is NULL.
-    x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
-    if(isval(nrows)) x = utils::head(x, nrows) # read_xlsb does not have an nrows argument. 
+    # Check if readxlsb package is installed and loaded. Returns 
+    if('readxlsb' %in% utils::installed.packages()){
+      stop('ERROR: The "readxlsb" package is not installed. Please install the package and try again.')
+    } else {
+      if(!isval(sheet)) sheet = 1 # read_xlsb errors out if sheet is NULL.
+      x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
+      if(isval(nrows)) x = utils::head(x, nrows) # read_xlsb does not have an nrows argument. 
+    } 
   
   # Handle xlsx
   } else if( grepl( '[.]xlsx$', filename, ignore.case = T ) ) {
