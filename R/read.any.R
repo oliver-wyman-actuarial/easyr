@@ -411,7 +411,7 @@ rx <- function( filename, sheet, first_column_name, nrows, verbose ){
       x <- readxlsb::read_xlsb( path = filename, sheet = sheet )
       if(isval(nrows)) x = utils::head(x, nrows) # read_xlsb does not have an nrows argument. 
     } else {
-      stop('Error: readxlsb has not been installed. Cannot read XLSB files. Consider using an XLSM file format instead.')
+      stop('easyr::read.any > rx: Package "readxlsb" has not been installed. Cannot read .XLSB files. Consider using .XLSM file format instead.')
     } 
   
   # Handle xlsx
