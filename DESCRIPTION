@@ -26,18 +26,17 @@ Imports:
     glue,
     Hmisc,
     lubridate,
-    stringr,
     methods,
-    openssl,
     readxl,
-    readxlsb,
     rlang,
     rprojroot,
+    stringr,
     XML
 RoxygenNote: 7.1.1
 Suggests: 
     pdftools,
     qs,
     rstudioapi,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    readxlsb
 Config/testthat/edition: 3
