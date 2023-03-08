@@ -61,7 +61,7 @@ hashfiles = function( x, skip.missing = FALSE, full.hash = FALSE, verbose = FALS
         }
         
         # add to the running hash.
-        hash.out = openssl::md5( cc( hash.out, jdigest ) )[1]
+        hash.out = digest::digest( cc( hash.out, jdigest ), algo = "md5", serialize = FALSE )[1]
         
         rm( jdigest )
       
