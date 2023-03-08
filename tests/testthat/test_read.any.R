@@ -133,22 +133,25 @@ test_that( 'times read in properly', {
 #  
 #})
 
-# test_that( 'read xlsb', {
+test_that( 'read xlsb', {
 
-#   expect_equal( 
-#     nrow(read.any( test_file( 'sample.xlsb'))),
-#     14
-#   )
+  if('readxlsb' %in% utils::installed.packages()){ 
 
-#   expect_equal( 
-#     nrow(read.any( test_file( 'sample.xlsb'), sheet = 1)),
-#     14
-#   )
+    expect_equal( 
+      nrow(read.any( test_file( 'sample.xlsb'))),
+      14
+    )
 
-#   expect_equal( 
-#     nrow(read.any( test_file( 'sample.xlsb'), sheet = 2)),
-#     14
-#   )
+    expect_equal( 
+      nrow(read.any( test_file( 'sample.xlsb'), sheet = 1)),
+      14
+    )
 
-# })
+    expect_equal( 
+      nrow(read.any( test_file( 'sample.xlsb'), sheet = 2)),
+      14
+    )
 
+  }
+
+})
