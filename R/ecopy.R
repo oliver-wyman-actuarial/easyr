@@ -7,6 +7,7 @@
 #' @param x Object you'd like to copy to the clipboard.
 #' @param showrowcolnames (Optional) Show row and column names. Choose 'none', 'cols', 'rows', or 'both'.
 #' @param show (Optional Boolean)  Set to 'show' if you want to also print the object to the console.
+#' @param buffer (Optional) Set clipboard buffer size.
 #' 
 #' @export
 #'
@@ -17,7 +18,8 @@
 ecopy <- function( 
   x, 
   showrowcolnames = c( 'cols', 'rows', 'both', 'none' ), 
-  show = FALSE 
+  show = FALSE,
+  buffer = 1024 
 ) { 
 
   # writing to clipboard is not handled in Unix.
@@ -36,7 +38,7 @@ ecopy <- function(
     if( !is.null( ncol(x) ) ){
       
       utils::write.table( x,
-        file = "clipboard", sep="\t", 
+        file = paste0("clipboard-", buffer), sep="\t", 
         row.names = showrowcolnames == "rows" || showrowcolnames == "both", 
         col.names = showrowcolnames == "cols" || showrowcolnames == "both"
       )
