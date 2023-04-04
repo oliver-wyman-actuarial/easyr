@@ -38,7 +38,7 @@ ecopy <- function(
     if( !is.null( ncol(x) ) ){
       
       utils::write.table( x,
-        file = paste0("clipboard-", buffer, ""), sep="\t", 
+        file = paste0("clipboard-", buffer), sep="\t", 
         row.names = showrowcolnames == "rows" || showrowcolnames == "both", 
         col.names = showrowcolnames == "cols" || showrowcolnames == "both"
       )
