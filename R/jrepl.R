@@ -37,7 +37,7 @@
 #'   replace.cols = c( 'group' = 'group.replace' ), 
 #'   na.only = TRUE  
 #' ) 
-jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, verbose = FALSE ){
+jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, verbose = FALSE, viewalldups = FALSE ){
   
   # Replace y column names with x column names to make things easier.
     
@@ -154,9 +154,19 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     
     # Check for duplication.
     urows = unique( x$orig.x.row )
-    if( nrow(x) != length(urows) || any( x$orig.x.row != urows ) ) stop( 
-      'jrepl error: rows were duplicated or eliminated in the join. Please fix the data such that the join does not create duplicates. Error E510 jrepl.' 
+    if( nrow(x) != length(urows) || any( x$orig.x.row != urows ) ) {
+      drows = x$orig.x.row[which(duplicated(x$orig.x.row))]
+      dups = x.copy[drows, ]
+      if(viewalldups){
+        return(dups) # issue here is there might be many dups.
+      } else {
+        print(spl(dups, n = min(10, nrow(dups)))) # issue here is there might be many dups.
+      }
+    }
+      stop(
+      'jrepl error: rows were duplicated or eliminated in the join. A sample of duplicates are printed to console. To see all of them, set viewalldups = TRUE. Error E510 easyr::jrepl.'
     )
+  
     rm(urows)
     
   # Now handle each replace columns.
@@ -209,11 +219,16 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     
     if( nrow( x.copy ) > 0 ){
       diff.classes = which( new.classes != old.classes )
-      if( length( diff.classes ) > 0 ) warning(
-        'jrepl warning: [', cc( colnames(x.copy)[ diff.classes], sep = ',' ), '] type changed from [', cc( old.classes[diff.classes], sep = ',' ), 
-        '] to [', cc( new.classes[diff.classes], sep = ',' ), ']. ',
-        'To avoid this, ensure both x and y replace.cols columns are the same type.'
-      )
+      #if( nrow == 1 ) {
+        suppressWarnings({
+          if( length( diff.classes ) > 0 ) warning(
+            'jrepl warning: [', cc( colnames(x.copy)[ diff.classes], sep = ',' ), '] type changed from [', cc( old.classes[diff.classes], sep = ',' ), 
+            '] to [', cc( new.classes[diff.classes], sep = ',' ), ']. ',
+            'To avoid this, ensure both x and y replace.cols columns are the same type.'
+          )
+        })
+      #}
+      
     }
     
   # show % replaced.
@@ -225,8 +240,6 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     
   # Return the modified data.
   return( x.copy )
-  
 }
-
 # utilities.
 firstClass = function(x) gsub( 'ordered', 'factor', class(x)[1] )

@@ -1,5 +1,22 @@
 test_that("works as expected", {
 
+    # duplication
+      
+      x = data.frame( 
+        id = as.integer( c( 1, 2, 3 ) ),
+        val = c( 1, 2, 3 ),
+        stringsAsFactors = TRUE
+      )
+      
+      y = data.frame(
+        id = as.integer( c( 2, 1, 1 ) ),
+        val = c( 1, 2, 3 ),
+        stringsAsFactors = TRUE
+      )
+      
+      expect_error( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'duplicated' )
+
+  # other tests:
   df1 = utils::head(sleep)
   df1$group %<>% droplevels()
   group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
