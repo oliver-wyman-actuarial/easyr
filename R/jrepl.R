@@ -226,7 +226,9 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
             'jrepl warning: [', cc( colnames(x.copy)[ diff.classes], sep = ',' ), '] type changed from [', cc( old.classes[diff.classes], sep = ',' ), 
             '] to [', cc( new.classes[diff.classes], sep = ',' ), ']. ',
             'To avoid this, ensure both x and y replace.cols columns are the same type.'
+
           )
+          
     }
     
   # show % replaced.

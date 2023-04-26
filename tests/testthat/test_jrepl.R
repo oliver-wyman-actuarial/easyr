@@ -1,5 +1,5 @@
 test_that("works as expected", {
-
+    
     # duplication
       
       x = data.frame( 
@@ -15,6 +15,9 @@ test_that("works as expected", {
       )
       
       expect_error( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'duplicated' )
+
+      t = jrepl( x, y, by = 'id', replace.cols = 'val', viewalldups = TRUE )
+      expect_equal( t, x[1,] )
 
   # other tests:
   df1 = utils::head(sleep)
