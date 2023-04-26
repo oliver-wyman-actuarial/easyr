@@ -10,6 +10,8 @@
 #' @param na.only Only replace values that are NA.
 #' @param only.rows Select rows to be affected. Default checks all rows.
 #' @param verbose Print via cat information about the replacement.
+#' @param viewalldups Set to TRUE to see all duplicates
+#' @param warn Set to TRUE to see warnings.
 #'
 #' @return x with new values.
 #' @export
@@ -37,7 +39,7 @@
 #'   replace.cols = c( 'group' = 'group.replace' ), 
 #'   na.only = TRUE  
 #' ) 
-jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, verbose = FALSE, viewalldups = FALSE ){
+jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, verbose = FALSE, viewalldups = FALSE, warn = FALSE ){
   
   # Replace y column names with x column names to make things easier.
     
@@ -154,6 +156,7 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     
     # Check for duplication.
     urows = unique( x$orig.x.row )
+    #browser()
     if( nrow(x) != length(urows) || any( x$orig.x.row != urows ) ) {
       drows = x$orig.x.row[which(duplicated(x$orig.x.row))]
       dups = x.copy[drows, ]
@@ -162,10 +165,10 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
       } else {
         print(spl(dups, n = min(10, nrow(dups)))) # issue here is there might be many dups.
       }
-    }
       stop(
       'jrepl error: rows were duplicated or eliminated in the join. A sample of duplicates are printed to console. To see all of them, set viewalldups = TRUE. Error E510 easyr::jrepl.'
-    )
+      )
+    }
   
     rm(urows)
     
@@ -219,16 +222,11 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     
     if( nrow( x.copy ) > 0 ){
       diff.classes = which( new.classes != old.classes )
-      #if( nrow == 1 ) {
-        suppressWarnings({
-          if( length( diff.classes ) > 0 ) warning(
+          if( length( diff.classes ) > 0 && warn == TRUE ) warning(
             'jrepl warning: [', cc( colnames(x.copy)[ diff.classes], sep = ',' ), '] type changed from [', cc( old.classes[diff.classes], sep = ',' ), 
             '] to [', cc( new.classes[diff.classes], sep = ',' ), ']. ',
             'To avoid this, ensure both x and y replace.cols columns are the same type.'
           )
-        })
-      #}
-      
     }
     
   # show % replaced.

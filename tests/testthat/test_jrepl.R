@@ -101,7 +101,7 @@ test_that("works as expected", {
         stringsAsFactors = TRUE
       )
       
-      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
+      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val', warn = TRUE ) }, regexp = 'type changed' )
       expect_equal( sum( t$val, na.rm = TRUE ), 4.1 )
       expect_equal( class( t$val ), 'numeric' )
       
@@ -119,7 +119,7 @@ test_that("works as expected", {
         stringsAsFactors = TRUE
       )
       
-      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
+      t = jrepl( x, y, by = 'id', replace.cols = 'val', warn = FALSE )
       expect_equal( t$val, factor( c( 'a', 'b', 'c' ) ) )
       
     # invalid comparison.
