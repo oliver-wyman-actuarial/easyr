@@ -153,23 +153,27 @@ read.any <- function(
     if( file_type == 'dbf' || grepl( '[.]dbf$', filename, ignore.case = TRUE ) ) x <- foreign::read.dbf(filename) # dbf, requires package: foreign.
     
     if( file_type == 'csv' || grepl( '[.]csv$', filename, ignore.case = T ) ){
-      tryCatch(
+      tryCatch({
           withCallingHandlers(
-              x = { data.table::fread( # preferred, fastest but sometimes errors out where read.csv works. We use try catch to pass errors/warnings to read.csv which is a bit slow but less error-prone.
-              filename, sep = ',',
-              header = FALSE, # we'll implement this later.
-              stringsAsFactors = FALSE,
-              encoding = encoding,
-              nrows = nrows
-              )},
-              warning = function(w){
+            {
+              x = data.table::fread( # preferred, fastest but sometimes errors out where read.csv works. We use try catch to pass errors/warnings to read.csv which is a bit slow but less error-prone.
+                    filename, sep = ',',
+                    header = FALSE, # we'll implement this later.
+                    stringsAsFactors = FALSE,
+                    encoding = encoding,
+                    nrows = nrows
+              )
+            },
+            warning = function(w){
                 parent <- parent.env(environment())
                 parent$diag <- warning('Warning during read of [', filename, '], from data.table::fread \n ', w)
-              }
-          ),
-          error = function(e) x <<- utils::read.csv( filename, stringsAsFactors = FALSE, check.names = FALSE, nrows = nrows, header = FALSE, encoding = encoding )
-        )
-      }
+                assign("last.warning", NULL, envir = basenv()) # prevent 2 warnings. 
+            }
+          )
+      },
+      error = function(e) x <<- utils::read.csv( filename, stringsAsFactors = FALSE, check.names = FALSE, nrows = nrows, header = FALSE, encoding = encoding )
+      )
+    }
     
     if( file_type == 'tsv' || grepl( '[.]tsv$', filename, ignore.case = TRUE) ) x <- data.table::fread( 
       file = filename, sep = '\t', stringsAsFactors = FALSE, nrows = nrows, header = FALSE, encoding = encoding
@@ -195,27 +199,13 @@ read.any <- function(
   
   }
   
-  # Check if the file exists (was read), error if it doesn't.
-  if( is.null(x) ){
-      
-    stop('File type may not be acceptable. read.any currently only reads CSV, TSV, XLS, XLSX, DBF, RDS.')
-      
-  } else { 
-      
-    x <- as.data.frame( x, stringsAsFactors = FALSE ) # this might be read in as data.table (by fread), we want output to be consistently data.frame, for now.
-      
-    # Enforce nrows in case it hasn't been already (DBF, RDS files).
-    if( nrows > 0 ) x <- x[ 1:max(nrow(x),nrows), ] 
-      
-  }
-  
   # Implement headers_on_row if it was passed. This does not apply to data files that always come with headers.
   if( 
     !is.na(headers_on_row) &&
     !grepl( '[.](dbf|rds)$', filename, ignore.case = TRUE ) && 
     ! file_type %in% c('rds','dbf')
   ){
-    #browser()
+    
     colnames(x) <- rany_fixColNames( 
       as.character( x[ headers_on_row, ] ), 
       fix.dup.column.names = fix.dup.column.names, 
@@ -231,7 +221,19 @@ read.any <- function(
       
   }
   
+  # Check if the file exists (was read), error if it doesn't.
+  if( is.null(x) ){
+    
+    stop('File type may not be acceptable. read.any currently only reads CSV, TSV, XLS, XLSX, DBF, RDS.')
 
+  } else { 
+    
+    x <- as.data.frame( x, stringsAsFactors = FALSE ) # this might be read in as data.table (by fread), we want output to be consistently data.frame, for now.
+    
+    # Enforce nrows in case it hasn't been already (DBF, RDS files).
+    if( nrows > 0 ) x <- x[ 1:max(nrow(x),nrows), ] 
+    
+  }
 
   # Fix column names. This must happen BEFORE looking for first column, others they may not match as expected.
   colnames(x) = rany_fixColNames( 
