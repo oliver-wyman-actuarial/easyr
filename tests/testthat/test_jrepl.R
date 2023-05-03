@@ -1,5 +1,25 @@
 test_that("works as expected", {
+    
+    # duplication
+      
+      x = data.frame( 
+        id = as.integer( c( 1, 2, 3 ) ),
+        val = c( 1, 2, 3 ),
+        stringsAsFactors = TRUE
+      )
+      
+      y = data.frame(
+        id = as.integer( c( 2, 1, 1 ) ),
+        val = c( 1, 2, 3 ),
+        stringsAsFactors = TRUE
+      )
+      
+      expect_error( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'duplicated' )
 
+      t = jrepl( x, y, by = 'id', replace.cols = 'val', viewalldups = TRUE )
+      expect_equal( t, x[1,] )
+
+  # other tests:
   df1 = utils::head(sleep)
   df1$group %<>% droplevels()
   group.reassign = data.frame( id.num = factor( c( 1, 3, 4 ) ), group.replace = factor( c( 99, 99, 99 ) ), stringsAsFactors = TRUE )
@@ -84,7 +104,7 @@ test_that("works as expected", {
         stringsAsFactors = TRUE
       )
       
-      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
+      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val', warn = TRUE ) }, regexp = 'type changed' )
       expect_equal( sum( t$val, na.rm = TRUE ), 4.1 )
       expect_equal( class( t$val ), 'numeric' )
       
@@ -102,7 +122,7 @@ test_that("works as expected", {
         stringsAsFactors = TRUE
       )
       
-      expect_warning( { t = jrepl( x, y, by = 'id', replace.cols = 'val' ) }, regexp = 'type changed' )
+      t = jrepl( x, y, by = 'id', replace.cols = 'val', warn = FALSE )
       expect_equal( t$val, factor( c( 'a', 'b', 'c' ) ) )
       
     # invalid comparison.

@@ -133,6 +133,8 @@ test_that( 'times read in properly', {
 #  
 #})
 
+expect_warning( { t = read.any(test_file( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
+
 test_that( 'read xlsb', {
 
   if('readxlsb' %in% utils::installed.packages()){ 
