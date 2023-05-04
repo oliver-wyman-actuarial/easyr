@@ -154,16 +154,24 @@ read.any <- function(
     
     if( file_type == 'csv' || grepl( '[.]csv$', filename, ignore.case = T ) ){
       tryCatch({
-        x <- data.table::fread( # preferred, fastest but sometimes errors out where read.csv works. We use try catch to pass errors/warnings to read.csv which is a bit slow but less error-prone.
-          filename, sep = ',',
-          header = FALSE, # we'll implement this later.
-          stringsAsFactors = FALSE,
-          encoding = encoding,
-          nrows = nrows
-        )
+          withCallingHandlers(
+            {
+              x = data.table::fread( # preferred, fastest but sometimes errors out where read.csv works. We use try catch to pass errors/warnings to read.csv which is a bit slow but less error-prone.
+                    filename, sep = ',',
+                    header = FALSE, # we'll implement this later.
+                    stringsAsFactors = FALSE,
+                    encoding = encoding,
+                    nrows = nrows
+              )
+            },
+            warning = function(w){
+                parent <- parent.env(environment())
+                parent$diag <- warning('Warning during read of [', filename, '], from data.table::fread \n ', w)
+                assign("last.warning", NULL, envir = basenv()) # prevent 2 warnings. 
+            }
+          )
       },
-      error = function(e) x <<- utils::read.csv( filename, stringsAsFactors = FALSE, check.names = FALSE, nrows = nrows, header = FALSE, encoding = encoding ),
-      warning = function(w) warning( 'Warning during read of [', filename, '], from data.table::fread \n ', w )
+      error = function(e) x <<- utils::read.csv( filename, stringsAsFactors = FALSE, check.names = FALSE, nrows = nrows, header = FALSE, encoding = encoding )
       )
     }
     
@@ -217,7 +225,7 @@ read.any <- function(
   if( is.null(x) ){
     
     stop('File type may not be acceptable. read.any currently only reads CSV, TSV, XLS, XLSX, DBF, RDS.')
-    
+
   } else { 
     
     x <- as.data.frame( x, stringsAsFactors = FALSE ) # this might be read in as data.table (by fread), we want output to be consistently data.frame, for now.
