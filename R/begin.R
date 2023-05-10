@@ -22,7 +22,7 @@ begin = function(
   scipen = FALSE,
   verbose = TRUE,
   repos = 'http://cran.us.r-project.org',
-  runpath = FALSE
+  runpath = NULL
 ){
   
   # check if attempting to keep any objects not in environment
@@ -75,12 +75,14 @@ begin = function(
     easyr::runfolder( 'fun', verbose = verbose )
   }
 
-  if( runpath != FALSE && dir.exists(runpath) ){
-    easyr::runfolder( runpath, verbose = verbose )
-  }
-  
-  if( runpath != FALSE && file_test('-f', runpath) ){
-    source(runpath, keep.source = FALSE)
+  if(!is.null(runpath)){
+    if(dir.exists(runpath)){
+      runfolder(runpath, verbose = verbose)
+    } else if(file.exists(runpath)){
+      source(runpath, keep.source = FALSE)
+    } else {
+      stop(glue::glue('easyr begin error: runpath not found: [{runpath}].'))
+    }
   }
 
 }
