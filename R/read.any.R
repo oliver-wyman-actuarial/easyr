@@ -41,6 +41,8 @@
 #' @param isexcel If you want to use read.any functionality on an existing data frame, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.
 #' @param encoding Encoding passed to fread and read.csv.
 #' @param verbose Print helpful information via cat.
+#' @param widths Column widths
+#' @param col_names Column names
 #'
 #' @return Data frame with the data that was read.
 #' @export
@@ -94,10 +96,12 @@ read.any <- function(
     x = NULL, 
     isexcel = FALSE,
     encoding = 'unknown',
-    verbose = TRUE
+    verbose = TRUE,
+    widths = NULL,
+    col_names = NULL
     
   ){
-
+  
   # Argument validation.
   if( is.na(filename) && is.null(x) ) stop( 'You must pass an argument for either [filename] or [data].' )
   
@@ -128,7 +132,7 @@ read.any <- function(
     if( !easyr::isval(sheet) ) sheet = 1 # Default to first sheet in case a null sheet is passed into the function. This should happen very rarely.
     sheet = easyr::tonum( sheet, verbose = FALSE, ifna = 'return-unchanged' ) # if the sheet is a number formatted as a character, convert it to numeric. Thus must come AFTER str_trim_fixed since that converts to string.
     if( is.numeric(sheet) && sheet < 1 ) stop( glue::glue( 'Sheet [{sheet}] cannot be less than one.' ) )
-
+    
   # If we don't already have data, read in the file with the appropriate function, and headers_on_row if applicable.
   if( is.null(x) ){
     
@@ -199,13 +203,17 @@ read.any <- function(
   
   }
   
-  # Implement headers_on_row if it was passed. This does not apply to data files that always come with headers.
+  if(!is.null(widths)){
+    x = read.fwf(filename, widths, header = FALSE)
+  }  
+ 
   if( 
     !is.na(headers_on_row) &&
     !grepl( '[.](dbf|rds)$', filename, ignore.case = TRUE ) && 
     ! file_type %in% c('rds','dbf')
-  ){
     
+  ){
+  
     colnames(x) <- rany_fixColNames( 
       as.character( x[ headers_on_row, ] ), 
       fix.dup.column.names = fix.dup.column.names, 
@@ -533,7 +541,7 @@ headers_row <- function( x, headers_on_row = NA, first_column_name = NA, field_n
 #'
 #' @return Fixed names.
 rany_fixColNames <- function( col_names, fix.dup.column.names, nastrings ){
-
+  
     # Replace NA column names - these can cause errors downstream.
     if( any(is.na(col_names)) ) col_names[is.na(col_names)] <- 'NA'
 

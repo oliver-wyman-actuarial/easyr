@@ -11,7 +11,9 @@ jrepl(
   replace.cols,
   na.only = FALSE,
   only.rows = NULL,
-  verbose = FALSE
+  verbose = FALSE,
+  viewalldups = FALSE,
+  warn = FALSE
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ jrepl(
 \item{only.rows}{Select rows to be affected. Default checks all rows.}
 
 \item{verbose}{Print via cat information about the replacement.}
+
+\item{viewalldups}{Set to TRUE to see all duplicates}
+
+\item{warn}{Set to TRUE to see warnings.}
 }
 \value{
 x with new values.

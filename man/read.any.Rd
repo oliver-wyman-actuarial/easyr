@@ -35,7 +35,9 @@ read.any(
   x = NULL,
   isexcel = FALSE,
   encoding = "unknown",
-  verbose = TRUE
+  verbose = TRUE,
+  widths = NULL,
+  col_names = NULL
 )
 }
 \arguments{
@@ -100,6 +102,10 @@ read.any(
 \item{encoding}{Encoding passed to fread and read.csv.}
 
 \item{verbose}{Print helpful information via cat.}
+
+\item{widths}{Column widths}
+
+\item{col_names}{Column names}
 }
 \value{
 Data frame with the data that was read.

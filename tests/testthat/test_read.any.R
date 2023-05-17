@@ -73,8 +73,7 @@ test_that( 'stringsAsFactors works properly', {
     class( read.any( test_file( 'sim-data.csv' ), first_column_name = 'Claim Number', stringsAsFactors = TRUE )$status ),
     'factor'
   )
-  
-  
+    
 })
 
 test_that( 'read HTML saved as XLS', {
@@ -135,22 +134,31 @@ test_that( 'times read in properly', {
 
 expect_warning( { t = read.any(test_file( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
 
+temppath = tempfile()
+write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
+# let's assume all incoming FWF do not have header.
+t = read.fwf(temppath, widths = c(4, 4, 4, 4, 10))
+names(t) = names(iris)
+t %<>% atype()
+t$Species %<>% trimws()
+expect_equal(t, fac2char(iris))
+
 test_that( 'read xlsb', {
 
   if('readxlsb' %in% utils::installed.packages()){ 
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb'))),
+      nrow(read.any( test_file( 'sample.xlsb' ))),
       14
     )
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb'), sheet = 1)),
+      nrow(read.any( test_file( 'sample.xlsb' ), sheet = 1)),
       14
     )
 
     expect_equal( 
-      nrow(read.any( test_file( 'sample.xlsb'), sheet = 2)),
+      nrow(read.any( test_file( 'sample.xlsb' ), sheet = 2)),
       14
     )
 
