@@ -7,7 +7,7 @@
 #' @param filename File path and name for the file to be read in.
 #' @param folder Folder path to look for the file in.
 #' @param sheet The sheet to read in.
-#' @param file_type Specify the file type (CSV, TSV, DBF). If not provided, R will use the file extension to determine the file type. Useful when the file extension doesn't indicate the file type, like .rpt, etc.
+#' @param file_type Specify the file type (CSV, TSV, DBF, FWF). If not provided, R will use the file extension to determine the file type. Useful when the file extension doesn't indicate the file type, like .rpt, etc.
 
 #' @param first_column_name Define headers location by providing the name of the left-most column. Alternatively, you can choose the row via the [headers_on_row] argument.
 #' @param header Choose if your file contains headers.
@@ -41,8 +41,8 @@
 #' @param isexcel If you want to use read.any functionality on an existing data frame, you can tell read.any that this data came from excel using isexcel manually. This comes in handy when excel-integer date conversions are necessary.
 #' @param encoding Encoding passed to fread and read.csv.
 #' @param verbose Print helpful information via cat.
-#' @param widths Column widths
-#' @param col_names Column names
+#' @param widths Column widths. Only use for fixed width files.
+#' @param col.names Column names. Only use for fixed width files.
 #'
 #' @return Data frame with the data that was read.
 #' @export
@@ -66,7 +66,7 @@ read.any <- function(
     file_type = '', 
     
     first_column_name = NA, 
-    header = TRUE, 
+    header = is.null(col.names), 
     headers_on_row = NA,  
     nrows = -1L,
     
@@ -98,7 +98,7 @@ read.any <- function(
     encoding = 'unknown',
     verbose = TRUE,
     widths = NULL,
-    col_names = NULL
+    col.names = NULL
     
   ){
   
@@ -202,9 +202,13 @@ read.any <- function(
     )
   
   }
-  
-  if(!is.null(widths)){
+
+  if(!is.null(widths) && is.null(col.names) || tolower(file_type) == 'fwf'){
     x = read.fwf(filename, widths, header = FALSE)
+  }
+
+  if(!is.null(widths) && !is.null(col.names) || tolower(file_type) == 'fwf'){
+    x = read.fwf(filename, widths, header = FALSE, col.names = col.names)
   }  
  
   if( 
@@ -213,8 +217,9 @@ read.any <- function(
     ! file_type %in% c('rds','dbf')
     
   ){
-  
+    
     colnames(x) <- rany_fixColNames( 
+      #as.character( ifelse(!is.null(headers_on), x[ headers_on_row, ], col.names ) ),
       as.character( x[ headers_on_row, ] ), 
       fix.dup.column.names = fix.dup.column.names, 
       nastrings = na_strings 

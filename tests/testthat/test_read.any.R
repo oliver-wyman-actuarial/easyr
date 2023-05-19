@@ -135,12 +135,17 @@ test_that( 'times read in properly', {
 expect_warning( { t = read.any(test_file( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
 
 temppath = tempfile()
-write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
+gdata::write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
 # let's assume all incoming FWF do not have header.
-t = read.fwf(temppath, widths = c(4, 4, 4, 4, 10))
+t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), header = FALSE)
 names(t) = names(iris)
 t %<>% atype()
 t$Species %<>% trimws()
+expect_equal(t, fac2char(iris))
+
+temppath = tempfile()
+gdata::write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
+t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), col.names = names(iris))
 expect_equal(t, fac2char(iris))
 
 test_that( 'read xlsb', {

@@ -10,7 +10,7 @@ read.any(
   sheet = 1,
   file_type = "",
   first_column_name = NA,
-  header = TRUE,
+  header = is.null(col.names),
   headers_on_row = NA,
   nrows = -1L,
   row.names.column = NA,
@@ -37,7 +37,7 @@ read.any(
   encoding = "unknown",
   verbose = TRUE,
   widths = NULL,
-  col_names = NULL
+  col.names = NULL
 )
 }
 \arguments{
@@ -47,7 +47,7 @@ read.any(
 
 \item{sheet}{The sheet to read in.}
 
-\item{file_type}{Specify the file type (CSV, TSV, DBF). If not provided, R will use the file extension to determine the file type. Useful when the file extension doesn't indicate the file type, like .rpt, etc.}
+\item{file_type}{Specify the file type (CSV, TSV, DBF, FWF). If not provided, R will use the file extension to determine the file type. Useful when the file extension doesn't indicate the file type, like .rpt, etc.}
 
 \item{first_column_name}{Define headers location by providing the name of the left-most column. Alternatively, you can choose the row via the [headers_on_row] argument.}
 
@@ -103,9 +103,9 @@ read.any(
 
 \item{verbose}{Print helpful information via cat.}
 
-\item{widths}{Column widths}
+\item{widths}{Column widths. Only use for fixed width files.}
 
-\item{col_names}{Column names}
+\item{col.names}{Column names. Only use for fixed width files.}
 }
 \value{
 Data frame with the data that was read.
