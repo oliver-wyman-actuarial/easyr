@@ -4,13 +4,7 @@
 \alias{checkeq}
 \title{Check Value or Control Total}
 \usage{
-checkeq(
-  expected,
-  actual,
-  desc = "",
-  acceptable_pct_diff = 0.00000001,
-  digits = 2
-)
+checkeq(expected, actual, desc = "", acceptable_pct_diff = 1e-08, digits = 2)
 }
 \arguments{
 \item{expected}{The expected value of the metric.}

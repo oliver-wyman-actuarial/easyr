@@ -18,6 +18,10 @@ Installs a package if it needs to be installed, and calls require to load the pa
 Author: Scott Sobel. Tech Review: Bryce Chamberlain.
 }
 \examples{
+
 # packages shouldn't be installed during tests or examples according to CRAN. 
 # therefore, examples cannot be provided because CRAN now runs donttest examples.
+
+usepkg('geodist', FALSE, 'http://cran.us.r-project.org')
+
 }
