@@ -219,7 +219,6 @@ read.any <- function(
   ){
     
     colnames(x) <- rany_fixColNames( 
-      #as.character( ifelse(!is.null(headers_on), x[ headers_on_row, ], col.names ) ),
       as.character( x[ headers_on_row, ] ), 
       fix.dup.column.names = fix.dup.column.names, 
       nastrings = na_strings 
