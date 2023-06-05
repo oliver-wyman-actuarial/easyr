@@ -51,7 +51,7 @@ char2fac = function( x, sortlevels = FALSE, na_level = '(Missing)' ){
 #' @export
 #'
 #' @examples
-#' char2fac( iris )
+#' fac2char( iris )
 fac2char = function(x){
     for( icol in colnames(x) ) if( is.factor(x[[icol]]) ) x[[icol]] <- as.character( x[[icol]] )
     return(x)
