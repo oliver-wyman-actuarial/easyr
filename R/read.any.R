@@ -66,7 +66,7 @@ read.any <- function(
     file_type = '', 
     
     first_column_name = NA, 
-    header = is.null(col.names), 
+    header = is.null(widths), #widths indicates fixed-width files which don't usually have headers
     headers_on_row = NA,  
     nrows = -1L,
     
