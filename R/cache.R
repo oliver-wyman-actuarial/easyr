@@ -68,6 +68,7 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         cache.info[[i]]$cache.num = i
         cache.info[[i]]$path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '.qs')
         cache.info[[i]]$status.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-status.RDS')
+        cache.info[[i]]$warning.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-warning.RDS')
         rm(i)
     }
 
@@ -156,6 +157,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
     # check against the maximum valid cache. if it is less, don't load anything just return true.    if(cache.num==2) browser()
     if( easyr.cache.info$max.cache > easyr.cache.info$cache.num && do.load && ! easyr.cache.info$save.only ){
         if( !checked.already && easyr.cache.info$verbose ) cat( '\t   >> skip cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
+        cache.show_warnings(easyr.cache.info$cache.num)
         return( TRUE )
 
     # if it is the highest available cache, load it.
@@ -164,6 +166,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
             if( easyr.cache.info$verbose ) cat( '\t   >> load cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
             load.cache(easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path)
             easyr.cache.info$max.cache.loaded <<- max.cache.loaded
+            cache.show_warnings(easyr.cache.info$cache.num)
         }
         return( TRUE )
 
@@ -223,12 +226,17 @@ save.cache = function( ... ){
     if('qs' %in% utils::installed.packages()){
 
       if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
-          
+      
+      # save status/hash.
       saveRDS(
           hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE ),
           file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path
       )
       
+      # save warnings.
+      saveRDS(easyr.cache.info$captured.warnings, file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$warning.path)
+      easyr.cache.info$captured.warnings <<- NULL # reset for the next cache.
+
       cache.at <<- lubridate::now()
       cache.path <<- easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$path
       
@@ -248,6 +256,30 @@ save.cache = function( ... ){
       warning('Package [qs] not installed. Cache not saved.')
     }
 
+}
+
+#' Capture Warning
+#' 
+#' Utility function for capturing warnings.
+#'
+#' @param w Captured warning passed by withCallingHandlers.
+#'
+#' @export
+#'
+#' @examples
+#' # this will only have an effect if a current cache exists.
+#' \dontrun{
+#'   if(!cache.ok(1)) withCallingHandlers({
+#'      x = mtcars # base-R dataset.
+#'      x = mtcars # base-R dataset.
+#'        warning('warning 2-1') # this is the first warning we need tdo capture. 
+#'        warning('warning 2-2') # this is the first warning we need tdo capture. 
+#'        save.cache(x) # we'll capture it inside svae.caceh
+#'   }, warning = cache.capture_warning)
+#' }
+#' 
+cache.capture_warning = function(w){
+  easyr.cache.info$captured.warnings <<- c(easyr.cache.info$captured.warnings, w$message)
 }
 
 #' Clear Cache
@@ -286,6 +318,7 @@ clear.cache = function( cache = NULL ){
     for( icache in do.caches ){
 
         if( file.exists( icache$status.path ) ) file.remove( icache$status.path )
+        if( file.exists( icache$warning.path ) ) file.remove( icache$warning.path )
         if( file.exists( icache$path ) ) file.remove( icache$path )
       
         if( easyr.cache.info$max.cache.loaded >= icache$cache.num ) easyr.cache.info$max.cache.loaded <<- icache$cache.num - 1
@@ -327,8 +360,16 @@ easyr.cache.info = list(
     cache.invalidated = FALSE,
     max.cache = 0,
     max.cache.loaded = 0,
-    verbose = TRUE
+    verbose = TRUE,
+    captured.warnings = NULL
 )
 cache.at = NULL
 max.cache.loaded = -1
 cache.path = 'cache'
+
+cache.show_warnings = function(cache.num){
+  showwarnings = readRDS(easyr.cache.info$cache.info[[cache.num]]$warning.path)
+  if(length(showwarnings) > 0) warning(glue::glue(
+    'from cache {cache.num}: ({easyr.cache.info$cache.info[[cache.num]]$name}):\n\t{cc(showwarnings, sep = "\n\t")}'
+  ))
+}

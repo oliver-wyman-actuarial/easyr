@@ -50,58 +50,58 @@ test_that("works as expected", {
 
             # first cache, no warning.
             # this is the typical use of caches - check if it's OK and if not then run the script. 
-            if(!cache.ok(1)){
+            if(!cache.ok(1)) withCallingHandlers({
                 x = iris # base-R dataset.
                 save.cache(x)
-            }
+            }, warning = cache.capture_warning)
 
             # 2nd cache, do warning. 
             expect_warning(
-                if(!cache.ok(2)){
+                if(!cache.ok(2)) withCallingHandlers({
                     y = mtcars # base-R dataset.
                     warning('warning 1')
                     save.cache(x, y)
-                },
-                'warning 1'
+                }, warning = cache.capture_warning),
+                regexp = 'warning 1'
             )
 
-            # 3rd cache, do 2 warnings. sometimse a cache covers multiple scripts. 
+            # 3rd cache, do 2 warnings. sometimes a cache covers multiple scripts. 
             expect_warning(
-                if(!cache.ok(3)){
+                if(!cache.ok(3)) withCallingHandlers({
                     z = state.division # base-R dataset.
                     warning('warning 2')
-                },
-                'warning 2'
+                }, warning = cache.capture_warning),
+                regexp = 'warning 2'
             )
             expect_warning(
-              if(!cache.ok(3)){
-                warning('warning 3')
-                save.cache(x, y, z)
-              },
-              'warning 3'
+                if(!cache.ok(3)) withCallingHandlers({
+                  warning('warning 3')
+                  save.cache(x, y, z)
+                }, warning = cache.capture_warning),
+                regexp = 'warning 3'
             )
             
             # now if we run the caches again, we'd like to get both warnings again.
             # however we don't because the code gets skipped. 
             expect_warning(
-                if(!cache.ok(2)){
+                if(!cache.ok(2)) withCallingHandlers({
                     y = mtcars # base-R dataset.
                     warning('warning 1')
                     save.cache(x, y)
-                },
-                'warning 1'
+                }, warning = cache.capture_warning),
+                regexp = 'warning 1'
             )
             expect_warning({
-                if(!cache.ok(3)){
+                if(!cache.ok(3)) withCallingHandlers({
                   z = state.division # base-R dataset.
                   warning('warning 2')
-                }
-                if(!cache.ok(3)){
+                }, warning = cache.capture_warning)
+                if(!cache.ok(3)) withCallingHandlers({
                   warning('warning 3')
                   save.cache(x, y, z)
-                }
+                }, warning = cache.capture_warning)
               },
-              regexp = 'warning 1.+warning2' # should get 2 warnings. 
+              regexp = 'warning 2.+warning 3' # should get 2 warnings. 
             )
 
     }
