@@ -217,9 +217,6 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #' 
 #'   }
 #' 
-#'   # delete the cache folder to close out the example.
-#'   system( "rm -r cache" )
-#' 
 #' }
 save.cache = function( ... ){
 
@@ -257,6 +254,35 @@ save.cache = function( ... ){
     }
 
 }
+
+#' Save Cache (Alternate)
+#'  
+#' Saves the arguments to a cache file, using the cache.num last checked with cache.ok.
+#' This function provides an alternative syntax more aligned with other functions that start with "cache.".
+#'
+#' @param ... Objects to save.
+#'
+#' @export
+#'
+#' @examples
+#' # check the first cache to see if it exists and dependent files haven't changed.
+#' # if this check is TRUE, code in brackets will get skipped and the cache will be loaded instead.
+#' # set do.load = FALSE if you have multiple files that build a cache, 
+#' #    to prevent multiple cache loads.
+#' # output will be printed to the console to tell you if the cache was loaded or re-built.
+#' \dontrun{
+#'   if( ! cache.ok(1) ){
+#' 
+#'     # do stuff
+#'   
+#'     # if this is the final file for this cache, 
+#'     #   end with cache.save to save passed objects as a cache.
+#'     cache.save(iris)
+#' 
+#'   }
+#' 
+#' }
+cache.save = save.cache
 
 #' Capture Warning
 #' 
