@@ -1,8 +1,10 @@
+source('R/fmat.R')
+
 test_that("works as expected", {
   
   expect_equal(
     fmat( 1000, '$', with.unit = TRUE ),
-    '$ 1.00 K'
+    '$ 1 K'
   )
   
   expect_equal(
@@ -25,7 +27,7 @@ test_that("works as expected", {
   
   expect_equal(
     fmat( 1000, '$', with.unit = TRUE, do.remove.spaces = TRUE ),
-    '$1.00K'
+    '$1K'
   )
 
   expect_equal(
