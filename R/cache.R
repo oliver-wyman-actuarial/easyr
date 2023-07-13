@@ -68,18 +68,7 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         cache.info[[i]]$cache.num = i
         cache.info[[i]]$path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '.qs')
         cache.info[[i]]$status.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-status.RDS')
-        cache.info[[i]]$warning.path = cc(at.path, '/', i, '-', cache.info[[i]]$name, '-warning.RDS')
         rm(i)
-    }
-
-    # Special code to automatically accept cache.info, for when you make a change but don't want to re-run data.
-    if( re.cache <- FALSE ){
-        
-        for( i in cache.info ) saveRDS( 
-          hashfiles( i$depends.on, skip.missing = TRUE ), 
-          file = i$status.path
-        )
-        
     }
 
     # Loop through available cache.info, check the hash and delete any invalidated cache.info.
@@ -101,7 +90,7 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         # Otherwise check the status.
         } else if( file.exists( cache.info[[i]]$path ) ){
         
-          status.valid = readRDS( cache.info[[i]]$status.path ) == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
+          status.valid = readRDS( cache.info[[i]]$status.path )$dependson_hash == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
         
         if( status.valid ){
             easyr.cache.info$max.cache <<- i
@@ -224,14 +213,14 @@ save.cache = function( ... ){
 
       if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
       
-      # save status/hash.
+      # save status/hash and warnings..
       saveRDS(
-          hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE ),
+          list(
+            dependson_hash = hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE),
+            captured_warnings = easyr.cache.info$captured.warnings
+          ),
           file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path
       )
-      
-      # save warnings.
-      saveRDS(easyr.cache.info$captured.warnings, file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$warning.path)
       easyr.cache.info$captured.warnings <<- NULL # reset for the next cache.
 
       cache.at <<- lubridate::now()
@@ -344,7 +333,6 @@ clear.cache = function( cache = NULL ){
     for( icache in do.caches ){
 
         if( file.exists( icache$status.path ) ) file.remove( icache$status.path )
-        if( file.exists( icache$warning.path ) ) file.remove( icache$warning.path )
         if( file.exists( icache$path ) ) file.remove( icache$path )
       
         if( easyr.cache.info$max.cache.loaded >= icache$cache.num ) easyr.cache.info$max.cache.loaded <<- icache$cache.num - 1
@@ -394,7 +382,7 @@ max.cache.loaded = -1
 cache.path = 'cache'
 
 cache.show_warnings = function(cache.num){
-  showwarnings = readRDS(easyr.cache.info$cache.info[[cache.num]]$warning.path)
+  showwarnings = readRDS(easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path)$captured_warnings
   if(length(showwarnings) > 0) warning(glue::glue(
     'from cache {cache.num}: ({easyr.cache.info$cache.info[[cache.num]]$name}):\n\t{cc(showwarnings, sep = "\n\t")}'
   ))
