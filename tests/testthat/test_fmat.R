@@ -1,5 +1,3 @@
-source('R/fmat.R')
-
 test_that("works as expected", {
   
   expect_equal(
