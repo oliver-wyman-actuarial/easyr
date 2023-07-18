@@ -10,8 +10,12 @@
 #' @export
 #'
 #' @examples
+#' 
 #' # packages shouldn't be installed during tests or examples according to CRAN. 
 #' # therefore, examples cannot be provided because CRAN now runs donttest examples.
+#' 
+#' usepkg('geodist', FALSE, 'http://cran.us.r-project.org')
+#' 
 usepkg <- function( packages, noCache = FALSE, repos = 'http://cran.us.r-project.org' ){
   
   # Install missing packages.

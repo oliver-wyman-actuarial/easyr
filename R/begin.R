@@ -8,6 +8,7 @@
 #' @param scipen Do scientific notation in output?
 #' @param verbose Print information about what the function is doing?
 #' @param repos choose the URL to install from.
+#' @param runpath folder or file specified
 #'
 #' @export
 #'
@@ -20,7 +21,8 @@ begin = function(
   keep = NULL,
   scipen = FALSE,
   verbose = TRUE,
-  repos = 'http://cran.us.r-project.org'
+  repos = 'http://cran.us.r-project.org',
+  runpath = NULL
 ){
   
   # check if attempting to keep any objects not in environment
@@ -71,6 +73,16 @@ begin = function(
   }
   if( dir.exists( 'fun' ) ){
     easyr::runfolder( 'fun', verbose = verbose )
+  }
+
+  if(!is.null(runpath)){
+    if(dir.exists(runpath)){
+      runfolder(runpath, verbose = verbose)
+    } else if(file.exists(runpath)){
+      source(runpath, keep.source = FALSE)
+    } else {
+      stop(glue::glue('easyr begin error: runpath not found: [{runpath}].'))
+    }
   }
 
 }

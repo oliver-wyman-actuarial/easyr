@@ -10,7 +10,8 @@ begin(
   keep = NULL,
   scipen = FALSE,
   verbose = TRUE,
-  repos = "http://cran.us.r-project.org"
+  repos = "http://cran.us.r-project.org",
+  runpath = NULL
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ begin(
 \item{verbose}{Print information about what the function is doing?}
 
 \item{repos}{choose the URL to install from.}
+
+\item{runpath}{folder or file specified}
 }
 \description{
 Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
