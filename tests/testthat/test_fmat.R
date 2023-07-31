@@ -24,6 +24,16 @@ test_that("works as expected", {
   )
   
   expect_equal(
+    fmat( c( NA, 100 ), '$', with.unit = TRUE, digits = 0 ),
+    c( NA, '$ 100' )
+  )
+  
+  expect_equal(
+    fmat( 1000, '$', with.unit = TRUE, do.remove.spaces = TRUE, digits = 0 ),
+    '$1K'
+  )
+  
+  expect_equal(
     fmat( 1000, '$', with.unit = TRUE, do.remove.spaces = TRUE ),
     '$1K'
   )
@@ -35,6 +45,11 @@ test_that("works as expected", {
   
   expect_equal(
     fmat( 1000, '$' ),
+    '$ 1,000'
+  )
+  
+  expect_equal(
+    fmat( 1000, 'dollars', digits = 0 ),
     '$ 1,000'
   )
   
