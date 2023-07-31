@@ -10,7 +10,7 @@ read.any(
   sheet = 1,
   file_type = "",
   first_column_name = NA,
-  header = is.null(col.names),
+  header = is.null(widths),
   headers_on_row = NA,
   nrows = -1L,
   row.names.column = NA,
