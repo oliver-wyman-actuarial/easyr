@@ -66,10 +66,18 @@ fmat = function(
   if( type %in% c( '$', 'dollar', 'dollars' ) ){
     
     if( do.return == 'formatted' ){
+
+      if( !(is.null(digits)) && digits > 0){
+        x = format(as.numeric(x), nsmall = digits, big.mark = ",", scientific = FALSE)
+        x = stringr::str_pad( x, max( nchar(x) ), pad = ' ' )
+        x = paste0( '$ ', x )
+      }
       
-      x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx, digits.cutoff = digits.cutoff )
-      x = stringr::str_pad( x, max( nchar(x) ), pad = ' ' )
-      x = paste0( '$ ', x )
+      else{
+        x = nSigFormatter( x = x, digits = digits, with.unit = with.unit, max = mx, digits.cutoff = digits.cutoff )
+        x = stringr::str_pad( x, max( nchar(x) ), pad = ' ' )
+        x = paste0( '$ ', x )
+      }
       
     } else if( do.return == 'highcharter' ){
       

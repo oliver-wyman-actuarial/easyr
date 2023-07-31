@@ -17,5 +17,5 @@ Convert all factor columns in a data frame to characters.
 Author: Bryce Chamberlain.
 }
 \examples{
-char2fac( iris )
+fac2char( iris )
 }
