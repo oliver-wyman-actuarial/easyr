@@ -14,6 +14,7 @@
 #' @param stringsAsFactors Convert strings/characters to factors to save compute time, RAM/memory, and storage space.
 #' @param nastrings Strings to consider NA.
 #' @param exclude Column name(s) to exclude.
+#' @param sample Used on large data sets.
 #'
 #' @return Data frame with column types automatically converted.
 #' @export
@@ -34,6 +35,7 @@
 #' str( atype( x, exclude = 'date' ) )
 #' str( atype( x, auto_convert_dates = FALSE ) )
 #' str( atype( x, check_logical = FALSE ) )
+
 atype = function( 
   
   x, 
@@ -46,15 +48,17 @@ atype = function(
   stringsAsFactors = FALSE,
   
   nastrings = easyr::nastrings,
-  exclude = NULL
+  exclude = NULL,
+  sample = min(nrow(x), 10000)
   
 ){
 
   do.cols = setdiff( colnames(x), exclude )
   
   # Auto-convert dates and numbers.
+  # run it on a sample. 
   if( auto_convert_dates || check_numbers || check_logical ) for(i in do.cols ){
-    
+  
     tryCatch({
 
       # Only type characters, numbers - otherwise we'll assume typing has already happened.
@@ -76,16 +80,45 @@ atype = function(
         mod = unique( valmap$mod ),
         stringsAsFactors = FALSE
       )
+
+      # remove NAs
+      uvals_clean = uvals %>% purrr::keep(~!all(is.na(.))) 
+      uvals_clean = na.omit(uvals)
+
+      # for checking types, it'll be faster if we use less data.
+      uvals_sample = spl(uvals_clean, sample, warn = FALSE)
+
+      # Check numeric.
+      if( check_numbers ){
+        
+        # Attempt conversion. If it was successful, this is a logical vector.
+        # checkdate = FALSE since we have already attempted date conversion.
+        test.conversion = tonum( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', checkdate = FALSE, nazero = nazero )
+
+        if( is.numeric( test.conversion ) ){
+          
+          uvals$final = tonum( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', checkdate = FALSE, nazero = nazero )
+          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
+
+          rm(test.conversion, valmap, uvals)
+
+          next
+
+        } 
+
+        rm(test.conversion)
+
+      }
       
       # Check logical.
       if( check_logical ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
-        test.conversion = tobool( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged' )
+        test.conversion = tobool( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged' )
 
         if( is.logical( test.conversion ) ){
           
-          uvals$final = test.conversion
+          uvals$final = tobool( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged' )
           x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
 
           rm(test.conversion, valmap, uvals)
@@ -102,10 +135,10 @@ atype = function(
       if( auto_convert_dates ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
-        test.conversion = todate( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
+        test.conversion = todate( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
         if( class( test.conversion )[1] %in% c( 'Date', 'POSIXct', 'POSIXt' ) ){
           
-          uvals$final = test.conversion
+          uvals$final = todate( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
           x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
 
           rm(test.conversion, valmap, uvals)
@@ -113,28 +146,6 @@ atype = function(
           next
         } 
         
-        rm(test.conversion)
-
-      }
-
-      # Check numeric.
-      if( check_numbers ){
-        
-        # Attempt conversion. If it was successful, this is a logical vector.
-        # checkdate = FALSE since we have already attempted date conversion.
-        test.conversion = tonum( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', checkdate = FALSE, nazero = nazero )
-
-        if( is.numeric( test.conversion ) ){
-          
-          uvals$final = test.conversion
-          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
-
-          rm(test.conversion, valmap, uvals)
-
-          next
-
-        } 
-
         rm(test.conversion)
 
       }

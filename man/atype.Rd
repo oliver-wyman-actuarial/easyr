@@ -14,7 +14,8 @@ atype(
   isexcel = TRUE,
   stringsAsFactors = FALSE,
   nastrings = easyr::nastrings,
-  exclude = NULL
+  exclude = NULL,
+  sample = min(nrow(x), 10000)
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ atype(
 \item{nastrings}{Strings to consider NA.}
 
 \item{exclude}{Column name(s) to exclude.}
+
+\item{sample}{Used on large data sets.}
 }
 \value{
 Data frame with column types automatically converted.
