@@ -34,6 +34,7 @@ Imports:
     XML
 RoxygenNote: 7.1.1
 Suggests: 
+    gdata,
     pdftools,
     qs,
     rstudioapi,
