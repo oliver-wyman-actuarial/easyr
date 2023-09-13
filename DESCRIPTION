@@ -1,7 +1,7 @@
 Package: easyr
 Type: Package
 Title: Helpful Functions from Oliver Wyman Actuarial Consulting
-Version: 0.6-01
+Version: 0.5-11
 Authors@R: c(
         person( "Oliver Wyman", "Actuarial Consulting", email = "rajesh.sahasrabuddhe@oliverwyman.com", role = c("aut", "cph") ),
         person( "Bryce", "Chamberlain", email = "bryce.chamberlain@oliverwyman.com", role = c("aut", "cre") ),
@@ -34,6 +34,7 @@ Imports:
     XML
 RoxygenNote: 7.1.1
 Suggests: 
+    gdata,
     pdftools,
     qs,
     rstudioapi,

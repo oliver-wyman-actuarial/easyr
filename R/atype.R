@@ -14,7 +14,7 @@
 #' @param stringsAsFactors Convert strings/characters to factors to save compute time, RAM/memory, and storage space.
 #' @param nastrings Strings to consider NA.
 #' @param exclude Column name(s) to exclude.
-#' @param sample Used on large data sets.
+#' @param use_n_sampled_rows Used on large data sets.
 #'
 #' @return Data frame with column types automatically converted.
 #' @export
@@ -49,7 +49,7 @@ atype = function(
   
   nastrings = easyr::nastrings,
   exclude = NULL,
-  sample = min(nrow(x), 10000)
+  use_n_sampled_rows = min(nrow(x), 10000)
   
 ){
 
@@ -82,11 +82,7 @@ atype = function(
       )
 
       # remove NAs
-      uvals_clean = uvals %>% purrr::keep(~!all(is.na(.))) 
-      uvals_clean = na.omit(uvals)
-
-      # for checking types, it'll be faster if we use less data.
-      uvals_sample = spl(uvals_clean, sample, warn = FALSE)
+      uvals_sample = spl(na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
 
       # Check numeric.
       if( check_numbers ){

@@ -35,14 +35,29 @@ test_that( "works as expected", {
     expect_equal( class(at$numeric), 'numeric' )
     expect_equal( class(at$logical), 'logical' )
     
-  large_matrix = matrix(0, 100000, 100)
-  large_Dataset = as.data.frame(large_matrix)
-  
-  ptm = proc.time()
+  # test to ensure sampling makes the algorithm run faster. 
+  large_Dataset = data.frame(
+    num = as.character(1:100*1000),
+    chars = cc('this is a character', 1:100*100),
+    stringsAsFactors = FALSE
+  )
+
+  # get duration without sampling (all the rows).
+  time0 = Sys.time()
+  at = atype(large_Dataset, use_n_sampled_rows  = nrow(large_Dataset))
+  time0 = Sys.time() - time0
+  expect_equal (nrow(at), nrow(large_Dataset)) # verify row count did not change. 
+  expect_equal(class(at$num), 'integer' ) # verify correct conversion.
+
+  # get duration withsampling.
+  time1 = Sys.time()
   at = atype(large_Dataset)
-  expect_equal (nrow(at), nrow(large_Dataset) )
-  expect_equal( class(large_Dataset$V1), 'numeric' )
-  proc.time() - ptm
+  time1 = Sys.time() - time1
+  expect_equal (nrow(at), nrow(large_Dataset)) # verify row count did not change. 
+  expect_equal(class(at$num), 'integer' ) # verify correct conversion.
+
+  # verify time was reduced. 
+  expect_condition((time0 - time1) / time0 > 0.05)  # reduction > 5%. 
 
 })
 
