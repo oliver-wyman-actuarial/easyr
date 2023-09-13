@@ -15,7 +15,7 @@ atype(
   stringsAsFactors = FALSE,
   nastrings = easyr::nastrings,
   exclude = NULL,
-  sample = min(nrow(x), 10000)
+  use_n_sampled_rows = min(nrow(x), 10000)
 )
 }
 \arguments{
@@ -39,7 +39,7 @@ atype(
 
 \item{exclude}{Column name(s) to exclude.}
 
-\item{sample}{Used on large data sets.}
+\item{use_n_sampled_rows}{Used on large data sets.}
 }
 \value{
 Data frame with column types automatically converted.
