@@ -43,6 +43,9 @@
 #' @param verbose Print helpful information via cat.
 #' @param widths Column widths. Only use for fixed width files.
 #' @param col.names Column names. Only use for fixed width files.
+#' @param sheets The word 'all', a vector of sheet names, or a vector of sheet numbers. Only use for excel files.
+#' @param pbiLocation pbi path
+#' @param pbiTable pbi table name
 #'
 #' @return Data frame with the data that was read.
 #' @export
@@ -58,6 +61,8 @@
 #' # to handle type conversions manually:
 #' read.any('date-time.csv', folder = folder, all_chars = TRUE)
 #'
+require(glue)
+
 read.any <- function(
   
     filename = NA, 
@@ -98,7 +103,11 @@ read.any <- function(
     encoding = 'unknown',
     verbose = TRUE,
     widths = NULL,
-    col.names = NULL
+    col.names = NULL,
+    sheets = NULL,
+
+    pbiLocation = NA,
+    pbiTable = NA
     
   ){
   
@@ -119,6 +128,7 @@ read.any <- function(
       )
       first_column_name = NA # if we have headers_on_row, first_column_name will be ignored since the headers row is explicitly provided. first_column_name is only used to find the headers.
     }
+    
     if( 
       is.na(headers_on_row) && 
       is.na(first_column_name) && 
@@ -139,6 +149,7 @@ read.any <- function(
     # Validate that file exists.
     if( !file.exists(filename) ) stop( glue::glue(
         if( isval( folder ) ){
+        
           'easyr::read.any > 
               File [{filename}] 
               not found in the folder [{folder}]. 
@@ -171,7 +182,7 @@ read.any <- function(
             warning = function(w){
                 parent <- parent.env(environment())
                 parent$diag <- warning('Warning during read of [', filename, '], from data.table::fread \n ', w)
-                assign("last.warning", NULL, envir = basenv()) # prevent 2 warnings. 
+                assign("last.warning", NULL, envir = base::baseenv()) # prevent 2 warnings. 
             }
           )
       },
@@ -204,34 +215,93 @@ read.any <- function(
   }
 
   if(!is.null(widths) && is.null(col.names) || tolower(file_type) == 'fwf'){
-    x = read.fwf(filename, widths, header = FALSE)
+    x = utils::read.fwf(filename, widths, header = FALSE)
   }
 
   if(!is.null(widths) && !is.null(col.names) || tolower(file_type) == 'fwf'){
-    x = read.fwf(filename, widths, header = FALSE, col.names = col.names)
-  }  
- 
+    x = utils::read.fwf(filename, widths, header = FALSE, col.names = col.names)
+  }
+
+  #if(!is.null(sheets) && isexcel) {
+    
+   # if(sheets == 'ALL' || sheets == 'All' || sheets == 'all'){
+      
+    #  sheet_names = readxl::excel_sheets(filename)
+      
+    #} else if(is.numeric(sheets)) {
+      
+     # all_sheet_names = readxl::excel_sheets(filename)
+      #sheet_number_name_map <- setNames(all_sheet_names, seq_along(all_sheet_names))
+      #sheet_names = sheet_number_name_map[sheet_numbers]
+      
+    #} else {
+      
+     # sheet_names = sheets
+      
+    #}
+    
+    #sheet_data = lapply(sheet_names, function(sheet_name) {
+     # readxl::read_excel(filename, sheet = sheet_name)
+    #})
+    #x = setNames(sheet_data, sheet_names)
+    
+  #}  
+    
+  if(!(is.na(pbiTable))) {
+      
+    # Validate pbi-tools is downloaded.
+    if (shell('pbi-tools info') != 0) {
+      message("pbi-tools is not configured correctly")
+    }
+      
+    # Extract tables with export-data into a temporary directory.
+    tmpDir = "temp_subdirectory"
+    if(!(is.na(folder))) {
+      dir.create(glue('{folder}/{tmpDir}'))
+
+      shell(glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{folder}/{tmpDir}"'))
+  
+      # Read in specified table.
+      x = read.csv(glue('{folder}/{tmpDir}/{pbiTable}.csv'))
+      
+      # Clean up temporary directory.
+      unlink(glue('{folder}/{tmpDir}'), recursive = TRUE)
+  
+    }
+    else {
+      dir.create(glue('{tmpDir}'))
+      
+      shell(glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{tmpDir}"'))
+      
+      # Read in specified table.
+      x = read.csv(glue('{tmpDir}/{pbiTable}.csv'))
+      
+      # Clean up temporary directory.
+      unlink(glue('{tmpDir}'), recursive = TRUE)
+    }
+  }
+    
   if( 
     !is.na(headers_on_row) &&
     !grepl( '[.](dbf|rds)$', filename, ignore.case = TRUE ) && 
     ! file_type %in% c('rds','dbf')
     
-  ){
+    ){
     
-    colnames(x) <- rany_fixColNames( 
-      as.character( x[ headers_on_row, ] ), 
-      fix.dup.column.names = fix.dup.column.names, 
-      nastrings = na_strings 
-    )
+      colnames(x) <- rany_fixColNames( 
+        as.character( x[ headers_on_row, ] ), 
+        fix.dup.column.names = fix.dup.column.names, 
+        nastrings = na_strings 
+      )
     
-    if( ( headers_on_row + 1 ) > nrow(x) ){
-      x <- x[ rep(FALSE, nrow(x)), , drop = FALSE ]
-    } else {
-      drop = which( 1:nrow(x) <= headers_on_row )
-      if(length(drop) > 0) x = x[ -drop, , drop = FALSE ]      
-    }
+      if( ( headers_on_row + 1 ) > nrow(x) ){
+        x <- x[ rep(FALSE, nrow(x)), , drop = FALSE ]
+      } else {
+        drop = which( 1:nrow(x) <= headers_on_row )
+        if(length(drop) > 0) x = x[ -drop, , drop = FALSE ]      
+      }
       
-  }
+    }
   
   # Check if the file exists (was read), error if it doesn't.
   if( is.null(x) ){
@@ -246,14 +316,28 @@ read.any <- function(
     if( nrows > 0 ) x <- x[ 1:max(nrow(x),nrows), ] 
     
   }
-
-  # Fix column names. This must happen BEFORE looking for first column, others they may not match as expected.
-  colnames(x) = rany_fixColNames( 
-    colnames(x), 
-    fix.dup.column.names = fix.dup.column.names, 
-    nastrings = na_strings 
-  )
   
+  # Fix column names. This must happen BEFORE looking for first column, others they may not match as expected.
+  #if(is.list(x)) {
+    
+   # for(name in names(x)) {
+    #  colnames(name) = rany_fixColNames( 
+     #   colnames(name), 
+      #  fix.dup.column.names = fix.dup.column.names, 
+       # nastrings = na_strings 
+      #)
+    #}
+    
+  #} else {
+    
+    colnames(x) = rany_fixColNames( 
+      colnames(x), 
+      fix.dup.column.names = fix.dup.column.names, 
+      nastrings = na_strings 
+    )
+    
+ # }
+    
   # If we have a first column name or field name map, use it to find the row with column names.
   if( is.na(headers_on_row) && ( easyr::isval( first_column_name ) || easyr::isval( field_name_map ) ) ){
   
@@ -399,7 +483,7 @@ read.any <- function(
 
   # Replace NA factors.
   x = factorna( x = x, na_level = na_level )
-
+  
   return(x)
   
 }
