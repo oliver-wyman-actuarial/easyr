@@ -213,26 +213,37 @@ read.any <- function(
   if(!is.null(widths) && !is.null(col.names) || tolower(file_type) == 'fwf'){
     x = utils::read.fwf(filename, widths, header = FALSE, col.names = col.names)
   }
-    
-  if(grepl("\\.pbix$", filename)) {
+  
+  #TODO: this approach will be slow becuase all tables are extracted but only one is read in.
+  #  there is no option in pbi-tools to only extract one sheet. 
+  #  ideally we'd give the user an option to read into a list to run this faster, similar to what we'd like to do with multiple excel sheet reads in one read.any call. 
+  #  see https://github.com/oliver-wyman-actuarial/easyr/issues/52
+  if( file_type == 'pbix' || grepl( '[.]pbix$', filename, ignore.case = T ) ){
       
     # Validate pbi-tools is downloaded.
-    if (shell('pbi-tools info') != 0) {
-      message("pbi-tools is not configured correctly") # Follow the steps at https://pbi.tools/tutorials/getting-started-cli.html
-    }
+    if (shell('pbi-tools info') != 0) stop('
+      pbi-tools is not configured correctly. 
+      Please follow the steps at https://pbi.tools/tutorials/getting-started-cli.html
+    ')
       
-    # Extract tables with export-data into a temporary directory.
-    
-    tmpDir = glue::glue('{tempdir()}/pbi-extract')
-    
-      dir.create(glue::glue('{tmpDir}'))
-      shell(glue::glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{tmpDir}"'))
-  
-      # Read in specified table.
-      x = read.csv(glue::glue('{tmpDir}/{sheet}.csv'))
-      
-      # Clean up temporary directory.
-      unlink(glue::glue('{tmpDir}'), recursive = TRUE)
+    # use pbi-extract to move the data to a temporary file
+    tmpDir = glue::glue('{tempdir()}/pbi-extract')  
+    dir.create(glue::glue('{tmpDir}'))
+    shell(glue::glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{tmpDir}"'))
+
+    # read the file into memory.
+    # needs to match how a CSV is read above. 
+    x = data.table::fread( 
+        glue::glue('{tmpDir}/{sheet}.csv'), 
+        sep = ',',
+        header = FALSE, # we'll implement this later.
+        stringsAsFactors = FALSE,
+        encoding = encoding,
+        nrows = nrows
+    )
+
+    # clean up.
+    unlink(glue::glue('{tmpDir}'), recursive = TRUE)
       
   }
     

@@ -136,24 +136,26 @@ test_that( 'read unconventional files', {
   
   expect_warning( { t = read.any(test_file( 'row-missing-column.csv' )) }, regexp = 'Warning during read of' )
 
-  temppath = tempfile()
-  gdata::write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
-  # let's assume all incoming FWF do not have header.
-  t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), header = FALSE)
-  names(t) = names(iris)
-  t %<>% atype()
-  t$Species %<>% trimws()
-  expect_equal(t, fac2char(iris))
+  # fixed width file. 
 
-  temppath = tempfile()
-  gdata::write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
-  t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), col.names = names(iris))
-  expect_equal(t, fac2char(iris))
-  
-})
+    # create a FWF to read:
+    temppath = tempfile()
+    gdata::write.fwf(iris, temppath, formatInfo = TRUE, colnames = FALSE)
 
-test_that( 'read xlsb', {
+    # read it.
+    # we assume all incoming FWF do not have header, this is common with this format. 
+    t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), header = FALSE)
+    names(t) = names(iris) # set the names manually. users will need to do this too. 
+    expect_equal(t, fac2char(iris))
 
+    # again but with col.names argument.
+    t = read.any(filename = temppath, widths = c(4, 4, 4, 4, 10), col.names = names(iris))
+    expect_equal(t, fac2char(iris))  
+
+    # cleanup. 
+    file.remove(temppath)
+
+  # xlsb.
   if('readxlsb' %in% utils::installed.packages()){ 
 
     expect_equal( 
@@ -172,19 +174,10 @@ test_that( 'read xlsb', {
     )
 
   }
-
-})
-
-test_that( 'read pbix file', {
   
+  # Power BI.
   t = read.any(filename = 'test-powerbi.pbix', folder = 'test-files', sheet = 'mtcars', first_column_name = 'mpg')
   expect_equal(names(t), names(mtcars))
   
 })
-
-
-
-
-
-
 
