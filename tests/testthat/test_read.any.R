@@ -173,22 +173,11 @@ test_that( 'read xlsb', {
 
 test_that( 'read pbix file', {
   
-  t = read.any(filename = 'Customer Profitability Sample PBIX.pbix', folder = 'test-files', pbiTable = 'Product')
+  t = read.any(filename = 'Customer Profitability Sample PBIX.pbix', folder = 'test-files', sheet = 'Product')
   expect_equal(names(t), c('10', 'Sova'))
   
 })
 
-
-#test_that( 'read without headers_on_row', {
-  
- # expect_no_error( 
-  #  read.any( test_file( 'date-time.csv' ) )
-  #)
-  
-#})
-
-#t = read.any( test_file( 'multi-sheet.xlsx' ), sheets = 'all')
-#expect_equal(names(t), c('iris', 'mtcars'))
 
 
 
