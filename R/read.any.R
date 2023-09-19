@@ -124,7 +124,7 @@ read.any <- function(
     if( 
       is.na(headers_on_row) && 
       is.na(first_column_name) && 
-      is.na(field_name_map) &&
+      all(is.na(field_name_map)) &&
       header
     ) headers_on_row = 1
     

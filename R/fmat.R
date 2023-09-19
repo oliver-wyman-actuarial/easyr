@@ -29,7 +29,7 @@ fmat = function(
   digits.cutoff = NULL
 ){
 
-  # fix arge.
+  # fix args.
   type = trimws(type)
   do.return = trimws(do.return)
   
@@ -47,6 +47,13 @@ fmat = function(
     mx = max( absx, na.rm = TRUE )
     mn = min( absx, na.rm = TRUE )
     rm(absx)
+
+    # type to consistent value.
+    if(type %in% c('$', 'dollars')) type = 'dollar'
+    if(type %in% c('%')) type = 'percentage'
+    if(type %in% c(',')) type = 'count'
+    if(type %in% c('.')) type = 'decimal'
+    if(type %in% c('mdy')) type = 'date'    
     
     if( type == 'auto' ){
       
@@ -59,11 +66,11 @@ fmat = function(
     
   }
   
-  if( null(x) && do.return == 'formatted' ) stop( '[x] argument is required when do.return = "formatted". Error E906 fmat.' )
+  if( is.null(x) && do.return == 'formatted' ) stop( '[x] argument is required when do.return = "formatted". Error E906 fmat.' )
 
   if( !is.null(x) ) nas = which( is.na(x) )
   
-  if( type %in% c( '$', 'dollar', 'dollars' ) ){
+  if(type == 'dollar'){
     
     if( do.return == 'formatted' ){
 
@@ -89,7 +96,7 @@ fmat = function(
       
     }
     
-  } else if( type %in% c( '%', 'percentage' ) ){
+  } else if(type == 'percentage'){
     
     if( null( digits ) ){
       if( exists('mn') ){ 
@@ -113,7 +120,7 @@ fmat = function(
       
     }
     
-  } else if( type %in% c( ',', 'count' ) ){
+  } else if(type == 'count'){
     
     if( do.return == 'formatted' ){
       
@@ -131,7 +138,7 @@ fmat = function(
       
     }
     
-  } else if( type %in% c( '.', 'decimal' ) ){
+  } else if(type == 'decimal'){
 
     if( null( digits ) ){
       if( exists('mn') ) {
@@ -155,12 +162,12 @@ fmat = function(
       
     }
     
-  } else if( type %in% c( 'date', 'mdy', 'ymd' ) ){
+  } else if(type %in% c('date', 'ymd')){
   
     if( do.return == 'formatted' ){
       
       iformat = cc( if( type == 'ymd' ){ c( '%Y', '%m', '%d' ) } else { c( '%m', '%d', '%Y' ) }, sep = do.date.sep )
-    
+      
       x = gsub( '^0', '', format( x, iformat ) )
   
       rm(iformat)
@@ -175,7 +182,7 @@ fmat = function(
       
   }
   
-  x[ nanull( x, do.test.each = TRUE ) | x %in% c( -Inf, Inf ) ] <- 'n/a'
+  x[ sapply(x, nanull) | x %in% c( -Inf, Inf ) ] <- 'n/a'
   
   if( do.remove.spaces ) x = gsub( ' ', '', x )
   
@@ -221,14 +228,13 @@ nSigFormatter <- function( x, digits, with.unit, allow.digit.override = TRUE, ma
   if(nanull(digits)) digits = 0 # this is the result if mn is NA
 
   # special adjustment for digits 0 which format will no accept.
-  digits_small = digits
   if(digits == 0){
     x = round(x, 0)
     digits = 1
   }
   
   # Divide and add the indicator (billion, million, thousand) and apply rounding.
-  x = format( x , nsmall = digits_small, digits = digits, big.mark = ',', scientific = FALSE )
+  x = format(round(x, digits = digits), big.mark = ',', scientific = FALSE)
   if( with.unit ) x = paste0( x , ifelse( isuffix != '', paste0( ' ', isuffix ), '' ) )
   
   return(x)

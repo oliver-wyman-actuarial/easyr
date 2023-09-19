@@ -82,10 +82,14 @@ atype = function(
       )
 
       # remove NAs
-      uvals_sample = spl(na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
+      if(use_n_sampled_rows >= nrow(uvals)){
+        uvals_sample = na.omit(uvals)
+      } else{ 
+        uvals_sample = spl(na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
+      }
 
       # Check numeric.
-      if( check_numbers ){
+      if( check_numbers && nrow(uvals_sample) > 0 ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
         # checkdate = FALSE since we have already attempted date conversion.
@@ -107,7 +111,7 @@ atype = function(
       }
       
       # Check logical.
-      if( check_logical ){
+      if( check_logical && nrow(uvals_sample) > 0 ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
         test.conversion = tobool( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged' )
@@ -128,7 +132,7 @@ atype = function(
       }
 
       # Check date. Must check dates before numeric since sometimes dates can be misinterpreted as numbers.
-      if( auto_convert_dates ){
+      if( auto_convert_dates && nrow(uvals_sample) > 0 ){
         
         # Attempt conversion. If it was successful, this is a logical vector.
         test.conversion = todate( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
@@ -147,7 +151,7 @@ atype = function(
       }
       
       # If you made it this far (no successfull type conversions), convert to character, unless we are using stringsAsFactors.
-      if( !stringsAsFactors ) x[[i]] <- as.character( x[[i]] )
+      if( !stringsAsFactors && nrow(uvals_sample) > 0 ) x[[i]] <- as.character( x[[i]] )
     
     },
     error = function(e) stop( 'easyr::atype error at column [', i, '] : ', e ),

@@ -71,16 +71,6 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         rm(i)
     }
 
-    # Special code to automatically accept cache.info, for when you make a change but don't want to re-run data.
-    if( re.cache <- FALSE ){
-        
-        for( i in cache.info ) saveRDS( 
-          hashfiles( i$depends.on, skip.missing = TRUE ), 
-          file = i$status.path
-        )
-        
-    }
-
     # Loop through available cache.info, check the hash and delete any invalidated cache.info.
     easyr.cache.info$max.cache <<- 0
     if( easyr.cache.info$verbose ) cat( 'checking validity of cache \n' )
@@ -100,7 +90,7 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         # Otherwise check the status.
         } else if( file.exists( cache.info[[i]]$path ) ){
         
-          status.valid = readRDS( cache.info[[i]]$status.path ) == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
+          status.valid = readRDS( cache.info[[i]]$status.path )$dependson_hash == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
         
         if( status.valid ){
             easyr.cache.info$max.cache <<- i
@@ -156,6 +146,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
     # check against the maximum valid cache. if it is less, don't load anything just return true.    if(cache.num==2) browser()
     if( easyr.cache.info$max.cache > easyr.cache.info$cache.num && do.load && ! easyr.cache.info$save.only ){
         if( !checked.already && easyr.cache.info$verbose ) cat( '\t   >> skip cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
+        cache.show_warnings(easyr.cache.info$cache.num)
         return( TRUE )
 
     # if it is the highest available cache, load it.
@@ -164,6 +155,7 @@ cache.ok = function( cache.num, do.load = TRUE ){
             if( easyr.cache.info$verbose ) cat( '\t   >> load cache [', easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path, ']. \n' )
             load.cache(easyr.cache.info$cache.info[[ easyr.cache.info$cache.num ]]$path)
             easyr.cache.info$max.cache.loaded <<- max.cache.loaded
+            cache.show_warnings(easyr.cache.info$cache.num)
         }
         return( TRUE )
 
@@ -214,21 +206,23 @@ cache.ok = function( cache.num, do.load = TRUE ){
 #' 
 #'   }
 #' 
-#'   # delete the cache folder to close out the example.
-#'   system( "rm -r cache" )
-#' 
 #' }
 save.cache = function( ... ){
 
     if('qs' %in% utils::installed.packages()){
 
       if( length(easyr.cache.info$cache.info) == 0 ) stop( 'easyr::cache.ok Error: Cache not set up correctly. Error E356-2 cache.' )
-          
+      
+      # save status/hash and warnings..
       saveRDS(
-          hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE ),
+          list(
+            dependson_hash = hashfiles( easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$depends.on, skip.missing = TRUE),
+            captured_warnings = easyr.cache.info$captured.warnings
+          ),
           file = easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path
       )
-      
+      easyr.cache.info$captured.warnings <<- NULL # reset for the next cache.
+
       cache.at <<- lubridate::now()
       cache.path <<- easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$path
       
@@ -248,6 +242,59 @@ save.cache = function( ... ){
       warning('Package [qs] not installed. Cache not saved.')
     }
 
+}
+
+#' Save Cache (Alternate)
+#'  
+#' Saves the arguments to a cache file, using the cache.num last checked with cache.ok.
+#' This function provides an alternative syntax more aligned with other functions that start with "cache.".
+#'
+#' @param ... Objects to save.
+#'
+#' @export
+#'
+#' @examples
+#' # check the first cache to see if it exists and dependent files haven't changed.
+#' # if this check is TRUE, code in brackets will get skipped and the cache will be loaded instead.
+#' # set do.load = FALSE if you have multiple files that build a cache, 
+#' #    to prevent multiple cache loads.
+#' # output will be printed to the console to tell you if the cache was loaded or re-built.
+#' \dontrun{
+#'   if( ! cache.ok(1) ){
+#' 
+#'     # do stuff
+#'   
+#'     # if this is the final file for this cache, 
+#'     #   end with cache.save to save passed objects as a cache.
+#'     cache.save(iris)
+#' 
+#'   }
+#' 
+#' }
+cache.save = save.cache
+
+#' Capture Warning
+#' 
+#' Utility function for capturing warnings.
+#'
+#' @param w Captured warning passed by withCallingHandlers.
+#'
+#' @export
+#'
+#' @examples
+#' # this will only have an effect if a current cache exists.
+#' \dontrun{
+#'   if(!cache.ok(1)) withCallingHandlers({
+#'      x = mtcars # base-R dataset.
+#'      x = mtcars # base-R dataset.
+#'        warning('warning 2-1') # this is the first warning we need tdo capture. 
+#'        warning('warning 2-2') # this is the first warning we need tdo capture. 
+#'        save.cache(x) # we'll capture it inside svae.caceh
+#'   }, warning = cache.capture_warning)
+#' }
+#' 
+cache.capture_warning = function(w){
+  easyr.cache.info$captured.warnings <<- c(easyr.cache.info$captured.warnings, w$message)
 }
 
 #' Clear Cache
@@ -327,8 +374,16 @@ easyr.cache.info = list(
     cache.invalidated = FALSE,
     max.cache = 0,
     max.cache.loaded = 0,
-    verbose = TRUE
+    verbose = TRUE,
+    captured.warnings = NULL
 )
 cache.at = NULL
 max.cache.loaded = -1
 cache.path = 'cache'
+
+cache.show_warnings = function(cache.num){
+  showwarnings = readRDS(easyr.cache.info$cache.info[[easyr.cache.info$cache.num]]$status.path)$captured_warnings
+  if(length(showwarnings) > 0) warning(glue::glue(
+    'from cache {cache.num}: ({easyr.cache.info$cache.info[[cache.num]]$name}):\n\t{cc(showwarnings, sep = "\n\t")}'
+  ))
+}
