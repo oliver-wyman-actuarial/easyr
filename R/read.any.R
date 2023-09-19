@@ -218,34 +218,22 @@ read.any <- function(
       
     # Validate pbi-tools is downloaded.
     if (shell('pbi-tools info') != 0) {
-      message("pbi-tools is not configured correctly")
+      message("pbi-tools is not configured correctly") # Follow the steps at https://pbi.tools/tutorials/getting-started-cli.html
     }
       
     # Extract tables with export-data into a temporary directory.
-    tmpDir = "temp_subdirectory"
-    if(!(is.na(folder))) {
-      dir.create(glue::glue('{folder}/{tmpDir}'))
-
-      shell(glue::glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{folder}/{tmpDir}"'))
-  
-      # Read in specified table.
-      x = read.csv(glue::glue('{folder}/{tmpDir}/{sheet}.csv'))
-      
-      # Clean up temporary directory.
-      unlink(glue::glue('{folder}/{tmpDir}'), recursive = TRUE)
-  
-    }
-    else {
+    
+    tmpDir = glue::glue('{tempdir()}/pbi-extract')
+    
       dir.create(glue::glue('{tmpDir}'))
-      
       shell(glue::glue('pbi-tools export-data -pbixPath "{filename}" -outPath "{tmpDir}"'))
-      
+  
       # Read in specified table.
       x = read.csv(glue::glue('{tmpDir}/{sheet}.csv'))
       
       # Clean up temporary directory.
       unlink(glue::glue('{tmpDir}'), recursive = TRUE)
-    }
+      
   }
     
   if( 
