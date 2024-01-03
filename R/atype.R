@@ -83,9 +83,9 @@ atype = function(
 
       # remove NAs
       if(use_n_sampled_rows >= nrow(uvals)){
-        uvals_sample = na.omit(uvals)
+        uvals_sample = stats::na.omit(uvals)
       } else{ 
-        uvals_sample = spl(na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
+        uvals_sample = spl(stats::na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
       }
 
       # Check numeric.

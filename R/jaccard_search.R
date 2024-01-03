@@ -12,6 +12,7 @@
 #'
 #' @examples
 #' jaccard_search('foobar', c('foo', 'bar', 'foobars'))
+#' jaccard_search('foobar', c('foo', 'bar', 'foobars'), return_similarity = TRUE)
 jaccard_search = function(search, context, level = 0.5, return_similarity = FALSE){
 
     dt = expand.grid(input = unique(search), context = unique(context), stringsAsFactors = FALSE)
@@ -31,17 +32,13 @@ jaccard_search = function(search, context, level = 0.5, return_similarity = FALS
         toreturn = dt$similarity
         names(toreturn) = dt$context
     } else {
-        dt = dplyr::arrange(dt, input, desc(similarity))
-        dt = dplyr::filter(dt, similarity > level)
+        dt = dt[dt$similarity > level, ]
+        dt = dt[order(dt$input), ]
+        dt = dt[order(-dt$similarity), ]
         toreturn = unique(dt$context)
     }
 
     return(toreturn)
     
 }
-
-
-jaccard_search('foobar', c('foo', 'bar', 'foobars'), return_similarity = TRUE)
-jaccard_search('foobar', c('foo', 'bar', 'foobars'), level = 0)
-jaccard_search('foobar', c('foo', 'bar', 'foobars'), level = 1)
 

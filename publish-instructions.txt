@@ -1,7 +1,7 @@
-﻿
+
 # if you haven't already, increment the version in the DESCRIPTION file.
 
-# run `git push` to ensure you aren't missing any commits by other contributors (should get "Already up to date" or similar).
+# run `git pull` to ensure you aren't missing any commits by other contributors (should get "Already up to date" or similar).
 
 # run build-install-test.R to set up roxygen documentation and run examples, tests
 

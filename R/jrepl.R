@@ -62,7 +62,7 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
   # If the x dataset has no rows, add emtpy columns.
     
     if(nrow(x) == 0){
-      for(icol in setdiff(replace.cols, names(x))) x[[icol]] = logical(0)
+      for(icol in setdiff(replace.cols, names(x))) x[[icol]] = y[[icol]][0]
       return(x)
     }
 
