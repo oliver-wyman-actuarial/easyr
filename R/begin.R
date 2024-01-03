@@ -1,6 +1,6 @@
 #' Begin
 #' 
-#' Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
+#' Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, running fun/ or functions/ folders, and setting the working directory to the location of the current file.
 #'
 #' @param wd Path to set as working directory. If blank, the location of the current file open in RStudio will be used if available. If FALSE, the working directory will not be changed.
 #' @param load Packages to load. If not available, they'll be installed.

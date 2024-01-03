@@ -30,7 +30,7 @@ begin(
 \item{runpath}{folder or file specified}
 }
 \description{
-Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, and setting the working directory to the location of the current file.
+Perform common operations before running a script. Includes clearing environment objects, disabling scientific notation, loading common packages, running fun/ or functions/ folders, and setting the working directory to the location of the current file.
 }
 \examples{
 
