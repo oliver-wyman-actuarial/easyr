@@ -176,3 +176,14 @@ test_that("works as expected", {
 
   
 })
+
+test_that("0 rows error", {
+  dt1 = mtcars[FALSE, ]
+  dt2 = iris
+  expect_equal(
+    names(jrepl(dt1, dt2, by = c('mpg' = 'Species'), replace.cols = 'Species')), # join doesn't need to make sense, there are no rows. 
+    c(names(mtcars), 'Species')
+  )
+})
+  
+  

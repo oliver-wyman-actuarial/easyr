@@ -58,6 +58,13 @@ jrepl = function( x, y, by, replace.cols, na.only = FALSE, only.rows = NULL, ver
     if( length(x.missing) > 0 ) stop( 'jrepl error: Necessary columns were not found in x dataset: [', cc( x.missing, sep = ',' ), '].' )
 
     rm( y.missing, x.missing )
+    
+  # If the x dataset has no rows, add emtpy columns.
+    
+    if(nrow(x) == 0){
+      for(icol in setdiff(replace.cols, names(x))) x[[icol]] = logical(0)
+      return(x)
+    }
 
   # add any columns to x that aren't there. we'll need this later to slot values into.
   for( i in 1:length(replace.cols) ) if( replace.cols[[i]] %ni% colnames(x) ){
