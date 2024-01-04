@@ -23,4 +23,5 @@ Search for similar strings using Jaccard Similarity.
 }
 \examples{
 jaccard_search('foobar', c('foo', 'bar', 'foobars'))
+jaccard_search('foobar', c('foo', 'bar', 'foobars'), return_similarity = TRUE)
 }
