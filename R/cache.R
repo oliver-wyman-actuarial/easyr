@@ -83,7 +83,7 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
         if( 
           easyr.cache.info$cache.invalidated || 
           !file.exists(cache.info[[i]]$path) || 
-          (exists('cache_status') && class(cache_status) == 'character') # old cache_status will be a string. 
+          (exists('cache_status') && methods::is(cache_status, 'character')) # old cache_status will be a string. 
         ){ 
         
           clear.cache( cache.info[[i]] )
