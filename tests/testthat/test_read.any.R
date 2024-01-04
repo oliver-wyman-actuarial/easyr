@@ -138,14 +138,17 @@ test_that( 'read file with a row missing a column', {
 })
 
 test_that( 'read Power BI', { 
+
   # this is returning a warning about fread not being cleaned up (due to warning handling in prior test), so run a clean fread to remove it.
   suppressWarnings(read.any(test_file('date-time.csv')))
-  # now run the actual test. we have set up a test powerbi that contains the mtcars data.
-  # not available in Unix.
-  if(.Platform$OS.type != 'unix') {
+
+  # Validate pbi-tools is downloaded.
+  if (exists('shell') && shell('pbi-tools info') == 0){ # shell does not exist on noLD.
+    # now run the actual test. we have set up a test powerbi that contains the mtcars data.
     t = read.any(filename = 'test-powerbi.pbix', folder = 'test-files', sheet = 'mtcars', first_column_name = 'mpg')
     expect_equal(names(t), names(mtcars))
   }
+  
 })
 
 test_that( 'read fixed-width file', { 
