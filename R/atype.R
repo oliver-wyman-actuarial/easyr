@@ -87,11 +87,30 @@ atype = function(
       } else{ 
         uvals_sample = spl(stats::na.omit(uvals), n = use_n_sampled_rows , warn = FALSE)
       }
+      
+      # Check date. Must check dates before numeric since sometimes dates can be misinterpreted as numbers.
+      if( auto_convert_dates && nrow(uvals_sample) > 0 ){
+        
+        # Attempt conversion. If it was successful, this is a logical vector.
+        test.conversion = todate( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
+        if( class( test.conversion )[1] %in% c( 'Date', 'POSIXct', 'POSIXt' ) ){
+          
+          uvals$final = todate( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
+          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
+          
+          rm(test.conversion, valmap, uvals)
+          
+          next
+        } 
+        
+        rm(test.conversion)
+        
+      }
 
       # Check numeric.
       if( check_numbers && nrow(uvals_sample) > 0 ){
         
-        # Attempt conversion. If it was successful, this is a logical vector.
+        # Attempt conversion. If it was successful, this is a numeric vector.
         # checkdate = FALSE since we have already attempted date conversion.
         test.conversion = tonum( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', checkdate = FALSE, nazero = nazero )
 
@@ -129,25 +148,6 @@ atype = function(
 
         rm(test.conversion)
         
-      }
-
-      # Check date. Must check dates before numeric since sometimes dates can be misinterpreted as numbers.
-      if( auto_convert_dates && nrow(uvals_sample) > 0 ){
-        
-        # Attempt conversion. If it was successful, this is a logical vector.
-        test.conversion = todate( uvals_sample$mod, preprocessed.values = uvals_sample$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
-        if( class( test.conversion )[1] %in% c( 'Date', 'POSIXct', 'POSIXt' ) ){
-          
-          uvals$final = todate( uvals$mod, preprocessed.values = uvals$mod, verbose = FALSE, ifna = 'return-unchanged', allow_times = allow_times )
-          x[[i]] <- ( emerge( x = valmap, y = uvals, by = 'mod', type = 'inner' ) )[['final']]
-
-          rm(test.conversion, valmap, uvals)
-
-          next
-        } 
-        
-        rm(test.conversion)
-
       }
       
       # If you made it this far (no successfull type conversions), convert to character, unless we are using stringsAsFactors.

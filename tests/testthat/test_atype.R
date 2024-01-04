@@ -59,11 +59,14 @@ test_that( "works as expected", {
   # verify time was reduced. 
   expect_condition((time0 - time1) / time0 > 0.05)  # reduction > 5%. 
 
+  # numbers that should be converted to dates.
+  x = data.frame(dateval = c(
+      "44805", "45108", "45078", "44866", "44805", "45078", "45261", "45261", "45261", "45261", "45261", "45261", "45261",
+      "45181", "45181", "45181", "45181", "45181", "45147", "45147", "45147", "45147", "45147"
+    ),
+    stringsAsFactors = FALSE
+  )
+  expect_equal(class(atype(x)$dateval), 'Date')
+
 })
-
-# find atype error when scan-data-lighthouse dict() calls atype()
-
-
-
-
 

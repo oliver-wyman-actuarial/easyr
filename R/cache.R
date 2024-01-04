@@ -76,9 +76,15 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
     if( easyr.cache.info$verbose ) cat( 'checking validity of cache \n' )
     
     for( i in 1:length(cache.info) ){
+
+        if(file.exists(cache.info[[i]]$status.path)) cache_status = readRDS(cache.info[[i]]$status.path)
         
-        # once the cache is invalidated, all downstream cache.info are invalid.
-        if( easyr.cache.info$cache.invalidated || ! file.exists( cache.info[[i]]$path ) ){
+        # once the cache is invalidated or outdated, all downstream cache.info are invalid.
+        if( 
+          easyr.cache.info$cache.invalidated || 
+          !file.exists(cache.info[[i]]$path) || 
+          (exists('cache_status') && class(cache_status) == 'character') # old cache_status will be a string. 
+        ){ 
         
           clear.cache( cache.info[[i]] )
         
@@ -88,9 +94,9 @@ cache.init = function(caches, at.path, verbose = TRUE, save.only = FALSE, skip.m
           if( file.exists( cache.info[[i]]$path ) ) clear.cache( cache.info[[i]] )
         
         # Otherwise check the status.
-        } else if( file.exists( cache.info[[i]]$path ) ){
-        
-          status.valid = readRDS( cache.info[[i]]$status.path )$dependson_hash == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
+        } else if( file.exists( cache.info[[i]]$path ) ){ 
+
+          status.valid = cache_status$dependson_hash == hashfiles( cache.info[[i]]$depends.on, skip.missing = skip.missing )
         
         if( status.valid ){
             easyr.cache.info$max.cache <<- i
